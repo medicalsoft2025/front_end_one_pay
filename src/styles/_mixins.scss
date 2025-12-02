@@ -1,0 +1,19 @@
+// Aplica las variables del tema automáticamente a :root
+@mixin theme-light {
+  @import './themes/light';
+}
+
+@mixin theme-dark {
+  @import './themes/dark';
+}
+
+// Helper: para scoping
+@mixin theme($mode) {
+  @if $mode ==light {
+    @include theme-light;
+  }
+
+  @else if $mode ==dark {
+    @include theme-dark;
+  }
+}

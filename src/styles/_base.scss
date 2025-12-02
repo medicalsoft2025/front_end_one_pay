@@ -1,0 +1,67 @@
+// ========================
+// 🧩 Estilos Base
+// ========================
+
+@import './variables';
+@import './mixins';
+
+// Reset básico
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-main;
+  background-color: $light;
+  color: $text;
+  line-height: 1.6;
+}
+
+// Enlaces
+a {
+  text-decoration: none;
+  color: $primary;
+  transition: $transition;
+
+  &:hover {
+    color: $primary-dark;
+  }
+}
+
+// Imágenes
+img {
+  max-width: 100%;
+  display: block;
+}
+
+// Botones (base)
+button {
+  font-family: inherit;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: $transition;
+
+  &.primary {
+    background: $primary;
+    color: $white;
+
+    &:hover {
+      background: $primary-dark;
+    }
+  }
+
+  &.secondary {
+    background: $secondary;
+    color: $dark;
+  }
+}
