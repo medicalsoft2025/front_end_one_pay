@@ -1,0 +1,126 @@
+@use 'styles' as *;
+
+.header {
+  background-color: var(--background);
+  box-shadow: var(--shadow-base, 0 1px 3px rgba(0, 0, 0, 0.1));
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky, 1020);
+  border-bottom: 1px solid var(--border);
+
+  .header__nav{
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // BRAND
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  &__logo {
+    width: 40px;
+    height: 40px;
+
+    // CORRECCIÓN: Usar variables del tema
+    background: var(--primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      width: 22px;
+      height: 22px;
+      color: var(--primary-foreground);
+    }
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    // CORRECCIÓN: Usar variable CSS
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  // NAV LINKS
+  &__nav {
+    display: flex;
+    gap: 2rem;
+
+    a {
+      font-size: 1rem;
+      // CORRECCIÓN: Usar variable CSS
+      color: var(--foreground);
+      font-weight: 500;
+      transition: var(--transition-base, 0.3s ease);
+      position: relative;
+
+      &:hover {
+        // CORRECCIÓN: Puedes usar primary o crear hover color
+        color: var(--primary);
+      }
+
+      // Línea inferior animada
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 0%;
+        height: 2px;
+        // CORRECCIÓN: Usar variable CSS
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
+      &.active {
+        color: var(--primary);
+
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  // RESPONSIVE
+  // CORRECCIÓN: Asegurar que el mixin mobile existe
+  @include mobile {
+    padding: 0.8rem 0;
+
+    &__content {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    &__nav {
+      gap: 1.2rem;
+
+      a {
+        font-size: 0.95rem;
+      }
+    }
+  }
+}

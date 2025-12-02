@@ -1,19 +1,109 @@
-// Aplica las variables del tema automáticamente a :root
-@mixin theme-light {
-  @import './themes/light';
+// src/styles/_mixins.scss
+// Mixins esenciales para el proyecto
+
+// ====================
+// 1. MIXINS DE TEMA
+// ====================
+
+// Importar temas (ajusta la ruta según tu estructura)
+@use './themes/light' as light;
+@use './themes/dark' as dark;
+
+// Aplicar tema claro
+@mixin theme-light() {
+  @include light.theme-light-vars();
 }
 
-@mixin theme-dark {
-  @import './themes/dark';
+// Aplicar tema oscuro
+@mixin theme-dark() {
+  @include dark.theme-dark-vars();
 }
 
-// Helper: para scoping
-@mixin theme($mode) {
-  @if $mode ==light {
-    @include theme-light;
+// Seleccionar tema (con valor por defecto)
+@mixin theme($mode: 'light') {
+  @if $mode =='light' {
+    @include theme-light();
   }
 
-  @else if $mode ==dark {
-    @include theme-dark;
+  @else if $mode =='dark' {
+    @include theme-dark();
   }
+}
+
+// ====================
+// 2. MIXINS DE RESPONSIVE (ESENCIALES)
+// ====================
+
+// Mobile first (min-width)
+@mixin sm {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: 1280px) {
+    @content;
+  }
+}
+
+// ====================
+// 3. MIXINS DE UTILIDAD (LOS MÁS USADOS)
+// ====================
+
+// Flexbox centrado
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Posicionamiento absoluto centrado
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// ====================
+// 4. MIXIN DE ACCESIBILIDAD (IMPORTANTE)
+// ====================
+
+// Focus visible (accesibilidad)
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// ====================
+// 5. MIXIN DE TRANSICIÓN (CONSISTENTE)
+// ====================
+
+@mixin transition($properties: all, $duration: 0.3s, $easing: ease) {
+  transition: $properties $duration $easing;
 }

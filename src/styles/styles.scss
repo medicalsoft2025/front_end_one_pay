@@ -1,24 +1,6 @@
-@import 'variables';
-@import 'mixins';
-
-// Base
-@import 'base';
-
-// Utilidades
-@import 'utilities';
-
-// Responsiveness
-@import 'responsive';
-
-// Componentes globales
-@import 'components/**/*.scss';
-
-// Tema por defecto
-:root {
-  @include theme(light);
-}
-
-// Tema dark
-.dark {
-  @include theme(dark);
-}
+@forward 'variables';
+@forward 'base';
+@forward 'mixins';
+@forward 'utilities';
+@forward 'responsive';
+@forward 'themes/light';
