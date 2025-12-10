@@ -1,0 +1,23 @@
+<div class="action-dropdown-wrapper">
+  <button class="action-dropdown-toggle" (click)="toggleDropdown()" [class.open]="isOpen">
+    <span class="icon">⋮</span>
+    <span class="label">Acciones</span>
+  </button>
+
+  <div class="action-dropdown-menu" [class.show]="isOpen">
+    <div *ngIf="getVisibleActions().length === 0" class="no-actions">
+      <span>Sin acciones disponibles</span>
+    </div>
+
+    <button
+      *ngFor="let action of getVisibleActions()"
+      class="action-item"
+      [ngClass]="['action-' + action.id, action.class]"
+      (click)="onActionClick(action)"
+      [title]="action.label"
+    >
+      <span *ngIf="action.icon" class="action-icon">{{ action.icon }}</span>
+      <span class="action-label">{{ action.label }}</span>
+    </button>
+  </div>
+</div>

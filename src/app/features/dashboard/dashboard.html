@@ -1,0 +1,12 @@
+<div class="dashboard-container">
+  <h1>Dashboard - Gestión de Datos</h1>
+
+  <app-dynamic-table
+    title="Usuarios Registrados"
+    [columns]="columns"
+    [data]="data"
+    [actions]="actions"
+    [pageSize]="5"
+    (actionTriggered)="onTableAction($event)"
+  ></app-dynamic-table>
+</div>

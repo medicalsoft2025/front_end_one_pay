@@ -1,0 +1,101 @@
+<div class="dynamic-table-container">
+  <!-- Header con título y opciones de exportación -->
+  <div class="table-header">
+    <h2 class="table-title">{{ title }}</h2>
+    <div class="export-buttons">
+      <button class="btn btn-export btn-pdf" (click)="exportToPDF()" title="Exportar a PDF">
+        <span class="icon">📄</span>
+        PDF
+      </button>
+      <button class="btn btn-export btn-excel" (click)="exportToExcel()" title="Exportar a Excel">
+        <span class="icon">📊</span>
+        Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="table-wrapper">
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    <table class="dynamic-table" [class.loading]="loading">
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns" [style.width]="col.width || 'auto'">
+            <div
+              class="header-cell"
+              [class.sortable]="col.sortable"
+              (click)="onSort(col)"
+            >
+              <span>{{ col.label }}</span>
+              <span *ngIf="col.sortable && sortBy === col.key" class="sort-icon">
+                {{ sortDirection === 'asc' ? '▲' : '▼' }}
+              </span>
+            </div>
+          </th>
+          <th *ngIf="actions.length > 0" class="actions-col">
+            <div class="header-cell">Acciones</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of displayedData; let i = index" [class.alternate]="i % 2 === 1">
+          <td *ngFor="let col of columns">
+            {{ getCellValue(row, col) }}
+          </td>
+          <td *ngIf="actions.length > 0" class="actions-cell">
+            <app-action-dropdown
+              [actions]="actions"
+              [row]="row"
+              (actionSelected)="onActionClick($event.action, $event.row)"
+            ></app-action-dropdown>
+          </td>
+        </tr>
+        <tr *ngIf="displayedData.length === 0" class="no-data-row">
+          <td [attr.colspan]="columns.length + (actions.length > 0 ? 1 : 0)">
+            <div class="no-data-message">
+              <span *ngIf="!loading">No hay datos disponibles</span>
+              <span *ngIf="loading">Cargando datos...</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div *ngIf="totalPages > 1" class="pagination">
+    <button
+      class="btn btn-pagination"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-info">
+      Página {{ currentPage }} de {{ totalPages }}
+    </div>
+
+    <div class="page-buttons">
+      <button
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="btn btn-pagination btn-page"
+        [class.active]="i + 1 === currentPage"
+        (click)="goToPage(i + 1)"
+      >
+        {{ i + 1 }}
+      </button>
+    </div>
+
+    <button
+      class="btn btn-pagination"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Siguiente →
+    </button>
+  </div>
+</div>

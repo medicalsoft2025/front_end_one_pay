@@ -2,21 +2,18 @@
 
 .header {
   background-color: var(--background);
-  box-shadow: var(--shadow-base, 0 1px 3px rgba(0, 0, 0, 0.1));
-  padding: 1rem 0;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+  padding: 0.75rem 0;
   position: sticky;
   top: 0;
   z-index: var(--z-index-sticky, 1020);
   border-bottom: 1px solid var(--border);
-
-  .header__nav{
-    display: flex;
-    gap: 1.5rem;
-  }
+  backdrop-filter: blur(10px);
+  background-color: rgba(var(--background-rgb, 255, 255, 255), 0.85);
 
   .container {
     width: 90%;
-    max-width: 1300px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -24,103 +21,262 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2rem;
   }
 
-  // BRAND
+  // BRAND SECTION
   &__brand {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
+    flex-shrink: 0;
   }
 
   &__logo {
-    width: 40px;
-    height: 40px;
-
-    // CORRECCIÓN: Usar variables del tema
-    background: var(--primary);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
-
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--sidebar-primary, var(--primary)));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    .icon {
-      width: 22px;
-      height: 22px;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    &-icon {
+      width: 24px;
+      height: 24px;
       color: var(--primary-foreground);
+      stroke-width: 2;
     }
   }
 
-  &__title {
-    font-size: 1.4rem;
-    // CORRECCIÓN: Usar variable CSS
-    color: var(--foreground);
-    font-weight: 600;
+  &__brand-text {
+    display: flex;
+    flex-direction: column;
   }
 
-  // NAV LINKS
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    letter-spacing: -0.025em;
+    margin: 0;
+    line-height: 1.2;
+
+    background: linear-gradient(135deg, var(--primary), var(--sidebar-primary, var(--primary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  // NAVIGATION
   &__nav {
     display: flex;
+    align-items: center;
     gap: 2rem;
+    flex-grow: 1;
+    justify-content: flex-end;
 
     a {
-      font-size: 1rem;
-      // CORRECCIÓN: Usar variable CSS
-      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--muted-foreground);
       font-weight: 500;
-      transition: var(--transition-base, 0.3s ease);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      transition: all 0.2s ease;
+      text-decoration: none;
       position: relative;
 
+      .nav-icon {
+        width: 18px;
+        height: 18px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+      }
+
       &:hover {
-        // CORRECCIÓN: Puedes usar primary o crear hover color
         color: var(--primary);
-      }
+        background-color: var(--accent);
 
-      // Línea inferior animada
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -4px;
-        width: 0%;
-        height: 2px;
-        // CORRECCIÓN: Usar variable CSS
-        background: var(--primary);
-        transition: width 0.3s ease;
-      }
-
-      &:hover::after {
-        width: 100%;
+        .nav-icon {
+          opacity: 1;
+        }
       }
 
       &.active {
         color: var(--primary);
+        background-color: var(--accent);
+        font-weight: 600;
 
-        &::after {
-          width: 100%;
+        .nav-icon {
+          opacity: 1;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3px;
+          height: 60%;
+          background: var(--primary);
+          border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
         }
       }
     }
   }
 
-  // RESPONSIVE
-  // CORRECCIÓN: Asegurar que el mixin mobile existe
+  &__nav-separator {
+    width: 1px;
+    height: 24px;
+    background-color: var(--border);
+    margin: 0 0.5rem;
+  }
+
+  // USER SECTION
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--accent);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--sidebar-accent);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__user-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--sidebar-primary, var(--primary)));
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--primary-foreground);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__user-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--foreground);
+    line-height: 1.2;
+  }
+
+  &__user-role {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    font-weight: 400;
+  }
+
+  // RESPONSIVE DESIGN
+  @include tablet {
+    &__content {
+      gap: 1.5rem;
+    }
+
+    &__nav {
+      gap: 1rem;
+    }
+
+    &__title {
+      font-size: 1.3rem;
+    }
+  }
+
   @include mobile {
-    padding: 0.8rem 0;
+    padding: 0.5rem 0;
+
+    .container {
+      width: 95%;
+    }
 
     &__content {
       flex-direction: column;
       gap: 1rem;
+      align-items: stretch;
+    }
+
+    &__brand {
+      justify-content: center;
+      text-align: center;
     }
 
     &__nav {
-      gap: 1.2rem;
+      flex-direction: column;
+      gap: 0.5rem;
+      justify-content: center;
 
       a {
-        font-size: 0.95rem;
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem;
+
+        &.active::before {
+          display: none;
+        }
       }
     }
+
+    &__nav-separator {
+      display: none;
+    }
+
+    &__user {
+      width: 100%;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    &__user-info {
+      display: none; // Ocultar en móvil para ahorrar espacio
+    }
   }
+
+  // ANIMATIONS
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  animation: fadeInDown 0.3s ease-out;
 }
