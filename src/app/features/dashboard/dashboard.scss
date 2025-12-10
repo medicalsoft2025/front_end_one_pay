@@ -1,12 +1,36 @@
+@use 'styles' as *;
+
+
 .dashboard-container {
-  padding: 24px;
+  padding: $spacing-6;
   max-width: 1200px;
   margin: 0 auto;
 
   h1 {
-    margin-bottom: 24px;
-    font-size: 2rem;
-    font-weight: 600;
+    margin-bottom: $spacing-6;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
     color: var(--foreground);
   }
+
+  @include sm {
+    padding: $spacing-4;
+  }
 }
+
+.cards-container {
+  display: flex;
+  margin-top: $spacing-6;
+  margin-bottom: $spacing-8;
+  justify-content: center;
+
+
+  @include sm {
+    flex-direction: row;
+    gap: $spacing-4;
+  }
+}
+
+
+
+

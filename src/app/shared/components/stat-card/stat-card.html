@@ -1,0 +1,42 @@
+<div class="stat-card">
+  <div class="stat-card-header">
+    <div class="stat-card-icon" [ngClass]="colorClass">
+      <svg *ngIf="icon === 'trending-up'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 17"></polyline>
+        <polyline points="17 6 23 6 23 12"></polyline>
+      </svg>
+      <svg *ngIf="icon === 'trending-down'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+        <polyline points="17 18 23 18 23 12"></polyline>
+      </svg>
+      <svg *ngIf="icon === 'bar-chart'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="2" x2="12" y2="22"></line>
+        <path d="M17 5h-5v7h5z"></path>
+        <path d="M7 12h5v10H7z"></path>
+      </svg>
+      <svg *ngIf="icon === 'users'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <svg *ngIf="icon === 'wallet'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+        <path d="M1 10h22"></path>
+        <circle cx="17" cy="15" r="3.5"></circle>
+      </svg>
+      {{ icon }}
+    </div>
+  </div>
+
+  <div class="stat-card-content">
+    <p class="stat-card-title">{{ title }}</p>
+    <p class="stat-card-value">{{ value }}</p>
+    <div class="stat-card-footer">
+      <span class="stat-card-change" [ngClass]="trendClass">
+        {{ trendIcon }} {{ change }}
+      </span>
+      <span class="stat-card-compare">vs. mes anterior</span>
+    </div>
+  </div>
+</div>

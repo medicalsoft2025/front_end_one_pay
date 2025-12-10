@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
 import { TableColumn, TableAction, TableEvent } from '../../shared/components/dynamic-table/dynamic-table.types';
+import { StatCardComponent } from '../../shared/components/stat-card/stat-card';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DynamicTableComponent],
+  imports: [CommonModule, StatCardComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

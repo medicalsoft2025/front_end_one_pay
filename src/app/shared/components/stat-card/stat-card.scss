@@ -1,0 +1,128 @@
+@use 'styles' as *;
+
+:host {
+  display: contents;
+}
+
+.stat-card {
+  background: var(--background);
+  border: 1px solid;
+  border-color: var(--border);
+  border-radius: $radius;
+  padding: $spacing-6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 180px;
+  flex: 0 1 350px;
+  max-width: 350px;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+
+  @include sm {
+    padding: $spacing-4;
+    min-height: 160px;
+  }
+}
+
+.stat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: $spacing-4;
+  width: 100%;
+}
+
+.stat-card-icon {
+  padding: $spacing-3;
+  border-radius: calc($radius / 2);
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 48px;
+  transition: all 0.3s ease;
+
+  &.stat-green {
+    background: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+  }
+
+  &.stat-red {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+  }
+
+  &.stat-blue {
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+  }
+
+  &.stat-purple {
+    background: rgba(168, 85, 247, 0.12);
+    color: #a855f7;
+  }
+}
+
+.stat-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stat-card-title {
+  color: var(--text-muted);
+  font-size: $font-size-sm;
+  margin: 0;
+  font-weight: $font-weight-medium;
+  text-transform: capitalize;
+}
+
+.stat-card-value {
+  color: var(--foreground);
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  margin: $spacing-2 0 0 0;
+  line-height: 1.2;
+}
+
+.stat-card-footer {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-top: $spacing-3;
+  flex-wrap: wrap;
+}
+
+.stat-card-change {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+
+  &.trend-up {
+    color: #22c55e;
+  }
+
+  &.trend-down {
+    color: #ef4444;
+  }
+
+  &.trend-neutral {
+    color: var(--text-muted);
+  }
+}
+
+.stat-card-compare {
+  font-size: $font-size-xs;
+  color: var(--text-muted);
+}

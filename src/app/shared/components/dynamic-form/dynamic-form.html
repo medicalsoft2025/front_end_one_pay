@@ -1,0 +1,126 @@
+<div class="dynamic-form">
+  <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <div class="form-fields">
+      <div class="form-group" *ngFor="let field of config.fields">
+        <!-- Text, Email, Password, Number, Date, Tel, URL inputs -->
+        <ng-container *ngIf="['text', 'email', 'password', 'number', 'date', 'tel', 'url'].includes(field.type)">
+          <label [for]="field.name" class="form-label">
+            {{ field.label }}
+            <span class="required" *ngIf="field.required">*</span>
+          </label>
+          <input
+            [id]="field.name"
+            [formControlName]="field.name"
+            [type]="getFieldType(field.type)"
+            [class.form-input]="true"
+            [class.is-invalid]="
+              form.get(field.name)?.invalid && (form.get(field.name)?.dirty || submitted)
+            "
+            [placeholder]="field.placeholder || ''"
+            [readonly]="field.readonly || false"
+            [disabled]="field.disabled || false"
+          />
+          <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
+            {{ field.helpText }}
+          </small>
+          <small class="error-text" *ngIf="getFieldError(field.name)">
+            {{ getFieldError(field.name) }}
+          </small>
+        </ng-container>
+
+        <!-- Textarea -->
+        <ng-container *ngIf="field.type === 'textarea'">
+          <label [for]="field.name" class="form-label">
+            {{ field.label }}
+            <span class="required" *ngIf="field.required">*</span>
+          </label>
+          <textarea
+            [id]="field.name"
+            [formControlName]="field.name"
+            [class.form-input]="true"
+            [class.is-invalid]="
+              form.get(field.name)?.invalid && (form.get(field.name)?.dirty || submitted)
+            "
+            [placeholder]="field.placeholder || ''"
+            [rows]="field.rows || 4"
+            [cols]="field.cols || 50"
+            [readonly]="field.readonly || false"
+            [disabled]="field.disabled || false"
+          ></textarea>
+          <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
+            {{ field.helpText }}
+          </small>
+          <small class="error-text" *ngIf="getFieldError(field.name)">
+            {{ getFieldError(field.name) }}
+          </small>
+        </ng-container>
+
+        <!-- Select -->
+        <ng-container *ngIf="field.type === 'select'">
+          <label [for]="field.name" class="form-label">
+            {{ field.label }}
+            <span class="required" *ngIf="field.required">*</span>
+          </label>
+          <select
+            [id]="field.name"
+            [formControlName]="field.name"
+            [class.form-input]="true"
+            [class.is-invalid]="
+              form.get(field.name)?.invalid && (form.get(field.name)?.dirty || submitted)
+            "
+            [disabled]="field.disabled || false"
+          >
+            <option value="" disabled selected>
+              {{ field.placeholder || `Selecciona ${field.label.toLowerCase()}` }}
+            </option>
+            <option *ngFor="let option of field.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
+            {{ field.helpText }}
+          </small>
+          <small class="error-text" *ngIf="getFieldError(field.name)">
+            {{ getFieldError(field.name) }}
+          </small>
+        </ng-container>
+
+        <!-- Checkbox -->
+        <ng-container *ngIf="field.type === 'checkbox'">
+          <div class="checkbox-group">
+            <input
+              [id]="field.name"
+              type="checkbox"
+              [formControlName]="field.name"
+              [disabled]="field.disabled || false"
+              class="checkbox-input"
+            />
+            <label [for]="field.name" class="checkbox-label">
+              {{ field.label }}
+              <span class="required" *ngIf="field.required">*</span>
+            </label>
+          </div>
+          <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
+            {{ field.helpText }}
+          </small>
+          <small class="error-text" *ngIf="getFieldError(field.name)">
+            {{ getFieldError(field.name) }}
+          </small>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn-submit"
+        [disabled]="config.submitButtonDisabled || false"
+      >
+        {{ config.submitButtonLabel || 'Enviar' }}
+      </button>
+      <button type="button" class="btn btn-cancel" (click)="handleCancel()">
+        {{ config.cancelButtonLabel || 'Cancelar' }}
+      </button>
+    </div>
+  </form>
+</div>

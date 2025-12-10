@@ -1,0 +1,13 @@
+<nav class="breadcrumb" aria-label="Navegación de migas de pan">
+  <ol class="breadcrumb-list">
+    <li *ngFor="let item of items; let last = last" class="breadcrumb-item">
+      <a *ngIf="!last && item.url" [routerLink]="item.url" class="breadcrumb-link">
+        {{ item.label }}
+      </a>
+      <span *ngIf="last || !item.url" class="breadcrumb-text">
+        {{ item.label }}
+      </span>
+      <span *ngIf="!last" class="breadcrumb-separator">/</span>
+    </li>
+  </ol>
+</nav>
