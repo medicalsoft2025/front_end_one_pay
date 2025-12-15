@@ -1,0 +1,51 @@
+@use 'styles' as *;
+
+.config-container {
+  display: flex;
+  gap: $spacing-6;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+
+    @include sm {
+    padding: $spacing-4;
+  }
+}
+
+
+.form-config {
+  width: 100%;
+  border: $border-width solid var(--card-border);
+  border-radius: $radius;
+  padding: 1rem;
+
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+
+.list-menu-config {
+  width: 20%;
+  height: 20%;
+  border-radius: $radius;
+  border: $border-width solid var(--card-border);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: $radius;
+    transition: $transition-base;
+
+    &:hover {
+      background-color: black;
+      color: rgb(160, 8, 8);
+    }
+  }
+}

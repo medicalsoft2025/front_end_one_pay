@@ -26,6 +26,25 @@
       color="blue"
     ></app-stat-card>
   </div>
+  <section class="chart-section">
+      <div class="chart-container">
+        <app-balance-chart></app-balance-chart>
+      </div>
+      <div class="recent-activity-container">
+        <p>Actividad reciente</p>
+      </div>
+    </section>
+
+    <section class="transactions-sections">
+       <app-dynamic-table
+    [columns]="columns"
+    [data]="data"
+    [actions]="actions"
+    title="Últimas transacciones"
+    (actionTriggered)="onTableAction($event)"
+  ></app-dynamic-table>
+
+    </section>
 
 
 </div>

@@ -1,11 +1,11 @@
 
 :root {
   // Variables principales
-  --background: #ffffff;
+  --background: radial-gradient(circle at 10% 10%, rgba(245, 247, 250, 0.8), rgb(223 223 223 / 30%) 70%);
   --foreground: oklch(0.145 0 0);
 
-  --card-background: #970000;
   --card-foreground: oklch(0.145 0 0);
+  --card-border: oklch(.929 .013 255.508);
 
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -16,6 +16,7 @@
   --secondary: oklch(0.95 0.0058 264.53);
   --secondary-foreground: #030213;
 
+  --text-muted: #94a3b8;
   --muted: #ececf0;
   --muted-foreground: #717182;
 
@@ -25,13 +26,16 @@
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
 
-  --border: rgba(0, 0, 0, 0.1);
+  --border:#cbd5e1;
 
   --input: transparent;
   --input-background: #f3f3f5;
 
   --switch-background: #cbced4;
   --ring: oklch(0.708 0 0);
+
+  --label-text:oklch(.372 .044 257.287);
+
 
   // Sidebar
   --sidebar: oklch(0.985 0 0);
@@ -46,11 +50,12 @@
 
 @mixin theme-light-vars() {
   // Variables principales
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
+  --background: radial-gradient(circle at 10% 10%, rgba(245, 247, 250, 0.8), rgb(223 223 223 / 30%) 70%);
+  --foreground: #334155
 
   --card: #ffffff;
   --card-foreground: oklch(0.145 0 0);
+  --card-border: oklch(.929 .013 255.508);
 
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -61,6 +66,7 @@
   --secondary: oklch(0.95 0.0058 264.53);
   --secondary-foreground: #030213;
 
+  --text-muted: #94a3b8;
   --muted: #ececf0;
   --muted-foreground: #717182;
 
@@ -71,12 +77,14 @@
   --destructive-foreground: #ffffff;
 
   --border: rgba(0, 0, 0, 0.1);
-  --border-color: #c40606;
+  --border-color: #c7bdbd;
   --input: transparent;
   --input-background: #f3f3f5;
 
   --switch-background: #cbced4;
   --ring: oklch(0.708 0 0);
+
+  --label-text:oklch(.372 .044 257.287);
 
   // Sidebar
   --sidebar: oklch(0.985 0 0);

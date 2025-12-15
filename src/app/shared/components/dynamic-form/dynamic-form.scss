@@ -2,8 +2,6 @@
 
 .dynamic-form {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
 
   form {
     display: flex;
@@ -13,10 +11,11 @@
 }
 
 .form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-5;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-4;
 }
+
 
 .form-group {
   display: flex;
@@ -27,7 +26,7 @@
 .form-label {
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
-  color: var(--foreground);
+  color: var(--label-text);
   margin: 0;
   display: flex;
   align-items: center;
@@ -48,7 +47,7 @@ textarea {
   border: 1px solid;
   border-color: var(--border);
   border-radius: $radius;
-  background: var(--background);
+  background: var(--card);
   color: var(--foreground);
   transition: all 0.2s ease;
   font-family: inherit;
@@ -78,6 +77,36 @@ textarea {
     }
   }
 }
+
+// .form-input,
+// select,
+// textarea {
+//   width: 100%;
+//   padding: 0.5rem 1rem; // px-4 py-2
+//   font-size: 0.875rem;
+//   border: 1px solid #cbd5e1; // slate-300
+//   border-radius: 0.5rem; // rounded-lg
+//   background: #ffffff;
+//   color: #0f172a; // slate-900
+//   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+//   font-family: inherit;
+
+//   &::placeholder {
+//     color: #94a3b8; // slate-400
+//   }
+
+//   &:focus {
+//     outline: none;
+//     border-color: transparent;
+//     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); // ring-blue-500
+//   }
+
+//   &:disabled {
+//     background: #f1f5f9;
+//     cursor: not-allowed;
+//   }
+// }
+
 
 textarea {
   resize: vertical;

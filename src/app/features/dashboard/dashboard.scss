@@ -1,6 +1,5 @@
 @use 'styles' as *;
 
-
 .dashboard-container {
   padding: $spacing-6;
   max-width: 1200px;
@@ -24,13 +23,37 @@
   margin-bottom: $spacing-8;
   justify-content: center;
 
-
   @include sm {
     flex-direction: row;
     gap: $spacing-4;
   }
 }
 
+.chart-section {
+  margin-bottom: $spacing-8;
+  border: 1px solid;
+  border-color: var(--border);
+  display: flex;
+  gap: $spacing-6;
+  width: 100%;
 
+  @include sm {
+    gap: $spacing-4;
+  }
+}
 
+.chart-container {
+  padding: $spacing-2;
+  width: 65%;
+}
+.recent-activity-container {
+  width: 35%;
+}
 
+.transactions-sections {
+  margin-bottom: $spacing-8;
+  border: 1px solid;
+  border-color: var(--border);
+  gap: $spacing-6;
+  width: 100%;
+}
