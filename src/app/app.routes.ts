@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Dashboard } from './features/dashboard/dashboard';
-import { Config } from './features/config/config';
+import { ConfigComponent } from './features/config/config';
 
 export const routes: Routes = [
   {
@@ -13,6 +13,6 @@ export const routes: Routes = [
   },
   {
     path: 'config',
-    component: Config,
+    component: ConfigComponent,
   },
 ];

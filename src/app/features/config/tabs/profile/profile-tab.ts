@@ -19,25 +19,46 @@ export class ProfileTabComponent {
     fields: [
       {
         type: 'text',
-        name: 'firstName',
-        label: 'Nombre',
-        placeholder: 'Ingresa tu nombre',
-        required: true,
-        minLength: 3,
+        name: 'tenant',
+        label: 'Tenant',
+        placeholder: 'Nombre del tenant',
+        value: 'Clinica Test',
+        readonly: true,
       },
       {
         type: 'text',
-        name: 'lastName',
-        label: 'Apellido',
-        placeholder: 'Ingresa tu apellido',
+        name: 'bankOnePayId',
+        label: 'Bank OnePay ID',
+        placeholder: 'ID de Bank OnePay',
+        value: 'OP-987654',
         required: true,
-        minLength: 3,
       },
       {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-        placeholder: 'correo@ejemplo.com',
+        type: 'text',
+        name: 'document',
+        label: 'Documento',
+        placeholder: 'Número de documento',
+        value: '123456789',
+        required: true,
+      },
+      {
+        type: 'select',
+        name: 'documentType',
+        label: 'Tipo de Documento',
+        value: 'CC',
+        required: true,
+        options: [
+          { label: 'Cédula de ciudadanía', value: 'CC' },
+          { label: 'NIT', value: 'NIT' },
+          { label: 'Pasaporte', value: 'PP' },
+        ],
+      },
+      {
+        type: 'text',
+        name: 'fullName',
+        label: 'Nombre Completo',
+        placeholder: 'Juan Pérez',
+        value: 'Juan Pérez',
         required: true,
       },
       {
@@ -45,42 +66,53 @@ export class ProfileTabComponent {
         name: 'phone',
         label: 'Teléfono',
         placeholder: '3001234567',
+        value: '3001234567',
         pattern: '^[0-9]{10}$',
         errorMessage: 'El teléfono debe tener 10 dígitos',
+        required: true,
+      },
+      {
+        type: 'text',
+        name: 'address',
+        label: 'Dirección',
+        placeholder: 'Cra 45 # 23-10',
+        value: 'Cra 45 # 23-10',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Correo Electrónico',
+        placeholder: 'correo@ejemplo.com',
+        value: 'juan.perez@example.com',
+        required: true,
+      },
+      {
+        type: 'number',
+        name: 'currentBalance',
+        label: 'Saldo Actual',
+        value: 150000.5,
+        readonly: true,
       },
       {
         type: 'select',
-        name: 'gender',
-        label: 'Género',
+        name: 'clientType',
+        label: 'Tipo de Cliente',
+        value: 'NATURAL',
         required: true,
         options: [
-          { label: 'Masculino', value: 'M' },
-          { label: 'Femenino', value: 'F' },
-          { label: 'Otro', value: 'O' },
+          { label: 'Natural', value: 'NATURAL' },
+          { label: 'Jurídico', value: 'JURIDICO' },
         ],
-      },
-      {
-        type: 'checkbox',
-        name: 'newsletter',
-        label: 'Deseo recibir notificaciones',
-        value: true,
-      },
-      {
-        type: 'textarea',
-        name: 'bio',
-        label: 'Biografía',
-        placeholder: 'Cuéntanos sobre ti',
-        maxLength: 300,
       },
     ],
   };
 
   onProfileSubmit(event: any): void {
     if (event.isValid) {
-      console.log('✅ Formulario válido', event.formValue);
+      console.log('Formulario válido', event.formValue);
       // Aquí llamas tu servicio API
     } else {
-      console.log('❌ Formulario inválido', event.errors);
+      console.log('Formulario inválido', event.errors);
     }
   }
 

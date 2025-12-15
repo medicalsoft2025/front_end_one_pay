@@ -2,9 +2,17 @@
 
 <div class="config-container">
   <div class="list-menu-config">
-    <app-tabs></app-tabs>
+    <app-tabs
+      [tabs]="tabs"
+      [activeTab]="activeTabKey"
+      (tabChange)="setActiveTab($event)"
+    ></app-tabs>
   </div>
+
   <div class="form-config">
-    <app-profile-tab></app-profile-tab>
+    <!-- Lazy rendering del componente activo -->
+    <ng-container *ngIf="activeComponent">
+      <ng-container *ngComponentOutlet="activeComponent"></ng-container>
+    </ng-container>
   </div>
 </div>

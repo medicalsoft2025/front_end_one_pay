@@ -1,14 +1,28 @@
-import { Component } from '@angular/core';
-import { ProfileTabComponent } from './profile/profile-tab';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroUser, heroBell, heroShieldCheck } from '@ng-icons/heroicons/outline';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgIconsModule, provideIcons } from '@ng-icons/core';
+import { heroUser, heroShieldCheck } from '@ng-icons/heroicons/outline';
+
+interface TabConfig {
+  label: string;
+  key: string;
+  icon: string;
+}
 
 @Component({
   selector: 'app-tabs',
   standalone: true,
-  imports: [ProfileTabComponent, NgIconComponent],
-  providers: [provideIcons({ heroUser, heroShieldCheck, heroBell })],
+  imports: [CommonModule, NgIconsModule],
+  providers: [provideIcons({ heroUser, heroShieldCheck })],
   templateUrl: './tabs.html',
-  styleUrl: './tabs.scss',
+  styleUrls: ['./tabs.scss'],
 })
-export class Tabs {}
+export class Tabs {
+  @Input() tabs: TabConfig[] = [];
+  @Input() activeTab: string = '';
+  @Output() tabChange = new EventEmitter<string>();
+
+  selectTab(tabKey: string) {
+    this.tabChange.emit(tabKey);
+  }
+}

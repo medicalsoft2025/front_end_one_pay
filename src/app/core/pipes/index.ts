@@ -8,4 +8,3 @@ export { CurrencyFormatPipe } from './currency-format.pipe';
 export { TimeAgoPipe } from './time-ago.pipe';
 export { CapitalizePipe } from './capitalize.pipe';
 export { PercentagePipe } from './percentage.pipe';
-export { BytesFormatPipe } from './bytes-format.pipe';

@@ -1,14 +1,10 @@
 <ul class="tabs">
-  <li>
-    <ng-icon name="heroUser"></ng-icon>
-    Perfil
-  </li>
-  <li>
-    <ng-icon name="heroShieldCheck"></ng-icon>
-    Seguridad
-  </li>
-  <li>
-    <ng-icon name="heroBell"></ng-icon>
-    Notificaciones
+  <li
+    *ngFor="let tab of tabs"
+    [class.active]="activeTab === tab.key"
+    (click)="selectTab(tab.key)"
+  >
+    <ng-icon [name]="tab.icon"></ng-icon>
+    {{ tab.label }}
   </li>
 </ul>
