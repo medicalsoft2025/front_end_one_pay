@@ -22,6 +22,30 @@ export class ConfigTenantTabComponent {
         readonly: true,
       },
       {
+        type: 'number',
+        name: 'maxDailyDisbursement',
+        label: 'Límite diario de desembolso',
+        placeholder: '5,000,000.75',
+        value: 5000000.75,
+        required: true,
+      },
+      {
+        type: 'number',
+        name: 'maxTransactionAmount',
+        label: 'Monto máximo por transacción',
+        placeholder: '150,000.50',
+        value: 150000.5,
+        required: true,
+      },
+      {
+        type: 'number',
+        name: 'holdExpirationHours',
+        label: 'Horas de retención antes de liberar',
+        placeholder: '24',
+        value: 24,
+        required: true,
+      },
+      {
         type: 'checkbox',
         name: 'allowDisbursement',
         label: 'Permitir desembolsos',
@@ -40,34 +64,10 @@ export class ConfigTenantTabComponent {
         value: true,
       },
       {
-        type: 'number',
-        name: 'maxDailyDisbursement',
-        label: 'Límite diario de desembolso',
-        placeholder: '5,000,000.75',
-        value: 5000000.75,
-        required: true,
-      },
-      {
-        type: 'number',
-        name: 'maxTransactionAmount',
-        label: 'Monto máximo por transacción',
-        placeholder: '150,000.50',
-        value: 150000.5,
-        required: true,
-      },
-      {
         type: 'checkbox',
         name: 'autoApproveCharges',
         label: 'Aprobar cargos automáticamente',
         value: true,
-      },
-      {
-        type: 'number',
-        name: 'holdExpirationHours',
-        label: 'Horas de retención antes de liberar',
-        placeholder: '24',
-        value: 24,
-        required: true,
       },
       {
         type: 'textarea',
@@ -78,6 +78,7 @@ export class ConfigTenantTabComponent {
       },
     ],
   };
+
   onProfileSubmit(event: any): void {
     if (event.isValid) {
       console.log('Formulario válido', event.formValue);

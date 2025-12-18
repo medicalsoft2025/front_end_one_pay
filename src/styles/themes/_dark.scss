@@ -1,7 +1,7 @@
 
 .dark {
   // Variables principales
-  --background: oklch(0.145 0 0);
+  --background: #0f182c;
   --foreground: oklch(0.985 0 0);
 
   --card: oklch(0.145 0 0);
@@ -43,7 +43,7 @@
 // Mixin para exportar variables CSS del tema oscuro
 @mixin theme-dark-vars() {
   // Variables principales
-  --background: oklch(0.145 0 0);
+  --background: #0f182c;
   --foreground: oklch(0.985 0 0);
 
   --card: oklch(0.145 0 0);

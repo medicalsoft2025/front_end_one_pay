@@ -16,6 +16,7 @@ export class ActionDropdownComponent {
   @Output() actionSelected = new EventEmitter<{ action: TableAction; row: any }>();
 
   isOpen = false;
+  Boolean!: (value: string | undefined, index: number, array: (string | undefined)[]) => value is any;
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;

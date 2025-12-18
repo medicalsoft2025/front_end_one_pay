@@ -1,0 +1,11 @@
+@use 'styles' as *;
+
+.wrap-customer {
+  padding: $spacing-6;
+  max-width: 80%;
+  margin: 0 auto;
+
+  @include sm {
+    padding: $spacing-4;
+  }
+}
