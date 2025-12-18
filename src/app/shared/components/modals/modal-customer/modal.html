@@ -1,0 +1,14 @@
+<div *ngIf="show">
+  <div class="modal-backdrop" (click)="onBackdropClick()"></div>
+
+  <div class="modal-container" [ngClass]="size">
+    <div class="modal-header">
+      <h3>{{ title }}</h3>
+      <button class="close-btn" (click)="close.emit()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

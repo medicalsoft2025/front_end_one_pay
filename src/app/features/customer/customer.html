@@ -1,25 +1,36 @@
 <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
 <div class="wrap-customer">
-  <section class="filters"></section>
+  <section class="filters">
+    <!-- futuros filtros -->
+  </section>
 
   <section class="customer-section">
-    <button (click)="openNewCustomerModal()">Nuevo Customer</button>
+    <button type="button" (click)="openModal()">
+      Nuevo Customer
+    </button>
 
     <app-dynamic-table
       [columns]="columns"
       [data]="data"
       [actions]="actions"
-      title="Últimas transacciones"
+      title="Clientes"
       (actionTriggered)="onTableAction($event)"
     ></app-dynamic-table>
   </section>
 </div>
 
-<!-- MODAL -->
-<app-modal-customer
-  *ngIf="showCustomerModal"
-  [customerFormConfig]="customerFormConfig"
-  (closeModal)="closeCustomerModal()"
-  (submitCustomer)="onCustomerSubmit($event)"
-></app-modal-customer>
+<!-- MODAL GENÉRICO -->
+<app-modal
+  title="Nuevo Customer"
+  size="md"
+  [show]="showCustomerModal"
+  (close)="closeModal()"
+>
+  <!-- CONTENIDO DINÁMICO -->
+  <app-dynamic-form
+    [config]="customerFormConfig"
+    (onSubmit)="onSubmit($event)"
+    (onCancel)="closeModal()"
+  ></app-dynamic-form>
+</app-modal>

@@ -12,10 +12,14 @@
   transform: translate(-50%, -50%);
   background: #fff;
   border-radius: 8px;
-  width: 600px;
-  max-width: 95%;
   z-index: 1001;
+  max-height: 90vh;
+  overflow: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  &.sm { width: 400px; }
+  &.md { width: 600px; }
+  &.lg { width: 900px; }
 }
 
 .modal-header {
