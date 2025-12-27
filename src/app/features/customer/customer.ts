@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb';
 import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
 import { ModalComponent } from '../../shared/components/modals/modal-customer/modal';
-
 import { CUSTOMER_TABLE_COLUMNS, CUSTOMER_TABLE_ACTIONS } from './customer.table.config';
 import { buildCustomerFormConfig } from './customer.form.config';
 import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynamic-form";
@@ -14,6 +12,7 @@ import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynam
   standalone: true,
   imports: [CommonModule, BreadcrumbComponent, DynamicTableComponent, ModalComponent, DynamicFormComponent],
   templateUrl: './customer.html',
+  styleUrl: './customer.scss',
 })
 export class CustomerComponent {
   breadcrumbItems = [{ label: 'Dashboard', url: '/dashboard' }, { label: 'Clientes' }];

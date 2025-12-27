@@ -28,18 +28,23 @@ export function buildCustomerFormConfig(data?: any): DynamicFormConfig {
         readonly: false,
       },
       {
-        type: 'text',
+        type: 'select',
         name: 'documentType',
         label: 'Tipo de documento',
         value: data?.documentType ?? '',
-        readonly: true,
+        readonly: false,
+        options: [
+          { label: 'Cedula de ciudadania', value: 'CC' },
+          { label: 'NIT', value: 'NIT' },
+          { label: 'CE', value: 'Cedula de extranjería'}
+        ],
       },
       {
         type: 'text',
         name: 'documentNumber',
         label: 'Número de documento',
         value: data?.documentNumber ?? '',
-        readonly: true,
+        readonly: false,
       },
       {
         type: 'email',

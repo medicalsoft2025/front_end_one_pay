@@ -1,20 +1,18 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { TableColumn, TableAction, TableEvent } from './dynamic-table.types';
 import { ActionDropdownComponent } from '../action-dropdown/action-dropdown';
-
 
 @Component({
   selector: 'app-dynamic-table',
   standalone: true,
   imports: [CommonModule, ActionDropdownComponent],
   templateUrl: './dynamic-table.html',
-  styleUrl: './dynamic-table.scss',
+  styleUrls: ['./dynamic-table.scss'],
 })
-export class DynamicTableComponent implements OnInit {
+export class DynamicTableComponent implements OnChanges {
   @Input() columns: TableColumn[] = [];
   @Input() data: any[] = [];
   @Input() actions: TableAction[] = [];
@@ -30,12 +28,11 @@ export class DynamicTableComponent implements OnInit {
   sortBy: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  ngOnInit() {
-    this.updatePagination();
-  }
-
-  ngOnChanges() {
-    this.updatePagination();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.currentPage = 1; // resetear página al recibir nueva data
+      this.updatePagination();
+    }
   }
 
   updatePagination() {
@@ -55,9 +52,7 @@ export class DynamicTableComponent implements OnInit {
   getCellValue(row: any, column: TableColumn): string {
     const value = row[column.key];
 
-    if (column.formatter) {
-      return column.formatter(value, row);
-    }
+    if (column.formatter) return column.formatter(value, row);
 
     switch (column.type) {
       case 'date':
@@ -84,7 +79,6 @@ export class DynamicTableComponent implements OnInit {
     this.data.sort((a, b) => {
       const aVal = a[column.key];
       const bVal = b[column.key];
-
       if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
       if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
@@ -113,27 +107,19 @@ export class DynamicTableComponent implements OnInit {
   previousPage() {
     this.goToPage(this.currentPage - 1);
   }
-
   nextPage() {
     this.goToPage(this.currentPage + 1);
   }
 
   exportToPDF() {
     const doc = new jsPDF();
-    const pageSize = doc.internal.pageSize;
-    const pageWidth = pageSize.getWidth();
-    const pageHeight = pageSize.getHeight();
     const margin = 15;
-
-    // Título
     doc.setFontSize(16);
     doc.text(this.title, margin, margin);
 
-    // Datos de la tabla
-    const tableData = this.data.map((row) => {
-      return this.columns.map((col) => this.getCellValue(row, col));
-    });
-
+    const tableData = this.data.map((row) =>
+      this.columns.map((col) => this.getCellValue(row, col))
+    );
     const headers = this.columns.map((col) => col.label);
 
     (doc as any).autoTable({
@@ -142,51 +128,38 @@ export class DynamicTableComponent implements OnInit {
       startY: margin + 10,
       margin: margin,
       theme: 'grid',
-      styles: {
-        font: 'helvetica',
-        fontSize: 9,
-        cellPadding: 3,
-      },
-      headerStyles: {
-        fillColor: [41, 128, 185],
-        textColor: 255,
-        fontStyle: 'bold',
-      },
-      alternateRowStyles: {
-        fillColor: [245, 245, 245],
-      },
+      styles: { font: 'helvetica', fontSize: 9, cellPadding: 3 },
+      headerStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [245, 245, 245] },
     });
 
-    // Pie de página
     const pageCount = (doc as any).internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.text(
         `Página ${i} de ${pageCount}`,
-        pageWidth / 2,
-        pageHeight - 10,
+        doc.internal.pageSize.getWidth() / 2,
+        doc.internal.pageSize.getHeight() - 10,
         { align: 'center' }
       );
     }
 
-    const fileName = `${this.title.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+    const fileName = `${this.title.replace(/\s+/g, '_')}_${
+      new Date().toISOString().split('T')[0]
+    }.pdf`;
     doc.save(fileName);
   }
 
   exportToExcel() {
     const headers = this.columns.map((col) => col.label);
-    const rows = this.data.map((row) => {
-      return this.columns.map((col) => this.getCellValue(row, col));
-    });
+    const rows = this.data.map((row) => this.columns.map((col) => this.getCellValue(row, col)));
 
-    // Crear CSV
     let csv = headers.join(',') + '\n';
     rows.forEach((row) => {
       csv += row.map((cell) => `"${cell}"`).join(',') + '\n';
     });
 
-    // Descargar
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);

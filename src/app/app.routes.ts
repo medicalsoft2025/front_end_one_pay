@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Dashboard } from './features/dashboard/dashboard';
 import { ConfigComponent } from './features/config/config';
 import { CustomerComponent } from './features/customer/customer';
+import { PaymentsComponent } from './features/payments/payments';
 
 export const routes: Routes = [
   {
@@ -20,4 +21,8 @@ export const routes: Routes = [
     path: 'customers',
     component: CustomerComponent,
   },
+  {
+    path: 'payments',
+    component: PaymentsComponent,
+  }
 ];

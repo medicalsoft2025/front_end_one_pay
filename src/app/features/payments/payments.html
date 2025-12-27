@@ -1,0 +1,7 @@
+<app-dynamic-table
+  [columns]="columns"
+  [data]="(data$ | async) || []"
+  [actions]="actions"
+  title="Pagos"
+  (actionTriggered)="onTableAction($event)"
+></app-dynamic-table>
