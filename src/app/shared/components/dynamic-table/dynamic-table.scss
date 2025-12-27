@@ -1,6 +1,6 @@
 // Importar variables y mixins del proyecto
-@use '../../../../styles/variables' as *;
-@use '../../../../styles/mixins' as *;
+@use 'styles' as *;
+
 
 .dynamic-table-container {
   width: 100%;

@@ -1,3 +1,5 @@
+
+<div class="table-payments">
 <app-dynamic-table
   [columns]="columns"
   [data]="(data$ | async) || []"
@@ -5,3 +7,6 @@
   title="Pagos"
   (actionTriggered)="onTableAction($event)"
 ></app-dynamic-table>
+
+</div>
+
