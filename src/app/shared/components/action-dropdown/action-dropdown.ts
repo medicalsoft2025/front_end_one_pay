@@ -16,7 +16,11 @@ export class ActionDropdownComponent {
   @Output() actionSelected = new EventEmitter<{ action: TableAction; row: any }>();
 
   isOpen = false;
-  Boolean!: (value: string | undefined, index: number, array: (string | undefined)[]) => value is any;
+  Boolean!: (
+    value: string | undefined,
+    index: number,
+    array: (string | undefined)[]
+  ) => value is any;
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;
@@ -31,11 +35,8 @@ export class ActionDropdownComponent {
     this.closeDropdown();
   }
 
-  getVisibleActions(): TableAction[] {
-    return this.actions.filter((action) => {
-      if (!action.visible) return true;
-      return action.visible(this.row);
-    });
+  get visibleActions(): TableAction[] {
+    return this.actions.filter((a) => !a.visible || a.visible(this.row));
   }
 
   @HostListener('document:click', ['$event'])

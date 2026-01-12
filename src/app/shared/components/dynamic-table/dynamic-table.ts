@@ -1,20 +1,25 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { heroDocumentArrowDown, heroTableCells } from '@ng-icons/heroicons/outline';
+
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { TableColumn, TableAction, TableEvent } from './dynamic-table.types';
 import { ActionDropdownComponent } from '../action-dropdown/action-dropdown';
+import { NgIconsModule, provideIcons } from '@ng-icons/core';
 
 @Component({
   selector: 'app-dynamic-table',
   standalone: true,
-  imports: [CommonModule, ActionDropdownComponent],
+  imports: [CommonModule, ActionDropdownComponent, NgIconsModule],
+  providers: [provideIcons({ heroDocumentArrowDown, heroTableCells })],
   templateUrl: './dynamic-table.html',
-  styleUrls: ['./dynamic-table.scss'],
+  styleUrl: './dynamic-table.scss',
 })
-export class DynamicTableComponent implements OnChanges {
+
+
+export class DynamicTableComponent {
   @Input() columns: TableColumn[] = [];
-  @Input() data: any[] = [];
   @Input() actions: TableAction[] = [];
   @Input() title: string = 'Tabla de datos';
   @Input() loading: boolean = false;
@@ -22,24 +27,32 @@ export class DynamicTableComponent implements OnChanges {
 
   @Output() actionTriggered = new EventEmitter<TableEvent>();
 
+  /**  DATA REACTIVO */
+  private _data: any[] = [];
+
+  @Input()
+  set data(value: any[] | null) {
+    this._data = value ?? [];
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  get data(): any[] {
+    return this._data;
+  }
+
   displayedData: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
   sortBy: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
-      this.currentPage = 1; // resetear página al recibir nueva data
-      this.updatePagination();
-    }
-  }
+  /* =======================
+     PAGINACIÓN
+  ======================= */
 
   updatePagination() {
-    this.totalPages = Math.ceil(this.data.length / this.pageSize);
-    if (this.currentPage > this.totalPages) {
-      this.currentPage = 1;
-    }
+    this.totalPages = Math.max(Math.ceil(this.data.length / this.pageSize), 1);
     this.updateDisplayedData();
   }
 
@@ -49,22 +62,24 @@ export class DynamicTableComponent implements OnChanges {
     this.displayedData = this.data.slice(startIdx, endIdx);
   }
 
-  getCellValue(row: any, column: TableColumn): string {
-    const value = row[column.key];
-
-    if (column.formatter) return column.formatter(value, row);
-
-    switch (column.type) {
-      case 'date':
-        return value ? new Date(value).toLocaleDateString() : '-';
-      case 'currency':
-        return value ? `$${parseFloat(value).toFixed(2)}` : '$0.00';
-      case 'boolean':
-        return value ? 'Sí' : 'No';
-      default:
-        return value !== null && value !== undefined ? String(value) : '-';
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateDisplayedData();
     }
   }
+
+  previousPage() {
+    this.goToPage(this.currentPage - 1);
+  }
+
+  nextPage() {
+    this.goToPage(this.currentPage + 1);
+  }
+
+  /* =======================
+     SORT
+  ======================= */
 
   onSort(column: TableColumn) {
     if (!column.sortable) return;
@@ -79,13 +94,41 @@ export class DynamicTableComponent implements OnChanges {
     this.data.sort((a, b) => {
       const aVal = a[column.key];
       const bVal = b[column.key];
+
       if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
       if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
     });
 
-    this.updatePagination();
+    this.updateDisplayedData();
   }
+
+  /* =======================
+     CELDAS
+  ======================= */
+
+  getCellValue(row: any, column: TableColumn): string {
+    const value = row[column.key];
+
+    if (column.formatter) {
+      return column.formatter(value, row);
+    }
+
+    switch (column.type) {
+      case 'date':
+        return value ? new Date(value).toLocaleDateString() : '-';
+      case 'currency':
+        return value ? `$${Number(value).toFixed(2)}` : '$0.00';
+      case 'boolean':
+        return value ? 'Sí' : 'No';
+      default:
+        return value ?? '-';
+    }
+  }
+
+  /* =======================
+     ACCIONES
+  ======================= */
 
   onActionClick(action: TableAction, row: any) {
     if (action.confirm) {
@@ -97,58 +140,27 @@ export class DynamicTableComponent implements OnChanges {
     }
   }
 
-  goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.updateDisplayedData();
-    }
-  }
-
-  previousPage() {
-    this.goToPage(this.currentPage - 1);
-  }
-  nextPage() {
-    this.goToPage(this.currentPage + 1);
-  }
+  /* =======================
+     EXPORTS
+  ======================= */
 
   exportToPDF() {
     const doc = new jsPDF();
-    const margin = 15;
-    doc.setFontSize(16);
-    doc.text(this.title, margin, margin);
+    doc.text(this.title, 15, 15);
 
     const tableData = this.data.map((row) =>
       this.columns.map((col) => this.getCellValue(row, col))
     );
+
     const headers = this.columns.map((col) => col.label);
 
     (doc as any).autoTable({
       head: [headers],
       body: tableData,
-      startY: margin + 10,
-      margin: margin,
-      theme: 'grid',
-      styles: { font: 'helvetica', fontSize: 9, cellPadding: 3 },
-      headerStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [245, 245, 245] },
+      startY: 25,
     });
 
-    const pageCount = (doc as any).internal.getNumberOfPages();
-    for (let i = 1; i <= pageCount; i++) {
-      doc.setPage(i);
-      doc.setFontSize(8);
-      doc.text(
-        `Página ${i} de ${pageCount}`,
-        doc.internal.pageSize.getWidth() / 2,
-        doc.internal.pageSize.getHeight() - 10,
-        { align: 'center' }
-      );
-    }
-
-    const fileName = `${this.title.replace(/\s+/g, '_')}_${
-      new Date().toISOString().split('T')[0]
-    }.pdf`;
-    doc.save(fileName);
+    doc.save(`${this.title}.pdf`);
   }
 
   exportToExcel() {
@@ -156,21 +168,14 @@ export class DynamicTableComponent implements OnChanges {
     const rows = this.data.map((row) => this.columns.map((col) => this.getCellValue(row, col)));
 
     let csv = headers.join(',') + '\n';
-    rows.forEach((row) => {
-      csv += row.map((cell) => `"${cell}"`).join(',') + '\n';
+    rows.forEach((r) => {
+      csv += r.map((c) => `"${c}"`).join(',') + '\n';
     });
 
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute(
-      'download',
-      `${this.title.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`
-    );
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
+    link.href = URL.createObjectURL(blob);
+    link.download = `${this.title}.csv`;
     link.click();
-    document.body.removeChild(link);
   }
 }

@@ -1,16 +1,64 @@
 // Importar variables y mixins del proyecto
 @use 'styles' as *;
 
+.btn-export {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  min-width: 110px;
+  height: 36px;
+
+  padding: 0 12px 0;
+  margin-bottom: $spacing-6;
+  font-size: 0.875rem;
+  border-radius: 6px;
+
+  .icon {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+  }
+}
+
+.export-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-pdf {
+  &:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+
+    .icon {
+      color: white;
+    }
+  }
+}
+
+.btn-excel {
+  &:hover {
+    background: #16a34a;
+    border-color: #16a34a;
+
+    .icon {
+      color: white;
+    }
+  }
+}
 
 .dynamic-table-container {
   width: 100%;
   background: var(--background);
   border-radius: $radius;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
+
 
 .table-header {
   display: flex;
@@ -82,8 +130,10 @@
 .table-wrapper {
   position: relative;
   overflow-x: auto;
+  overflow-y: visible;
   flex: 1;
 }
+
 
 .loading-overlay {
   position: absolute;
@@ -230,6 +280,8 @@
 .actions-cell {
   padding: $spacing-3 $spacing-6;
   width: auto;
+  overflow: visible !important;
+  position: relative;
 }
 
 .pagination {

@@ -1,18 +1,29 @@
-<div class="dynamic-table-container">
-  <!-- Header con título y opciones de exportación -->
-  <div class="table-header">
-    <h2 class="table-title">{{ title }}</h2>
-    <div class="export-buttons">
-      <button class="btn btn-export btn-pdf" (click)="exportToPDF()" title="Exportar a PDF">
-        <span class="icon">📄</span>
-        PDF
-      </button>
-      <button class="btn btn-export btn-excel" (click)="exportToExcel()" title="Exportar a Excel">
-        <span class="icon">📊</span>
-        Excel
-      </button>
-    </div>
-  </div>
+<div class="export-buttons">
+  <button
+    class="btn btn-export btn-pdf"
+    (click)="exportToPDF()"
+    title="Exportar a PDF"
+  >
+    <ng-icon
+      name="heroDocumentArrowDown"
+      class="icon"
+    ></ng-icon>
+    PDF
+  </button>
+
+  <button
+    class="btn btn-export btn-excel"
+    (click)="exportToExcel()"
+    title="Exportar a Excel"
+  >
+    <ng-icon
+      name="heroTableCells"
+      class="icon"
+    ></ng-icon>
+    Excel
+  </button>
+</div>
+
 
   <!-- Tabla -->
   <div class="table-wrapper">
@@ -98,4 +109,3 @@
       Siguiente →
     </button>
   </div>
-</div>
