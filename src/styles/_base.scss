@@ -18,7 +18,8 @@ html {
 }
 
 body {
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  //font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: 'Grift', sans-serif;
   background-color: var(--background);
   color: var(--foreground);
   line-height: 1.6;
@@ -37,6 +38,7 @@ a {
   color: var(--primary);
   text-decoration: none;
   transition: color 0.2s ease;
+  font-size: large;
 
   &:hover {
     color: var(--primary);
@@ -93,4 +95,9 @@ img {
   @media (min-width: 768px) {
     padding: 0 2rem;
   }
+}
+
+.span{
+  font-size: large;
+  color: var(--text-primary);
 }

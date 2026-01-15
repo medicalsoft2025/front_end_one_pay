@@ -11,11 +11,21 @@
   backdrop-filter: blur(10px);
   background-color: rgba(var(--background-rgb, 255, 255, 255), 0.85);
 
-  .container {
-    width: 90%;
-    max-width: 1400px;
-    margin: 0 auto;
+  &__nav {
+    span {
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
   }
+
+  .container {
+    width: 100%;
+    max-width: 1900px;
+    margin: 0 0;
+  }
+
+
 
   &__content {
     display: flex;
@@ -65,9 +75,9 @@
   }
 
   &__logo {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--primary), var(--sidebar-primary, var(--primary)));
+    width: 95px;
+    height: 53px;
+    //background: linear-gradient(135deg, var(--primary), var(--sidebar-primary, var(--primary)));
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     display: flex;
@@ -81,8 +91,8 @@
     }
 
     &-icon {
-      width: 24px;
-      height: 24px;
+      width: 95px;
+      height: 53px;
       color: var(--primary-foreground);
       stroke-width: 2;
     }
@@ -124,6 +134,8 @@
     flex-grow: 1;
     justify-content: flex-end;
 
+
+
     @media (max-width: 768px) {
       position: absolute;
       top: 100%;
@@ -163,8 +175,8 @@
       }
 
       .nav-icon {
-        width: 18px;
-        height: 18px;
+        width: 25px;
+        height: 25px;
         opacity: 0.7;
         transition: opacity 0.2s ease;
       }
@@ -201,6 +213,20 @@
       }
     }
   }
+
+  &__nav-links {
+    display: flex;
+    gap: 2rem;
+    margin: 0 auto;
+  }
+
+  &__nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+
 
   &__nav-separator {
     width: 1px;
