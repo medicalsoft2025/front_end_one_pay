@@ -56,34 +56,48 @@
         </ng-container>
 
         <!-- Select -->
-        <ng-container *ngIf="field.type === 'select'">
-          <label [for]="field.name" class="form-label">
-            {{ field.label }}
-            <span class="required" *ngIf="field.required">*</span>
-          </label>
-          <select
-            [id]="field.name"
-            [formControlName]="field.name"
-            [class.form-input]="true"
-            [class.is-invalid]="
-              form.get(field.name)?.invalid && (form.get(field.name)?.dirty || submitted)
-            "
-            [disabled]="field.disabled || false"
-          >
-            <option value="" disabled selected>
-              {{ field.placeholder || `Selecciona ${field.label.toLowerCase()}` }}
-            </option>
-            <option *ngFor="let option of field.options" [value]="option.value">
-              {{ option.label }}
-            </option>
-          </select>
-          <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
-            {{ field.helpText }}
-          </small>
-          <small class="error-text" *ngIf="getFieldError(field.name)">
-            {{ getFieldError(field.name) }}
-          </small>
-        </ng-container>
+     <ng-container *ngIf="field.type === 'select'">
+  <label [for]="field.name" class="form-label">
+    {{ field.label }}
+    <span class="required" *ngIf="field.required">*</span>
+  </label>
+
+  <select
+    [id]="field.name"
+    [formControlName]="field.name"
+    [class.form-input]="true"
+    [class.is-invalid]="
+      form.get(field.name)?.invalid && (form.get(field.name)?.dirty || submitted)
+    "
+    [disabled]="field.disabled || false"
+  >
+    <option value="" disabled selected>
+      {{ field.placeholder || `Selecciona ${field.label.toLowerCase()}` }}
+    </option>
+
+    <option *ngFor="let option of field.options" [value]="option.value">
+      <span class="option-content">
+        <img
+          *ngIf="option.logo"
+          [src]="option.logo"
+          width="20"
+          height="20"
+          style="margin-right: 5px; vertical-align: middle;"
+          alt="{{ option.label }}"
+        />
+        {{ option.label }}
+      </span>
+    </option>
+  </select>
+
+  <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
+    {{ field.helpText }}
+  </small>
+  <small class="error-text" *ngIf="getFieldError(field.name)">
+    {{ getFieldError(field.name) }}
+  </small>
+</ng-container>
+
 
         <!-- Checkbox -->
         <ng-container *ngIf="field.type === 'checkbox'">

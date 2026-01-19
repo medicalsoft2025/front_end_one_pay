@@ -48,9 +48,9 @@ export class ProfileTabComponent {
         value: 'CC',
         required: true,
         options: [
-          { label: 'Cédula de ciudadanía', value: 'CC' },
-          { label: 'NIT', value: 'NIT' },
-          { label: 'Pasaporte', value: 'PP' },
+          { label: 'Cédula de ciudadanía', value: 'CC', logo: null },
+          { label: 'NIT', value: 'NIT', logo: null },
+          { label: 'Pasaporte', value: 'PP', logo: null },
         ],
       },
       {
@@ -100,8 +100,8 @@ export class ProfileTabComponent {
         value: 'NATURAL',
         required: true,
         options: [
-          { label: 'Natural', value: 'NATURAL' },
-          { label: 'Jurídico', value: 'JURIDICO' },
+          { label: 'Natural', value: 'NATURAL', logo: null },
+          { label: 'Jurídico', value: 'JURIDICO', logo: null },
         ],
       },
     ],

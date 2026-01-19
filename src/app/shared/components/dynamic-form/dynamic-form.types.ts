@@ -5,6 +5,7 @@
 export type FormFieldType = 'text' | 'email' | 'password' | 'number' | 'date' | 'select' | 'checkbox' | 'textarea' | 'tel' | 'url';
 
 export interface FormFieldOption {
+logo: any;
   label: string;
   value: string | number | boolean;
 }

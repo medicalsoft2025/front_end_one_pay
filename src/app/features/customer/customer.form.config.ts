@@ -34,9 +34,9 @@ export function buildCustomerFormConfig(data?: any): DynamicFormConfig {
         value: data?.documentType ?? '',
         readonly: false,
         options: [
-          { label: 'Cedula de ciudadania', value: 'CC' },
-          { label: 'NIT', value: 'NIT' },
-          { label: 'CE', value: 'Cedula de extranjería'}
+          { label: 'Cedula de ciudadania', value: 'CC', logo: null },
+          { label: 'NIT', value: 'NIT', logo: null },
+          { label: 'CE', value: 'Cedula de extranjería', logo: null }
         ],
       },
       {
@@ -67,8 +67,8 @@ export function buildCustomerFormConfig(data?: any): DynamicFormConfig {
         value: data?.customerType ?? 'CLIENT',
         readonly: false,
         options: [
-          { label: 'Cliente', value: 'CLIENT' },
-          { label: 'Empleado', value: 'EMPLOYEED' },
+          { label: 'Cliente', value: 'CLIENT', logo: null },
+          { label: 'Empleado', value: 'EMPLOYEED', logo: null },
         ],
       },
       {

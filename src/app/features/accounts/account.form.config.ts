@@ -1,8 +1,10 @@
-import { DynamicFormConfig } from '../../shared/components/dynamic-form/dynamic-form.types';
+import { DynamicFormConfig, FormFieldOption } from '../../shared/components/dynamic-form/dynamic-form.types';
 import { AccountModel } from '../../core/models/AccountModel';
+import { BankModel } from '../../core/models/BankModel';
 
 export function buildAccountFormConfig(
-  data?: Partial<AccountModel>
+  data?: Partial<AccountModel>,
+  banks: BankModel[] = []
 ): DynamicFormConfig {
   return {
     submitButtonLabel: 'Guardar cambios',
@@ -18,14 +20,26 @@ export function buildAccountFormConfig(
       },
       {
         type: 'select',
+        name: 'bankId',
+        label: 'Banco',
+        value: data?.bankId ?? '',
+        readonly: false,
+        options: banks.map(bank => ({
+          label: bank.name,
+          value: bank.id,
+          logo: bank.logo // aquí incluimos el logo
+        })),
+      },
+      {
+        type: 'text',
         name: 'accountType',
         label: 'Tipo de cuenta',
         value: data?.accountType ?? '',
         readonly: false,
         options: [
-          { label: 'Ahorros', value: 'SAVINGS' },
-          { label: 'Corriente', value: 'CHECKING' },
-          { label: 'Crédito', value: 'CREDIT' },
+          { label: 'Ahorros', value: 'SAVINGS', logo: null },
+          { label: 'Corriente', value: 'CHECKING', logo: null },
+          { label: 'Crédito', value: 'CREDIT', logo: null },
         ],
       },
       {
@@ -41,14 +55,7 @@ export function buildAccountFormConfig(
         label: 'Cliente',
         value: data?.customerId ?? '',
         readonly: false,
-      },
-      {
-        type: 'text',
-        name: 'bankId',
-        label: 'Banco',
-        value: data?.bankId ?? '',
-        readonly: false,
-      },
-    ],
+      }
+    ]
   };
 }

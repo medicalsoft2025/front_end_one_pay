@@ -22,4 +22,9 @@ export class AccountService {
     return this.http.post<AccountModel>(`${this.apiUrl}${Endpoints.accounts.root}`, account).pipe(
     );
   }
+
+  updateAccount(id: string, account: AccountModel): Observable<AccountModel> {
+    return this.http.put<AccountModel>(`${this.apiUrl}${Endpoints.accounts.byId(id)}`, account).pipe(
+    );
+  }
 }
