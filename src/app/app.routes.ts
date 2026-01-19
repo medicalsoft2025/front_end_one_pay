@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'config',
-    component: ConfigComponent,
+    component: ConfigComponent
   },
   {
     path: 'customers',
