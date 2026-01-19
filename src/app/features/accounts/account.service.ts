@@ -4,16 +4,22 @@ import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environment/environment.local';
 import { PagedResponse } from '../../core/models/apiResponse';
 import { PaymentModel } from '../../core/models/paymentModel';
+import { Endpoints } from '../../core/api/Endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-  private apiUrl = environment.apiUrl; // tu backend
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   getPayments(): Observable<PaymentModel[]> {
-    return this.http.get<PagedResponse<PaymentModel>>(`${this.apiUrl}/payments`).pipe(
+    return this.http.get<PagedResponse<PaymentModel>>(`${this.apiUrl}${Endpoints.payments.root}`).pipe(
       map((res) => res.content ?? [])
+    );
+  }
+
+  createPayment(payment: PaymentModel): Observable<PaymentModel> {
+    return this.http.post<PaymentModel>(`${this.apiUrl}${Endpoints.payments.root}`, payment).pipe(
     );
   }
 }

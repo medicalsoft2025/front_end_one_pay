@@ -4,6 +4,9 @@ import { TableColumn, TableAction, TableEvent } from '../../shared/components/dy
 import { StatCardComponent } from '../../shared/components/stat-card/stat-card';
 import { BalanceChartComponent } from '../../shared/components/balance-chart/balance-chart';
 import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
+import { Observable } from 'rxjs';
+import { TenantModel } from '../../core/models/TenantModel';
+import { TenantService } from '../dashboard/tenant.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +16,7 @@ import { DynamicTableComponent } from '../../shared/components/dynamic-table/dyn
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
+
   columns: TableColumn[] = [
     { key: 'id', label: 'ID', sortable: true, type: 'number' },
     { key: 'nombre', label: 'Nombre', sortable: true, type: 'string' },
@@ -35,4 +39,14 @@ export class Dashboard {
   onTableAction(evt: any) {
     console.log('ACTION:', evt);
   }
+  tenant$!: Observable<TenantModel>;
+
+  constructor(private tenantService: TenantService) {}
+
+  ngOnInit(): void {
+    this.tenant$ = this.tenantService.getTenantInfo();
+  }
+  
+
+
 }

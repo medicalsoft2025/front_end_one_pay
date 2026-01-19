@@ -1,30 +1,37 @@
 <div class="dashboard-container">
-  <h1 class="title">Dashboard</h1>
+  <h1 class="title">
+  Medical Pay:
+   <span *ngIf="tenant$ | async as tenant">{{ tenant.tenant }}</span>
+</h1>
+
   <div class="cards-container">
-    <app-stat-card
-      title="Ingresos Totales"
-      value="$45,200"
-      change="+12.5%"
-      trend="up"
-      icon="trending-up"
-      color="green"
-    ></app-stat-card>
-    <app-stat-card
-      title="Gastos"
-      value="$12,400"
-      change="-8.2%"
-      trend="down"
-      icon="bar-chart"
-      color="red"
-    ></app-stat-card>
-    <app-stat-card
-      title="Transacciones realizadas"
-      value="8,542"
-      change="+3.1%"
-      trend="up"
-      icon="user"
-      color="blue"
-    ></app-stat-card>
+<app-stat-card
+  title="Ingresos Totales"
+  value="$45,200"
+  change="+12.5%"
+  trend="up"
+  icon="heroWallet"
+  color="green">
+</app-stat-card>
+
+<app-stat-card
+  title="Gastos"
+  value="$12,400"
+  change="-8.2%"
+  trend="down"
+  icon="heroChartBar"
+  color="red">
+</app-stat-card>
+
+<app-stat-card
+  title="Transacciones realizadas"
+  value="8,542"
+  change="+3.1%"
+  trend="up"
+  icon="heroUsers"
+  color="blue">
+</app-stat-card>
+
   </div>
   <section class="chart-section">
       <div class="chart-container">

@@ -3,6 +3,7 @@ import { Dashboard } from './features/dashboard/dashboard';
 import { ConfigComponent } from './features/config/config';
 import { CustomerComponent } from './features/customer/customer';
 import { PaymentsComponent } from './features/payments/payments';
+import { AccountsComponent } from './features/accounts/accounts';
 
 export const routes: Routes = [
   {
@@ -24,5 +25,9 @@ export const routes: Routes = [
   {
     path: 'payments',
     component: PaymentsComponent,
+  },
+    {
+    path: 'accounts',
+    component: AccountsComponent,
   }
 ];

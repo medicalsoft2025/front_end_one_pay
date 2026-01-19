@@ -1,5 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+
+// Heroicons
+import {
+  heroArrowTrendingUp,
+  heroArrowTrendingDown,
+  heroChartBar,
+  heroUsers,
+  heroWallet,
+} from '@ng-icons/heroicons/outline';
 
 export type TrendType = 'up' | 'down' | 'neutral';
 export type ColorType = 'green' | 'red' | 'blue' | 'purple';
@@ -7,43 +17,52 @@ export type ColorType = 'green' | 'red' | 'blue' | 'purple';
 @Component({
   selector: 'app-stat-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgIconComponent],
+  providers: [
+    provideIcons({
+      heroArrowTrendingUp,
+      heroArrowTrendingDown,
+      heroChartBar,
+      heroUsers,
+      heroWallet,
+    }),
+  ],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.scss',
 })
 export class StatCardComponent {
-  @Input() title: string = '';
-  @Input() value: string = '';
-  @Input() change: string = '';
+  @Input() title = '';
+  @Input() value = '';
+  @Input() change = '';
   @Input() trend: TrendType = 'neutral';
-  @Input() icon: string = '';
+
+  /** nombre del icono hero */
+  @Input() icon: keyof typeof this.iconMap = 'heroChartBar';
+
   @Input() color: ColorType = 'blue';
 
+  iconMap = {
+    heroArrowTrendingUp: 'heroArrowTrendingUp',
+    heroArrowTrendingDown: 'heroArrowTrendingDown',
+    heroChartBar: 'heroChartBar',
+    heroUsers: 'heroUsers',
+    heroWallet: 'heroWallet',
+  };
+
   get colorClass(): string {
-    const colorMap: Record<ColorType, string> = {
+    return {
       green: 'stat-green',
       red: 'stat-red',
       blue: 'stat-blue',
       purple: 'stat-purple',
-    };
-    return colorMap[this.color];
+    }[this.color];
   }
 
   get trendClass(): string {
-    const trendMap: Record<TrendType, string> = {
+    return {
       up: 'trend-up',
       down: 'trend-down',
       neutral: 'trend-neutral',
-    };
-    return trendMap[this.trend];
-  }
-
-  get trendIcon(): string {
-    const trendIcons: Record<TrendType, string> = {
-      up: '📈',
-      down: '📉',
-      neutral: '➡️',
-    };
-    return trendIcons[this.trend];
+    }[this.trend];
   }
 }

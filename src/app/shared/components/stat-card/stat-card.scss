@@ -5,7 +5,7 @@
 }
 
 .stat-card {
-  background: var(--background);
+  background: #244155;
   border: 1px solid;
   border-color: var(--border);
   border-radius: $radius;
@@ -79,7 +79,7 @@
 }
 
 .stat-card-title {
-  color: var(--text-muted);
+  color: var(--muted);
   font-size: $font-size-sm;
   margin: 0;
   font-weight: $font-weight-medium;

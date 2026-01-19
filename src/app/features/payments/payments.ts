@@ -22,8 +22,7 @@ export class PaymentsComponent {
   constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
-    console.log('PaymentsComponent ngOnInit 🔥');
-    this.data$ = this.paymentService.getPayments(); // ya retorna observable
+    this.data$ = this.paymentService.getPayments();
   }
 
   onTableAction(evt: any) {

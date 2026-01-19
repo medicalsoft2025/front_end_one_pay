@@ -1,7 +1,7 @@
 // environment.ts
 const url = 'http://localhost';
 const port = '8081';
-const apiPath = 'api/v1/one-pay';
+const apiPath = 'api/v1';
 
 export const environment = {
   production: false,
