@@ -5,4 +5,5 @@ export interface AccountModel {
     reEnrrollment: string;
     customerId: string;
     bankId: string; 
+    authorization: boolean;
 }

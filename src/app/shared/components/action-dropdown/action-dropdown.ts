@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  ElementRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableAction } from '../dynamic-table/dynamic-table.types';
 
@@ -8,41 +16,64 @@ import { TableAction } from '../dynamic-table/dynamic-table.types';
   imports: [CommonModule],
   templateUrl: './action-dropdown.html',
   styleUrl: './action-dropdown.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionDropdownComponent {
-  @Input() actions: TableAction[] = [];
-  @Input() row: any;
+  @Input() actions: TableAction[] | null = [];
+  @Input() row: unknown;
 
-  @Output() actionSelected = new EventEmitter<{ action: TableAction; row: any }>();
+  @Output() actionSelected = new EventEmitter<{
+    action: TableAction;
+    row: unknown;
+  }>();
 
   isOpen = false;
-  Boolean!: (
-    value: string | undefined,
-    index: number,
-    array: (string | undefined)[]
-  ) => value is any;
 
-  toggleDropdown() {
+  /* ---------------- UI ---------------- */
+
+  toggleDropdown(): void {
     this.isOpen = !this.isOpen;
   }
 
-  closeDropdown() {
+  closeDropdown(): void {
     this.isOpen = false;
   }
 
-  onActionClick(action: TableAction) {
+  /* ---------------- Actions ---------------- */
+
+  onActionClick(action: TableAction): void {
     this.actionSelected.emit({ action, row: this.row });
     this.closeDropdown();
   }
 
   get visibleActions(): TableAction[] {
-    return this.actions.filter((a) => !a.visible || a.visible(this.row));
+    if (!Array.isArray(this.actions)) {
+      return [];
+    }
+
+    return this.actions.filter(action => {
+      if (typeof action.visible === 'function') {
+        return action.visible(this.row);
+      }
+      return action.visible !== false;
+    });
   }
 
+  getActionClasses(action: TableAction): string[] {
+    const classes: string[] = [`action-${action.id}`];
+
+    if (typeof action.class === 'string' && action.class.trim()) {
+      classes.push(action.class);
+    }
+
+    return classes;
+  }
+
+  /* ---------------- UX ---------------- */
+
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!this.elementRef.nativeElement.contains(target)) {
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
       this.closeDropdown();
     }
   }

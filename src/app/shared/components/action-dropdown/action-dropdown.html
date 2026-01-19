@@ -1,5 +1,10 @@
 <div class="action-dropdown-wrapper">
-  <button class="action-dropdown-toggle" (click)="toggleDropdown()" [class.open]="isOpen">
+  <button
+    type="button"
+    class="action-dropdown-toggle"
+    (click)="toggleDropdown()"
+    [class.open]="isOpen"
+  >
     <span class="icon">⋮</span>
     <span class="label">Acciones</span>
   </button>
@@ -10,14 +15,20 @@
     </div>
 
     <button
-   *ngFor="let action of visibleActions"
+      type="button"
+      *ngFor="let action of visibleActions"
       class="action-item"
-      [ngClass]="['action-' + action.id, action.class].filter(Boolean)"
+      [ngClass]="getActionClasses(action)"
       (click)="onActionClick(action)"
-      [title]="action.label"
+      [title]="action.label ?? action.id"
     >
-      <span *ngIf="action.icon" class="action-icon">{{ action.icon }}</span>
-   <span class="action-label">{{ action.label || action.id }}</span>
+      <span *ngIf="action.icon" class="action-icon">
+        {{ action.icon }}
+      </span>
+
+      <span class="action-label">
+        {{ action.label ?? action.id }}
+      </span>
     </button>
   </div>
 </div>

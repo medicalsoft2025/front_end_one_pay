@@ -12,6 +12,8 @@ import { buildAccountFormConfig } from './account.form.config';
 import { ModalComponent } from '../../shared/components/modals/modal-customer/modal';
 import { BankModel } from '../../core/models/BankModel';
 import { OnePayBankService } from '../../shared/services/onepaybank.service';
+import { CustomerService } from '../customer/customer.service';
+import { CustomerModel } from '../../core/models/customerModel';
 
 @Component({
   selector: 'app-accounts',
@@ -40,15 +42,18 @@ export class AccountsComponent implements OnInit {
   formConfig?: DynamicFormConfig;
   editingAccount?: AccountModel;
   banks: BankModel[] = []; // almacena los bancos
+  customers: CustomerModel[] = []; // almacena los clientes
 
   constructor(
     private accountService: AccountService,
-    private bankService: OnePayBankService
+    private bankService: OnePayBankService,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
     this.loadAccounts();
     this.loadBanks();
+    this.loadCustomers();
   }
 
   loadAccounts(): void {
@@ -57,22 +62,27 @@ export class AccountsComponent implements OnInit {
     });
   }
 
+  loadCustomers(): void {
+    this.customerService.getCustomers().subscribe((customers) => {
+      this.customers = customers;
+    });
+  }
+
   loadBanks(): void {
     this.bankService.getBanks().subscribe((banks) => {
       this.banks = banks;
-      console.log('Bancos cargados:', this.banks);
     });
   }
 
   openCreateForm(): void {
     this.editingAccount = undefined;
-    this.formConfig = buildAccountFormConfig(undefined, this.banks);
+    this.formConfig = buildAccountFormConfig(undefined, this.banks, this.customers);
     this.showFormModal = true;
   }
 
   openEditForm(account: AccountModel): void {
     this.editingAccount = account;
-    this.formConfig = buildAccountFormConfig(account, this.banks);
+    this.formConfig = buildAccountFormConfig(account, this.banks, this.customers);
     this.showFormModal = true;
   }
 
@@ -82,26 +92,36 @@ export class AccountsComponent implements OnInit {
     this.editingAccount = undefined;
   }
 
-  onFormSubmit(event: FormSubmitEvent): void {
-    if (!event.isValid) {
-      console.warn('Formulario inválido', event.errors);
-      return;
-    }
-
-    const payload = event.formValue as AccountModel;
-
-    if (this.editingAccount) {
-      this.accountService.updateAccount(this.editingAccount.id, payload).subscribe(() => {
-        this.loadAccounts();
-        this.closeForm();
-      });
-    } else {
-      this.accountService.createAccount(payload).subscribe(() => {
-        this.loadAccounts();
-        this.closeForm();
-      });
-    }
+onFormSubmit(event: FormSubmitEvent): void {
+  if (!event.isValid) {
+    console.warn('Formulario inválido', event.errors);
+    return;
   }
+
+  const formValue = event.formValue as AccountModel;
+  const payload = {
+    account_number: formValue.accountNumber,
+    subtype: formValue.accountType,
+    're-enrollment': formValue.reEnrrollment,
+    customer_id: formValue.customerId,
+    bank_id: formValue.bankId,
+    authorization: formValue.authorization,
+  };
+
+  if (this.editingAccount) {
+    this.accountService.updateAccount(this.editingAccount.id, payload as any).subscribe(() => {
+      this.loadAccounts();
+      this.closeForm();
+    });
+  } else {
+    console.log('Creating account with payload:', payload);
+    this.accountService.createAccount(payload as any).subscribe(() => {
+      this.loadAccounts();
+      this.closeForm();
+    });
+  }
+}
+
 
   onActionTriggered(event: TableEvent): void {
     const action = event.action;

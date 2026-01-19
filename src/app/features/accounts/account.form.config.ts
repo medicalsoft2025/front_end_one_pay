@@ -1,11 +1,15 @@
 import { DynamicFormConfig, FormFieldOption } from '../../shared/components/dynamic-form/dynamic-form.types';
 import { AccountModel } from '../../core/models/AccountModel';
 import { BankModel } from '../../core/models/BankModel';
+import { CustomerModel } from '../../core/models/customerModel';
 
 export function buildAccountFormConfig(
-  data?: Partial<AccountModel>,
-  banks: BankModel[] = []
+
+  dataBanks?: Partial<AccountModel>,
+  banks: BankModel[] = [],
+  customers: CustomerModel[] = []
 ): DynamicFormConfig {
+
   return {
     submitButtonLabel: 'Guardar cambios',
     cancelButtonLabel: 'Cancelar',
@@ -15,14 +19,14 @@ export function buildAccountFormConfig(
         type: 'text',
         name: 'accountNumber',
         label: 'Número de cuenta',
-        value: data?.accountNumber ?? '',
+        value: dataBanks?.accountNumber ?? '',
         readonly: false,
       },
       {
         type: 'select',
         name: 'bankId',
         label: 'Banco',
-        value: data?.bankId ?? '',
+        value: dataBanks?.bankId ?? '',
         readonly: false,
         options: banks.map(bank => ({
           label: bank.name,
@@ -31,10 +35,10 @@ export function buildAccountFormConfig(
         })),
       },
       {
-        type: 'text',
+        type: 'select',
         name: 'accountType',
         label: 'Tipo de cuenta',
-        value: data?.accountType ?? '',
+        value: dataBanks?.accountType ?? '',
         readonly: false,
         options: [
           { label: 'Ahorros', value: 'SAVINGS', logo: null },
@@ -42,20 +46,33 @@ export function buildAccountFormConfig(
           { label: 'Crédito', value: 'CREDIT', logo: null },
         ],
       },
-      {
-        type: 'text',
-        name: 'reEnrrollment',
-        label: 'Reinscripción',
-        value: data?.reEnrrollment ?? '',
-        readonly: false,
-      },
-      {
-        type: 'text',
+       {
+        type: 'select',
         name: 'customerId',
         label: 'Cliente',
-        value: data?.customerId ?? '',
+        value: dataBanks?.customerId ?? '',
+        readonly: false,
+        options: customers.map(customer => ({
+          label: customer.firstName + ' ' + customer.lastName + ' - ' + customer.documentNumber,
+          value: customer.onePayId,
+          logo: null
+        })),
+      },
+      {
+        type: 'checkbox',
+        name: 'reEnrrollment',
+        label: 'Reinscripción',
+        value: dataBanks?.reEnrrollment ?? false,
+        readonly: false,
+      },
+        {
+        type: 'checkbox',
+        name: 'authorization',
+        label: 'Autoriza debitos automaticos',
+        value: dataBanks?.authorization ?? false,
         readonly: false,
       }
+     
     ]
   };
 }

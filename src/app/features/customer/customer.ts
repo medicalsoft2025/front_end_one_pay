@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb';
 import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
@@ -6,6 +6,9 @@ import { ModalComponent } from '../../shared/components/modals/modal-customer/mo
 import { CUSTOMER_TABLE_COLUMNS, CUSTOMER_TABLE_ACTIONS } from './customer.table.config';
 import { buildCustomerFormConfig } from './customer.form.config';
 import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynamic-form";
+import { CustomerService } from './customer.service';
+import { CustomerModel } from '../../core/models/customerModel';
+
 
 @Component({
   selector: 'app-customer',
@@ -14,20 +17,36 @@ import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynam
   templateUrl: './customer.html',
   styleUrl: './customer.scss',
 })
-export class CustomerComponent {
-  breadcrumbItems = [{ label: 'Dashboard', url: '/dashboard' }, { label: 'Clientes' }];
+export class CustomerComponent implements OnInit {
+    breadcrumbItems = [
+    { label: 'Dashboard', url: '/dashboard' },
+    { label: 'Clientes' }
+  ];
   showCustomerModal = false;
 
-  data = [];
+  data: CustomerModel[] = [];
+
+  columns = CUSTOMER_TABLE_COLUMNS;
+
+  actions = CUSTOMER_TABLE_ACTIONS;
+
+  customerFormConfig = buildCustomerFormConfig();
+
+  constructor(private customerService: CustomerService) {}
+
+  ngOnInit(): void {
+    this.loadCustomers();
+  }
+
+  loadCustomers(): void {
+    this.customerService.getCustomers().subscribe((customers) => {
+      this.data = customers;
+    });
+  }
 
   onTableAction(evt: any) {
     console.log('ACTION:', evt);
   }
-
-  columns = CUSTOMER_TABLE_COLUMNS;
-  actions = CUSTOMER_TABLE_ACTIONS;
-
-  customerFormConfig = buildCustomerFormConfig();
 
   openModal() {
     this.customerFormConfig = buildCustomerFormConfig(); // NEW

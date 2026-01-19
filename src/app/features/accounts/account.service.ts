@@ -8,6 +8,7 @@ import { AccountModel } from '../../core/models/AccountModel';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
+  
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
@@ -18,10 +19,20 @@ export class AccountService {
     );
   }
 
-  createAccount(account: AccountModel): Observable<AccountModel> {
-    return this.http.post<AccountModel>(`${this.apiUrl}${Endpoints.accounts.root}`, account).pipe(
-    );
-  }
+createAccount(account: AccountModel): Observable<AccountModel> {
+  const tenantId = sessionStorage.getItem('tenantId') || '';
+
+  const headers = {
+    'X-Tenant-Id': tenantId
+  };
+
+  return this.http.post<AccountModel>(
+    `${this.apiUrl}${Endpoints.accounts.root}`,
+    account,
+    { headers }
+  );
+}
+
 
   updateAccount(id: string, account: AccountModel): Observable<AccountModel> {
     return this.http.put<AccountModel>(`${this.apiUrl}${Endpoints.accounts.byId(id)}`, account).pipe(
