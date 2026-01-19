@@ -8,7 +8,9 @@ import { buildCustomerFormConfig } from './customer.form.config';
 import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynamic-form";
 import { CustomerService } from './customer.service';
 import { CustomerModel } from '../../core/models/customerModel';
-
+import { FormSubmitEvent } from '../../shared/components/dynamic-form/dynamic-form.types';
+import { PhoneFormatPipe } from '../../core/pipes/phone-format.pipe';
+import { ToastService } from '../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-customer',
@@ -32,7 +34,7 @@ export class CustomerComponent implements OnInit {
 
   customerFormConfig = buildCustomerFormConfig();
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private customerService: CustomerService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.loadCustomers();
@@ -57,8 +59,37 @@ export class CustomerComponent implements OnInit {
     this.showCustomerModal = false;
   }
 
-  onSubmit(data: any) {
-    console.log('DATA:', data);
-    this.closeModal();
-  }
+onFormSubmit(event: FormSubmitEvent) {
+  const phonePipe = new PhoneFormatPipe();
+  if (!event.isValid) return;
+
+  const form = event.formValue as Partial<CustomerModel>;
+
+  const payload: Partial<CustomerModel> = {
+    birthdate: form.birthdate,
+    documentNumber: form.documentNumber,
+    documentType: form.documentType,
+    email: form.email,
+    firstName: form.firstName,
+    lastName: form.lastName,
+    nationality: form.nationality ?? 'CO',
+    phoneNumber: phonePipe.transform(form.phoneNumber ?? ''),
+    customerType: form.customerType,
+    enableNotifications: form.enableNotifications ?? false,
+  };
+
+  this.customerService.createCustomer(payload as CustomerModel).subscribe({
+    next: () => {
+      this.toastService.show('Cliente creado con éxito!', 'success');
+      this.closeModal();
+      this.loadCustomers();
+    },
+    error: (err) => {
+      console.error(err);
+      this.toastService.show('Error creando cliente', 'error');
+    },
+  });
+}
+
+
 }

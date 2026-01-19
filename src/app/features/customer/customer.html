@@ -30,7 +30,7 @@
   <!-- CONTENIDO DINÁMICO -->
   <app-dynamic-form
     [config]="customerFormConfig"
-    (onSubmit)="onSubmit($event)"
+    (onSubmit)="onFormSubmit($event)" 
     (onCancel)="closeModal()"
   ></app-dynamic-form>
 </app-modal>

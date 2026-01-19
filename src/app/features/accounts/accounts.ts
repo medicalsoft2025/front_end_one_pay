@@ -114,7 +114,6 @@ onFormSubmit(event: FormSubmitEvent): void {
       this.closeForm();
     });
   } else {
-    console.log('Creating account with payload:', payload);
     this.accountService.createAccount(payload as any).subscribe(() => {
       this.loadAccounts();
       this.closeForm();
