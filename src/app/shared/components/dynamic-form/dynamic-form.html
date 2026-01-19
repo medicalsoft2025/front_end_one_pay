@@ -56,27 +56,39 @@
         </ng-container>
 
         <!-- Select -->
-     <ng-container *ngIf="field.type === 'select'">
+<ng-container *ngIf="field.type === 'select'">
   <label [for]="field.name" class="form-label">
     {{ field.label }}
     <span class="required" *ngIf="field.required">*</span>
   </label>
 
-  <select
-    [id]="field.name"
-    [formControlName]="field.name"
-    [class.form-input]="true"
-    [class.is-invalid]="
-      form.get(field.name)?.invalid && (form.get(field.name)?.dirty || submitted)
-    "
-    [disabled]="field.disabled || false"
+  <div
+    class="custom-select-container"
+    [class.disabled]="field.disabled"
+    (click)="toggleDropdown(field.name)"
   >
-    <option value="" disabled selected>
-      {{ field.placeholder || `Selecciona ${field.label.toLowerCase()}` }}
-    </option>
+    <!-- Opción seleccionada -->
+    <div class="selected-option">
+      <img
+        *ngIf="getSelectedOption(field.name, field.options ?? [])?.logo"
+        [src]="getSelectedOption(field.name, field.options ?? [])?.logo"
+        width="20"
+        height="20"
+        style="margin-right: 5px; vertical-align: middle;"
+        alt="{{ getSelectedOption(field.name, field.options ?? [])?.label }}"
+      />
+      <span>
+        {{ getSelectedOption(field.name, field.options ?? [])?.label || field.placeholder || 'Selecciona' }}
+      </span>
+    </div>
 
-    <option *ngFor="let option of field.options" [value]="option.value">
-      <span class="option-content">
+    <!-- Dropdown de opciones -->
+    <div class="options-dropdown" *ngIf="isDropdownOpen(field.name)">
+      <div
+        class="option-item"
+        *ngFor="let option of field.options"
+        (click)="selectOption(field.name, option, $event)"
+      >
         <img
           *ngIf="option.logo"
           [src]="option.logo"
@@ -86,9 +98,9 @@
           alt="{{ option.label }}"
         />
         {{ option.label }}
-      </span>
-    </option>
-  </select>
+      </div>
+    </div>
+  </div>
 
   <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
     {{ field.helpText }}
@@ -97,6 +109,7 @@
     {{ getFieldError(field.name) }}
   </small>
 </ng-container>
+
 
 
         <!-- Checkbox -->

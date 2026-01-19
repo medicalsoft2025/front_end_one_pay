@@ -60,6 +60,7 @@ export class AccountsComponent implements OnInit {
   loadBanks(): void {
     this.bankService.getBanks().subscribe((banks) => {
       this.banks = banks;
+      console.log('Bancos cargados:', this.banks);
     });
   }
 

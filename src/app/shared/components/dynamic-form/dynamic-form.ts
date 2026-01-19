@@ -18,6 +18,9 @@ export class DynamicFormComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
 
+  // Estado de dropdowns abiertos para selects personalizados
+  dropdownStates: { [key: string]: boolean } = {};
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -30,37 +33,14 @@ export class DynamicFormComponent implements OnInit {
     this.config.fields.forEach((field) => {
       const validators = [];
 
-      if (field.required) {
-        validators.push(Validators.required);
-      }
-
-      if (field.minLength) {
-        validators.push(Validators.minLength(field.minLength));
-      }
-
-      if (field.maxLength) {
-        validators.push(Validators.maxLength(field.maxLength));
-      }
-
-      if (field.min !== undefined) {
-        validators.push(Validators.min(field.min));
-      }
-
-      if (field.max !== undefined) {
-        validators.push(Validators.max(field.max));
-      }
-
-      if (field.type === 'email') {
-        validators.push(Validators.email);
-      }
-
-      if (field.type === 'url') {
-        validators.push(Validators.pattern(/^https?:\/\/.+/));
-      }
-
-      if (field.pattern) {
-        validators.push(Validators.pattern(field.pattern));
-      }
+      if (field.required) validators.push(Validators.required);
+      if (field.minLength) validators.push(Validators.minLength(field.minLength));
+      if (field.maxLength) validators.push(Validators.maxLength(field.maxLength));
+      if (field.min !== undefined) validators.push(Validators.min(field.min));
+      if (field.max !== undefined) validators.push(Validators.max(field.max));
+      if (field.type === 'email') validators.push(Validators.email);
+      if (field.type === 'url') validators.push(Validators.pattern(/^https?:\/\/.+/));
+      if (field.pattern) validators.push(Validators.pattern(field.pattern));
 
       groupConfig[field.name] = [
         { value: field.value || '', disabled: field.disabled || field.readonly },
@@ -73,33 +53,17 @@ export class DynamicFormComponent implements OnInit {
 
   getFieldError(fieldName: string): string {
     const control = this.form.get(fieldName);
-    if (!control || !control.errors || !this.submitted) {
-      return '';
-    }
+    if (!control || !control.errors || !this.submitted) return '';
 
     const field = this.config.fields.find((f) => f.name === fieldName);
 
-    if (control.hasError('required')) {
-      return `${field?.label} es requerido`;
-    }
-    if (control.hasError('minlength')) {
-      return `${field?.label} debe tener al menos ${control.errors['minlength'].requiredLength} caracteres`;
-    }
-    if (control.hasError('maxlength')) {
-      return `${field?.label} no puede exceder ${control.errors['maxlength'].requiredLength} caracteres`;
-    }
-    if (control.hasError('email')) {
-      return `${field?.label} debe ser un email válido`;
-    }
-    if (control.hasError('min')) {
-      return `${field?.label} debe ser mayor a ${control.errors['min'].min}`;
-    }
-    if (control.hasError('max')) {
-      return `${field?.label} debe ser menor a ${control.errors['max'].max}`;
-    }
-    if (control.hasError('pattern')) {
-      return field?.errorMessage || `${field?.label} no tiene un formato válido`;
-    }
+    if (control.hasError('required')) return `${field?.label} es requerido`;
+    if (control.hasError('minlength')) return `${field?.label} debe tener al menos ${control.errors['minlength'].requiredLength} caracteres`;
+    if (control.hasError('maxlength')) return `${field?.label} no puede exceder ${control.errors['maxlength'].requiredLength} caracteres`;
+    if (control.hasError('email')) return `${field?.label} debe ser un email válido`;
+    if (control.hasError('min')) return `${field?.label} debe ser mayor a ${control.errors['min'].min}`;
+    if (control.hasError('max')) return `${field?.label} debe ser menor a ${control.errors['max'].max}`;
+    if (control.hasError('pattern')) return field?.errorMessage || `${field?.label} no tiene un formato válido`;
 
     return '';
   }
@@ -108,18 +72,12 @@ export class DynamicFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid) {
-      const formValue = this.form.getRawValue();
-      this.onSubmit.emit({
-        formValue,
-        isValid: true,
-      });
+      this.onSubmit.emit({ formValue: this.form.getRawValue(), isValid: true });
     } else {
       const errors: { [key: string]: string } = {};
       Object.keys(this.form.controls).forEach((key) => {
         const error = this.getFieldError(key);
-        if (error) {
-          errors[key] = error;
-        }
+        if (error) errors[key] = error;
       });
 
       this.onSubmit.emit({
@@ -154,5 +112,31 @@ export class DynamicFormComponent implements OnInit {
       textarea: 'textarea',
     };
     return typeMap[type];
+  }
+
+  // ================================
+  // Métodos para Select con Logo
+  // ================================
+
+  toggleDropdown(fieldName: string): void {
+    this.dropdownStates[fieldName] = !this.dropdownStates[fieldName];
+  }
+
+  isDropdownOpen(fieldName: string): boolean {
+    return this.dropdownStates[fieldName] || false;
+  }
+
+  selectOption(fieldName: string, option: any, event: MouseEvent): void {
+    event.stopPropagation();
+    const control = this.form.get(fieldName);
+    if (control) {
+      control.setValue(option.value);
+      this.dropdownStates[fieldName] = false;
+    }
+  }
+
+  getSelectedOption(fieldName: string, options: any[]): any {
+    const control = this.form.get(fieldName);
+    return options.find(opt => opt.value === control?.value);
   }
 }
