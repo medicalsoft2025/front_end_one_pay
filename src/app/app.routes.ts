@@ -19,15 +19,20 @@ export const routes: Routes = [
     component: ConfigComponent
   },
   {
-    path: 'customers',
-    component: CustomerComponent,
-  },
-  {
-    path: 'payments',
-    component: PaymentsComponent,
-  },
-    {
-    path: 'accounts',
-    component: AccountsComponent,
+    path: 'gestion',
+    children: [
+      {
+        path: 'customers',
+        component: CustomerComponent,
+      },
+      {
+        path: 'payments',
+        component: PaymentsComponent,
+      },
+      {
+        path: 'accounts',
+        component: AccountsComponent,
+      },
+    ],
   }
 ];
