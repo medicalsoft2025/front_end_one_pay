@@ -48,18 +48,22 @@ a {
 
 // Botones base
 button {
-  font-family: inherit;
-  font-size: 1rem;
+  font-family: "Inter", sans-serif; 
+  font-size: 14px;                  
   cursor: pointer;
-  border: none;
-  background: none;
-  padding: 0;
+  border: 1px solid transparent;    
+  border-radius: 0.3rem;            
+  padding: 0.5rem 0.75rem;          
+  background: var(--primary);       
+  color: #ffffff;                  
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
 }
+
 
 // Imágenes responsivas
 img {
