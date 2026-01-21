@@ -2,8 +2,11 @@
 
 .wrap-customer {
   padding: $spacing-6;
-  max-width: 80%;
+  max-width: 90%;
+  box-shadow: $shadow-base;
+  background-color: red;
   margin: 0 auto;
+  background-color: var(--card);
 
   @include sm {
     padding: $spacing-4;

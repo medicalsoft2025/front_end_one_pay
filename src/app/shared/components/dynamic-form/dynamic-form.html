@@ -61,46 +61,12 @@
     {{ field.label }}
     <span class="required" *ngIf="field.required">*</span>
   </label>
-
-  <div
-    class="custom-select-container"
-    [class.disabled]="field.disabled"
-    (click)="toggleDropdown(field.name)"
-  >
-    <!-- Opción seleccionada -->
-    <div class="selected-option">
-      <img
-        *ngIf="getSelectedOption(field.name, field.options ?? [])?.logo"
-        [src]="getSelectedOption(field.name, field.options ?? [])?.logo"
-        width="20"
-        height="20"
-        style="margin-right: 5px; vertical-align: middle;"
-        alt="{{ getSelectedOption(field.name, field.options ?? [])?.label }}"
-      />
-      <span>
-        {{ getSelectedOption(field.name, field.options ?? [])?.label || field.placeholder || 'Selecciona' }}
-      </span>
-    </div>
-
-    <!-- Dropdown de opciones -->
-    <div class="options-dropdown" *ngIf="isDropdownOpen(field.name)">
-      <div
-        class="option-item"
-        *ngFor="let option of field.options"
-        (click)="selectOption(field.name, option, $event)"
-      >
-        <img
-          *ngIf="option.logo"
-          [src]="option.logo"
-          width="20"
-          height="20"
-          style="margin-right: 5px; vertical-align: middle;"
-          alt="{{ option.label }}"
-        />
-        {{ option.label }}
-      </div>
-    </div>
-  </div>
+          <app-select-search
+            [formControlName]="field.name"
+            [options]="field.options || []"
+            [placeholder]="field.placeholder || 'Seleccione'"
+            [disabled]="field.disabled || false"
+          ></app-select-search>
 
   <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
     {{ field.helpText }}

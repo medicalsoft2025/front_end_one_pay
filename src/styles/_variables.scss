@@ -27,6 +27,7 @@ $font-size-lg: 1.125rem; // 18px
 $font-size-xl: 1.25rem; // 20px
 $font-size-2xl: 1.5rem; // 24px
 $font-size-3xl: 1.875rem; // 30px
+$font-size-label: 0.64rem;
 
 // Pesos de fuente
 $font-weight-light: 300;
@@ -47,6 +48,7 @@ $border-width: 1px;
 $border-width-thick: 2px;
 $border-width-thicker: 3px;
 
+$radius-input: 0.3125rem; // 5px
 $radius: 0.625rem; // 10px
 $radius-sm: calc(#{$radius} - 4px); // 6px
 $radius-md: calc(#{$radius} - 2px); // 8px

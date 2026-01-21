@@ -1,0 +1,60 @@
+<div class="select-search-container" [class.disabled]="disabled" [class.has-error]="!!errorMessage">
+  <label *ngIf="label" class="select-label">
+    {{ label }} <span *ngIf="required" class="required">*</span>
+  </label>
+
+  <div class="select-trigger" (click)="toggleDropdown()">
+    <span class="selected-value" [class.placeholder]="!selectedOption">
+      <ng-container *ngIf="selectedOption; else showPlaceholder">
+        <img *ngIf="selectedOption.logo" [src]="selectedOption.logo" class="option-logo" alt="">
+        {{ selectedOption.label }}
+      </ng-container>
+      <ng-template #showPlaceholder>{{ placeholder }}</ng-template>
+    </span>
+    <span *ngIf="selectedOption && !disabled" class="clear-icon" (click)="clearSelection($event)">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </span>
+    <span class="arrow-icon" [class.open]="isOpen">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+      </svg>
+    </span>
+  </div>
+
+  <div class="dropdown-menu" *ngIf="isOpen">
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterOptions()"
+        placeholder="Buscar..."
+        (click)="$event.stopPropagation()"
+        autofocus
+      >
+      <span class="search-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+      </span>
+    </div>
+    <ul class="options-list">
+      <li
+        *ngFor="let option of filteredOptions"
+        (click)="selectOption(option)"
+        [class.selected]="option.value === selectedOption?.value"
+      >
+        <img *ngIf="option.logo" [src]="option.logo" class="option-logo" alt="">
+        {{ option.label }}
+      </li>
+      <li *ngIf="filteredOptions.length === 0" class="no-results">
+        No se encontraron resultados
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>

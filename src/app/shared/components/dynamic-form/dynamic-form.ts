@@ -2,11 +2,13 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormConfig, FormField, FormSubmitEvent, FormFieldType } from './dynamic-form.types';
+import { SelectSearchComponent } from '../select-search/select-search';
+
 
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SelectSearchComponent],
   templateUrl: './dynamic-form.html',
   styleUrls: ['./dynamic-form.scss'],
 })
@@ -17,9 +19,6 @@ export class DynamicFormComponent implements OnInit {
 
   form!: FormGroup;
   submitted = false;
-
-  // Estado de dropdowns abiertos para selects personalizados
-  dropdownStates: { [key: string]: boolean } = {};
 
   constructor(private fb: FormBuilder) {}
 
@@ -113,31 +112,5 @@ export class DynamicFormComponent implements OnInit {
       hidden: 'hidden',
     };
     return typeMap[type];
-  }
-
-  // ================================
-  // Métodos para Select con Logo
-  // ================================
-
-  toggleDropdown(fieldName: string): void {
-    this.dropdownStates[fieldName] = !this.dropdownStates[fieldName];
-  }
-
-  isDropdownOpen(fieldName: string): boolean {
-    return this.dropdownStates[fieldName] || false;
-  }
-
-  selectOption(fieldName: string, option: any, event: MouseEvent): void {
-    event.stopPropagation();
-    const control = this.form.get(fieldName);
-    if (control) {
-      control.setValue(option.value);
-      this.dropdownStates[fieldName] = false;
-    }
-  }
-
-  getSelectedOption(fieldName: string, options: any[]): any {
-    const control = this.form.get(fieldName);
-    return options.find(opt => opt.value === control?.value);
   }
 }

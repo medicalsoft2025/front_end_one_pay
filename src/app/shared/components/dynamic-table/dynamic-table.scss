@@ -1,17 +1,89 @@
 // Importar variables y mixins del proyecto
 @use 'styles' as *;
 
+.table-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: $spacing-4;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.export-buttons {
+  display: flex;
+  gap: $spacing-2;
+  
+}
+
+.search-wrapper {
+  position: relative;
+  margin-left: auto;
+  max-width: 100%;
+
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  font-size: 1.1rem;
+}
+
+.search-input {
+  width: 25%;
+  min-width: 25%;
+  max-width: 25%;
+  height: 36px;
+  padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: $radius;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: $font-size-sm;
+  transition: all 0.2s ease;
+  margin-left: auto;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-light, rgba(0, 0, 0, 0.1));
+  }
+}
+
+/* 📱 Responsive */
+@include sm {
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
+
+
 .btn-export {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  
 
   min-width: 110px;
   height: 36px;
 
   padding: 0 12px 0;
-  margin-bottom: $spacing-6;
+  margin-bottom: 0;
   font-size: 0.875rem;
   border-radius: 6px;
 
@@ -75,7 +147,7 @@
   }
 
   .table-title {
-    font-size: $font-size-xl;
+    font-size: large;
     font-weight: $font-weight-semibold;
     color: var(--foreground);
     margin: 0;
@@ -87,7 +159,7 @@
   }
 
   .export-buttons {
-    display: flex;
+    display: flex-end;
     gap: $spacing-3;
   }
 }
@@ -104,6 +176,7 @@
   color: var(--foreground);
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: $font-size-lg;
 
   &:hover {
     background: var(--primary);
@@ -167,7 +240,7 @@
 .dynamic-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: $font-size-sm;
+  font-size: $font-size-lg;
   opacity: 1;
   transition: opacity 0.2s ease;
 
@@ -192,10 +265,15 @@
     font-size: $font-size-xs;
     letter-spacing: 0.5px;
     min-width: 120px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:last-child {
+      border-right: none;
+    }
 
     @include sm {
       padding: $spacing-3 $spacing-4;
-      font-size: 0.75rem;
+      font-size: $font-size-lg;
     }
   }
 
@@ -266,7 +344,8 @@
 
     @include sm {
       padding: $spacing-3 $spacing-4;
-      font-size: $font-size-xs;
+      font-size: $font-size-lg;
+      color: var(--text-primary);
     }
   }
 }
@@ -288,13 +367,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: $spacing-4;
-  padding: $spacing-6;
-  border-top: $border-width solid var(--border-color);
-  background: var(--secondary-bg, rgba(0, 0, 0, 0.01));
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--background);
   flex-wrap: wrap;
+  border-bottom-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+  min-height: 60px;
 
-  @include md {
+  @include sm {
     flex-wrap: nowrap;
     padding: $spacing-4;
   }
@@ -310,47 +392,67 @@
 
 .page-buttons {
   display: flex;
-  gap: $spacing-2;
+  gap: 0.25rem;
+  align-items: center;
 
   @include sm {
-    gap: $spacing-1;
+    gap: 0.25rem;
     order: 3;
-    width: 100%;
-    margin-top: $spacing-2;
+    width: auto;
+    margin-top: 0;
   }
 }
 
 .btn-pagination {
-  padding: $spacing-2 $spacing-4;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
-  border: $border-width solid var(--border-color);
-  border-radius: calc($radius / 2);
-  background: var(--background);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
   color: var(--foreground);
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-    transform: translateY(-1px);
+    background: var(--hover-color, rgba(0, 0, 0, 0.05));
+    color: var(--foreground);
+    transform: none;
   }
 
   &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    opacity: 0.6;
+    cursor: default;
   }
 
   &.btn-page {
-    min-width: 40px;
+    min-width: 2.5rem;
 
     &.active {
       background: var(--primary);
       color: white;
-      border-color: var(--primary);
-      font-weight: $font-weight-semibold;
+      font-weight: 700;
     }
+  }
+}
+
+@include sm {
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .export-buttons {
+    justify-content: flex-end;
   }
 }

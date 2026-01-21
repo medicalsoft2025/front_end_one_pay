@@ -1,27 +1,39 @@
-<div class="export-buttons">
-  <button
-    class="btn btn-export btn-pdf"
-    (click)="exportToPDF()"
-    title="Exportar a PDF"
-  >
-    <ng-icon
-      name="heroDocumentArrowDown"
-      class="icon"
-    ></ng-icon>
-    PDF
-  </button>
+<div class="table-controls">
+  <div class="export-buttons">
+    <button
+      class="btn btn-export btn-pdf"
+      (click)="exportToPDF()"
+      title="Exportar a PDF"
+    >
+      <ng-icon
+        name="heroDocumentArrowDown"
+        class="icon"
+      ></ng-icon>
+      PDF
+    </button>
 
-  <button
-    class="btn btn-export btn-excel"
-    (click)="exportToExcel()"
-    title="Exportar a Excel"
-  >
-    <ng-icon
-      name="heroTableCells"
-      class="icon"
-    ></ng-icon>
-    Excel
-  </button>
+    <button
+      class="btn btn-export btn-excel"
+      (click)="exportToExcel()"
+      title="Exportar a Excel"
+    >
+      <ng-icon
+        name="heroTableCells"
+        class="icon"
+      ></ng-icon>
+      Excel
+    </button>
+  </div>
+
+  <div class="search-wrapper">
+    <ng-icon name="heroMagnifyingGlass" class="search-icon"></ng-icon>
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar..."
+      (input)="onSearch($event)"
+    />
+  </div>
 </div>
 
 
@@ -80,15 +92,21 @@
   <div *ngIf="totalPages > 1" class="pagination">
     <button
       class="btn btn-pagination"
-      (click)="previousPage()"
+      (click)="goToPage(1)"
       [disabled]="currentPage === 1"
+      title="Primera página"
     >
-      ← Anterior
+      &laquo;
     </button>
 
-    <div class="page-info">
-      Página {{ currentPage }} de {{ totalPages }}
-    </div>
+    <button
+      class="btn btn-pagination"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+      title="Anterior"
+    >
+      &lsaquo;
+    </button>
 
     <div class="page-buttons">
       <button
@@ -105,7 +123,21 @@
       class="btn btn-pagination"
       (click)="nextPage()"
       [disabled]="currentPage === totalPages"
+      title="Siguiente"
     >
-      Siguiente →
+      &rsaquo;
     </button>
+
+    <button
+      class="btn btn-pagination"
+      (click)="goToPage(totalPages)"
+      [disabled]="currentPage === totalPages"
+      title="Última página"
+    >
+      &raquo;
+    </button>
+
+    <div class="page-info">
+      Página {{ currentPage }} de {{ totalPages }}
+    </div>
   </div>

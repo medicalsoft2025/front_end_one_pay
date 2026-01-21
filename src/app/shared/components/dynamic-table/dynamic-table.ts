@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { heroDocumentArrowDown, heroTableCells } from '@ng-icons/heroicons/outline';
+import { heroDocumentArrowDown, heroTableCells, heroMagnifyingGlass } from '@ng-icons/heroicons/outline';
 
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -12,7 +12,7 @@ import { NgIconsModule, provideIcons } from '@ng-icons/core';
   selector: 'app-dynamic-table',
   standalone: true,
   imports: [CommonModule, ActionDropdownComponent, NgIconsModule],
-  providers: [provideIcons({ heroDocumentArrowDown, heroTableCells })],
+  providers: [provideIcons({ heroDocumentArrowDown, heroTableCells, heroMagnifyingGlass })],
   templateUrl: './dynamic-table.html',
   styleUrl: './dynamic-table.scss',
 })
@@ -33,6 +33,7 @@ export class DynamicTableComponent {
   @Input()
   set data(value: any[] | null) {
     this._data = value ?? [];
+    this.filteredData = [...this._data];
     this.currentPage = 1;
     this.updatePagination();
   }
@@ -41,6 +42,7 @@ export class DynamicTableComponent {
     return this._data;
   }
 
+  filteredData: any[] = [];
   displayedData: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
@@ -52,14 +54,14 @@ export class DynamicTableComponent {
   ======================= */
 
   updatePagination() {
-    this.totalPages = Math.max(Math.ceil(this.data.length / this.pageSize), 1);
+    this.totalPages = Math.max(Math.ceil(this.filteredData.length / this.pageSize), 1);
     this.updateDisplayedData();
   }
 
   updateDisplayedData() {
     const startIdx = (this.currentPage - 1) * this.pageSize;
     const endIdx = startIdx + this.pageSize;
-    this.displayedData = this.data.slice(startIdx, endIdx);
+    this.displayedData = this.filteredData.slice(startIdx, endIdx);
   }
 
   goToPage(page: number) {
@@ -91,16 +93,42 @@ export class DynamicTableComponent {
       this.sortDirection = 'asc';
     }
 
-    this.data.sort((a, b) => {
+    const sortFn = (a: any, b: any) => {
       const aVal = a[column.key];
       const bVal = b[column.key];
 
       if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
       if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
-    });
+    };
+
+    this.data.sort(sortFn);
+    this.filteredData.sort(sortFn);
 
     this.updateDisplayedData();
+  }
+
+  /* =======================
+     BUSQUEDA
+  ======================= */
+
+  onSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const searchTerm = target.value.toLowerCase().trim();
+
+    if (!searchTerm) {
+      this.filteredData = [...this.data];
+    } else {
+      this.filteredData = this.data.filter((row) => {
+        return this.columns.some((col) => {
+          const val = this.getCellValue(row, col);
+          return String(val).toLowerCase().includes(searchTerm);
+        });
+      });
+    }
+
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   /* =======================
