@@ -1,78 +1,114 @@
 @use 'styles' as *;
 
 .breadcrumb {
-  background-color: rgba(0, 0, 0, 0.02);
-  border-radius: $radius;
-  box-shadow: $shadow-lg;
-  display: flex;
-  gap: 1rem;
-  max-width: 1200px;
-  margin: 2rem auto;
+  font-size: 0.9rem;
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.01em;
+  padding: $spacing-4 $spacing-6;
+  margin: $spacing-4 auto $spacing-6;
+  max-width: 90%;
+
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  box-shadow:
+    0 4px 24px -2px rgba(0, 0, 0, 0.08),
+    0 2px 8px -1px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      transparent 100%
+    );
+  }
 }
 
 .breadcrumb-list {
   display: flex;
+  align-items: center;
+  gap: $spacing-2;
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: $spacing-2;
   flex-wrap: wrap;
-  align-items: center;
-  font-size: $font-size-2xl;
 }
 
 .breadcrumb-item {
   display: flex;
   align-items: center;
   gap: $spacing-2;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  font-size: $font-size-base;
 
-  &:last-child .breadcrumb-separator {
-    display: none;
+  &:hover {
+    color: rgba(30, 41, 59, 1);
+    transform: translateY(-1px);
   }
 }
 
 .breadcrumb-link {
-  color: var(--primary);
+  position: relative;
   text-decoration: none;
-  transition: all 0.2s ease;
-  font-weight: $font-weight-medium;
+  color: inherit;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-base;
 
-  &:hover {
-    color: var(--primary);
-    opacity: 0.8;
-    text-decoration: underline;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #1A99FB, #29F6C1);
+    transition: width 0.3s ease;
   }
 
-  &:active {
-    opacity: 0.6;
+  &:hover::after {
+    width: 100%;
   }
 }
 
 .breadcrumb-text {
-  color: var(--foreground);
   font-weight: $font-weight-medium;
+  color: var(--primary);
 }
 
 .breadcrumb-separator {
-  color: var(--border-color);
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 2.1em;
   margin: 0 $spacing-1;
 }
 
+
+ 
+
+/*  Responsive */
 @include sm {
   .breadcrumb {
-    padding: $spacing-2 0;
-    font-size: $font-size-xs;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
   }
 
   .breadcrumb-list {
     gap: $spacing-1;
-  }
-
-  .breadcrumb-item {
-    gap: $spacing-1;
-  }
-
-  .breadcrumb-separator {
-    margin: 0;
   }
 }

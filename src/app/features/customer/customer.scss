@@ -9,3 +9,13 @@
     padding: $spacing-4;
   }
 }
+
+.customer-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-new-customer {
+  align-self: flex-end; // 👉 lo manda a la derecha
+  margin-bottom: 50px;
+}
