@@ -4,14 +4,14 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { DynamicFormConfig, FormField, FormSubmitEvent, FormFieldType } from './dynamic-form.types';
 import { SelectSearchComponent } from '../select-search/select-search';
 import { NgIconsModule, provideIcons } from '@ng-icons/core';
-import { heroEye, heroEyeSlash } from '@ng-icons/heroicons/outline';
+import { heroEye, heroEyeSlash, heroInformationCircle } from '@ng-icons/heroicons/outline';
 
 
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, SelectSearchComponent, NgIconsModule],
-  providers: [provideIcons({ heroEye, heroEyeSlash })],
+  providers: [provideIcons({ heroEye, heroEyeSlash, heroInformationCircle })],
   templateUrl: './dynamic-form.html',
   styleUrls: ['./dynamic-form.scss'],
 })
@@ -136,5 +136,38 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   isPasswordVisible(fieldName: string): boolean {
     return !!this.passwordVisibility[fieldName];
+  }
+
+  getPasswordStrength(password: any): { width: number; label: string; color: string } {
+    const pass = password ? String(password) : '';
+    if (!pass) return { width: 0, label: '', color: 'transparent' };
+
+    let score = 0;
+    if (pass.length >= 8) score++;
+    if (pass.length >= 10) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+
+    if (score > 4) score = 4;
+
+    const levels = [
+      { label: 'Muy débil', color: '#ef4444' }, // Rojo
+      { label: 'Débil', color: '#ef4444' },     // Rojo
+      { label: 'Regular', color: '#f59e0b' },   // Naranja
+      { label: 'Buena', color: '#3b82f6' },     // Azul
+      { label: 'Fuerte', color: '#10b981' },    // Verde
+    ];
+
+    return { width: (score + 1) * 20, ...levels[score] };
+  }
+
+  getPasswordRequirements(password: any): { label: string; met: boolean }[] {
+    const pass = password ? String(password) : '';
+    return [
+      { label: 'Mínimo 7 caracteres', met: pass.length >= 7 },
+      { label: 'Una mayúscula', met: /[A-Z]/.test(pass) },
+      { label: 'Un carácter especial', met: /[\W_]/.test(pass) }
+    ];
   }
 }

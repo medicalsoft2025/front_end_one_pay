@@ -148,17 +148,26 @@ export class UsersComponent implements OnInit {
   onFormSubmit(event: FormSubmitEvent): void {
     if (!event.isValid) return;
 
-    this.loading = true;
     const formValue = event.formValue;
 
+    if (formValue['password'] !== formValue['confirmPassword']) {
+      this.toastService.show('Las contraseñas no coinciden', 'error');
+      return;
+    }
+
+    this.loading = true;
+
+    // Excluir confirmPassword del payload
+    const { confirmPassword, ...cleanFormValue } = formValue;
+
     const fullName = [
-      formValue['firstName'],
-      formValue['secondName'],
-      formValue['firstLastName'],
-      formValue['secondLastName']
+      cleanFormValue['firstName'],
+      cleanFormValue['secondName'],
+      cleanFormValue['firstLastName'],
+      cleanFormValue['secondLastName']
     ].filter(Boolean).join(' ');
 
-    const payload = { ...formValue, fullName };
+    const payload = { ...cleanFormValue, fullName };
 
     if (this.currentUserId) {
       this.usersService.updateUser(this.currentUserId, payload).subscribe({

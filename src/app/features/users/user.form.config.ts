@@ -65,14 +65,7 @@ export function buildUsersFormConfig(
         label: 'Segundo apellido',
         value: secondLastName,
       },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Correo electrónico',
-        value: data?.email || '',
-        validators: ['required', 'email'],
-      },
-      {
+       {
         type: 'password',
         name: 'password',
         label: 'Contraseña',
@@ -82,6 +75,22 @@ export function buildUsersFormConfig(
         pattern: '(?=.*[A-Z])(?=.*[\\W_]).*',
         errorMessage: 'Mínimo 7 caracteres, una mayúscula y un carácter especial',
       },
+      {
+        type: 'password',
+        name: 'confirmPassword',
+        label: 'Confirmar contraseña',
+        value: '',
+        required: !data,
+      },
+    
+       {
+        type: 'email',
+        name: 'email',
+        label: 'Correo electrónico',
+        value: data?.email || '',
+        validators: ['required', 'email'],
+      },
+      
       {
         type: 'select',
         name: 'roleId',

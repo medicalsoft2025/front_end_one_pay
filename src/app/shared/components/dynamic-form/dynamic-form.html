@@ -32,6 +32,17 @@
           <label [for]="field.name" class="form-label">
             {{ field.label }}
             <span class="required" *ngIf="field.required">*</span>
+            
+            <div class="tooltip-container">
+              <ng-icon name="heroInformationCircle" size="1rem" class="info-icon"></ng-icon>
+              <div class="tooltip-content">
+                <ul>
+                  <li *ngFor="let req of getPasswordRequirements(form.get(field.name)?.value)" [class.met]="req.met">
+                    <span class="icon">{{ req.met ? '✓' : '○' }}</span> {{ req.label }}
+                  </li>
+                </ul>
+              </div>
+            </div>
           </label>
           <div class="password-wrapper">
             <input
@@ -47,6 +58,19 @@
               <ng-icon [name]="isPasswordVisible(field.name) ? 'heroEyeSlash' : 'heroEye'" size="1.2rem"></ng-icon>
             </button>
           </div>
+
+          <div class="password-strength" *ngIf="form.get(field.name)?.value">
+            <div class="strength-bar">
+              <div class="strength-fill"
+                   [style.width.%]="getPasswordStrength(form.get(field.name)?.value).width"
+                   [style.background-color]="getPasswordStrength(form.get(field.name)?.value).color">
+              </div>
+            </div>
+            <span class="strength-label" [style.color]="getPasswordStrength(form.get(field.name)?.value).color">
+              {{ getPasswordStrength(form.get(field.name)?.value).label }}
+            </span>
+          </div>
+
           <small class="help-text" *ngIf="field.helpText && !getFieldError(field.name)">
             {{ field.helpText }}
           </small>
