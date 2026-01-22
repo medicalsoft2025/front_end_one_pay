@@ -1,0 +1,23 @@
+<div class="modal-backdrop" *ngIf="show" (click)="onClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="icon-wrapper" [ngClass]="iconClass">
+        <ng-icon [name]="iconName" size="3rem" strokeWidth="1.5"></ng-icon>
+      </div>
+      <h3 class="modal-title">{{ title }}</h3>
+    </div>
+    
+    <div class="modal-body">
+      <p>{{ message }}</p>
+    </div>
+
+    <div class="modal-footer">
+      <button *ngIf="type === 'confirm'" class="btn btn-secondary" (click)="onClose()">
+        {{ cancelText }}
+      </button>
+      <button class="btn" [ngClass]="type === 'error' ? 'btn-danger' : 'btn-primary'" (click)="type === 'confirm' ? onConfirm() : onClose()">
+        {{ confirmText }}
+      </button>
+    </div>
+  </div>
+</div>

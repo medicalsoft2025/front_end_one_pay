@@ -1,0 +1,100 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 90%;
+  max-width: 400px;
+  padding: 2rem;
+  text-align: center;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+  margin-bottom: 1rem;
+
+  .icon-wrapper {
+    margin-bottom: 1rem;
+    display: inline-flex;
+    padding: 0.75rem;
+    border-radius: 50%;
+    
+    &.icon-success { color: #16a34a; background-color: #dcfce7; }
+    &.icon-error { color: #dc2626; background-color: #fee2e2; }
+    &.icon-warning { color: #ca8a04; background-color: #fef9c3; }
+    &.icon-info { color: #2563eb; background-color: #dbeafe; }
+    &.icon-confirm { color: #4f46e5; background-color: #e0e7ff; }
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.modal-body {
+  margin-bottom: 2rem;
+  
+  p {
+    color: #6b7280;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  min-width: 100px;
+
+  &.btn-primary {
+    background-color: var(--primary, #2563eb);
+    color: white;
+    &:hover { opacity: 0.9; transform: translateY(-1px); }
+  }
+
+  &.btn-danger {
+    background-color: #dc2626;
+    color: white;
+    &:hover { opacity: 0.9; transform: translateY(-1px); }
+  }
+
+  &.btn-secondary {
+    background-color: white;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    &:hover { background-color: #f9fafb; }
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

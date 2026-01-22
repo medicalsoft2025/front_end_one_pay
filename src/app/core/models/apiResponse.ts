@@ -21,3 +21,11 @@ export interface PagedResponse<T> {
   totalPages: number;
   timestamp: string;
 }
+
+export interface ApiError {
+status: number;
+message: string;
+timestamp: string;
+error: string;
+path: string;
+}

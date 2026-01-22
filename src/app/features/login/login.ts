@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service';
+import { ModalService } from '../../shared/components/modals/modal.service';
 
 @Component({
   selector: 'app-login',
@@ -19,24 +20,29 @@ export class LoginComponent {
   isLoading = false;
   showPassword = false;
 
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(
+    private router: Router, 
+    private loginService: LoginService,
+    private modalService: ModalService
+  ) { }
 
   onLogin() {
     if (this.credentials.username && this.credentials.password) {
       this.isLoading = true;
-      
-      this.loginService.postLogin({ 
-        email: this.credentials.username, 
-        password: this.credentials.password 
+
+      this.loginService.postLogin({
+        email: this.credentials.username,
+        password: this.credentials.password
       }).subscribe({
         next: () => {
           this.isLoading = false;
-          this.router.navigate(['/dashboard']);
+          this.modalService.success('Éxito', 'Bienvenido a MedicalPay').then(() => {
+            this.router.navigate(['/dashboard']);
+          });
         },
         error: (error) => {
           this.isLoading = false;
           console.error('Error en login:', error);
-          // Aquí podrías mostrar un mensaje de error al usuario (ej. ToastService)
         }
       });
     }

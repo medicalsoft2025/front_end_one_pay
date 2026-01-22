@@ -26,10 +26,26 @@ import { TenantService } from '../../../features/dashboard/tenant.service';
 })
 export class NavBar {
 
-   constructor(private tenantService: TenantService) { }
-
   isMenuOpen = false;
   isGestionMenuOpen = false;
+
+  userName: string = '';
+  userRole: string = '';
+
+  constructor(private tenantService: TenantService) { }
+
+  ngOnInit(): void {
+    const userString = sessionStorage.getItem('user');
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        this.userName = user.fullName;       
+        this.userRole = user.role.name;     
+      } catch (err) {
+        console.error('Error parsing user from sessionStorage', err);
+      }
+    }
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -45,6 +61,4 @@ export class NavBar {
   }
 
   tenant$!: Observable<TenantModel>;
-
-
 }
