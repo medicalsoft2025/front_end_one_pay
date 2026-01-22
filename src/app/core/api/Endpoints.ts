@@ -25,5 +25,8 @@ export const Endpoints = {
     byId: (id: string) => `/one-pay/accounts/${id}`,
     all: '/one-pay/accounts/all',
     
+  },
+  login: {
+    root: '/one-pay/auth/login',
   }
 };

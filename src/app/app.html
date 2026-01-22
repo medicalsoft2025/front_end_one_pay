@@ -1,5 +1,7 @@
-<app-nav-bar />
+<app-nav-bar *ngIf="showNavbar"></app-nav-bar>
+
 <app-toast></app-toast>
+
 <main class="main">
+  <router-outlet></router-outlet>
 </main>
-<router-outlet />

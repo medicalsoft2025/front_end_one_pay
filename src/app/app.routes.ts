@@ -4,15 +4,18 @@ import { ConfigComponent } from './features/config/config';
 import { CustomerComponent } from './features/customer/customer';
 import { PaymentsComponent } from './features/payments/payments';
 import { AccountsComponent } from './features/accounts/accounts';
+import { LoginComponent } from './features/login/login';
 
 export const routes: Routes = [
   {
     path: '',
-    component: Dashboard,
+    component: LoginComponent,
+    data: { showNavbar: false }
   },
   {
     path: 'dashboard',
     component: Dashboard,
+    data: { showNavbar: true }
   },
   {
     path: 'config',
