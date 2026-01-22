@@ -5,11 +5,9 @@ import { environment } from '../../../environment/environment.local';
 import { Endpoints } from '../../core/api/Endpoints';
 import { ApiResponse } from '../../core/models/apiResponse';
 import { getTenantId } from '../../shared/utils/getTenantId';
+import { PermissionModel } from '../../core/models/permissionModel';
+import { RoleModel } from '../../core/models/roleModel';
 
-export interface RoleModel {
-  id: string;
-  name: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +29,13 @@ export class RolesService {
   getRoleById(id: string): Observable<RoleModel> {
     const url = `${this.apiUrl}${Endpoints.roles.byId(id)}`;
     return this.http.get<ApiResponse<RoleModel>>(url).pipe(
+      map((response) => response.data),
+    );
+  }
+
+  getPermissions(): Observable<PermissionModel[]> {
+    const url = `${this.apiUrl}${Endpoints.roles.permissions}`;
+    return this.http.get<ApiResponse<PermissionModel[]>>(url).pipe(
       map((response) => response.data),
     );
   }

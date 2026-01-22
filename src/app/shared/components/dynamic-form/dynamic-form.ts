@@ -1,29 +1,40 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormConfig, FormField, FormSubmitEvent, FormFieldType } from './dynamic-form.types';
 import { SelectSearchComponent } from '../select-search/select-search';
+import { NgIconsModule, provideIcons } from '@ng-icons/core';
+import { heroEye, heroEyeSlash } from '@ng-icons/heroicons/outline';
 
 
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SelectSearchComponent],
+  imports: [CommonModule, ReactiveFormsModule, SelectSearchComponent, NgIconsModule],
+  providers: [provideIcons({ heroEye, heroEyeSlash })],
   templateUrl: './dynamic-form.html',
   styleUrls: ['./dynamic-form.scss'],
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() config!: DynamicFormConfig;
   @Output() onSubmit = new EventEmitter<FormSubmitEvent>();
   @Output() onCancel = new EventEmitter<void>();
 
   form!: FormGroup;
   submitted = false;
+  passwordVisibility: { [key: string]: boolean } = {};
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.buildForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Reconstruye el formulario si la configuración cambia después de la inicialización.
+    if (changes['config'] && !changes['config'].firstChange) {
+      this.buildForm();
+    }
   }
 
   buildForm(): void {
@@ -42,7 +53,10 @@ export class DynamicFormComponent implements OnInit {
       if (field.pattern) validators.push(Validators.pattern(field.pattern));
 
       groupConfig[field.name] = [
-        { value: field.value || '', disabled: field.disabled || field.readonly },
+        {
+          value: field.value ?? (field.type === 'switch' || field.type === 'checkbox' ? false : ''),
+          disabled: field.disabled || field.readonly
+        },
         validators,
       ];
     });
@@ -108,10 +122,19 @@ export class DynamicFormComponent implements OnInit {
       url: 'url',
       select: 'select',
       checkbox: 'checkbox',
+      switch: 'checkbox',
       textarea: 'textarea',
       hidden: 'hidden',
        'select-search': 'text'
     };
     return typeMap[type];
+  }
+
+  togglePasswordVisibility(fieldName: string): void {
+    this.passwordVisibility[fieldName] = !this.passwordVisibility[fieldName];
+  }
+
+  isPasswordVisible(fieldName: string): boolean {
+    return !!this.passwordVisibility[fieldName];
   }
 }

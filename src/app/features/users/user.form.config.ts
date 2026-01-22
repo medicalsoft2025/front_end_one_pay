@@ -1,6 +1,7 @@
+import { RoleModel } from '../../core/models/roleModel';
 import { UserModel } from '../../core/models/userModel';
 import { DynamicFormConfig } from '../../shared/components/dynamic-form/dynamic-form.types';
-import { RoleModel } from '../roles/roles.service';
+
 
 export function buildUsersFormConfig(
   data?: Partial<UserModel>,
@@ -76,13 +77,16 @@ export function buildUsersFormConfig(
         name: 'password',
         label: 'Contraseña',
         value: '',
-        validators: data ? [] : ['required'],
+        required: !data,
+        minLength: 7,
+        pattern: '(?=.*[A-Z])(?=.*[\\W_]).*',
+        errorMessage: 'Mínimo 7 caracteres, una mayúscula y un carácter especial',
       },
       {
         type: 'select',
         name: 'roleId',
         label: 'Rol',
-        value: data?.role?.id || data?.role?.id || '',
+        value: data?.role?.id || '',
         options: roles.map(role => ({
           label: role.name,
           value: role.id,

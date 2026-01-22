@@ -31,7 +31,9 @@ export class UsersService {
   
   createUser(user: Partial<UserModel>): Observable<UserModel> {
     const url = `${this.apiUrl}${Endpoints.users.create}`;
-    return this.http.post<ApiResponse<UserModel>>(url, user).pipe(
+    const tenantId = getTenantId();
+    const body = { ...user, tenantId };
+    return this.http.post<ApiResponse<UserModel>>(url, body).pipe(
       map((response) => response.data),
     );
   }

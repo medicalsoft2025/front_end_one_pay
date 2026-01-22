@@ -13,10 +13,12 @@ import { USER_TABLE_COLUMNS, USER_TABLE_ACTIONS } from './user.table.config';
 import { buildUsersFormConfig } from './user.form.config';
 
 import { UserModel } from '../../core/models/userModel';
-import { CustomerModel } from '../../core/models/customerModel';
 import { TableEvent } from '../../shared/components/dynamic-table/dynamic-table.types';
 import { FormSubmitEvent } from '../../shared/components/dynamic-form/dynamic-form.types';
-import { RoleModel, RolesService } from '../roles/roles.service';
+import { RoleModel } from '../../core/models/roleModel';
+import { RolesService } from '../roles/roles.service';
+import { ModalService } from '../../shared/components/modals/modal.service';
+
 
 @Component({
   selector: 'app-users',
@@ -62,7 +64,8 @@ export class UsersComponent implements OnInit {
    * ======================= */
   users: UserModel[] = [];
   roles: RoleModel[] = [];
-  data: CustomerModel[] = [];
+  currentUserId: string | null = null;
+  
 
   /* =======================
    * CONSTRUCTOR
@@ -70,7 +73,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private toastService: ToastService,
-    private roleService: RolesService
+    private roleService: RolesService,
+    private modalService: ModalService
   ) {}
 
 
@@ -106,15 +110,34 @@ export class UsersComponent implements OnInit {
   /* =======================
    * TABLE ACTIONS
    * ======================= */
-  onTableAction(event: TableEvent): void {
+  async onTableAction(event: TableEvent): Promise<void> {
     switch (event.action) {
       case 'delete':
-        this.usersService.deleteUser(event.data.id)
-          .subscribe(() => this.loadUsers());
+        const confirmed = await this.modalService.confirm(
+          'Eliminar Usuario',
+          `¿Está seguro de que desea eliminar este usuario?`
+        );
+
+        if (confirmed) {
+          this.loading = true;
+          this.usersService.deleteUser(event.data.id).subscribe({
+            next: () => {
+              this.toastService.show('Usuario eliminado con éxito', 'success');
+              this.loadUsers();
+            },
+            error: (error) => {
+              console.error('Error eliminando usuario', error);
+              this.loading = false;
+              this.toastService.show('Error eliminando usuario', 'error');
+            }
+          });
+        }
         break;
 
       case 'edit':
-        console.log('Editar usuario', event.data);
+        this.currentUserId = event.data.id;
+        this.userFormConfig = buildUsersFormConfig(event.data, this.roles);
+        this.showUserModal = true;
         break;
     }
   }
@@ -123,14 +146,55 @@ export class UsersComponent implements OnInit {
    * FORM ACTIONS
    * ======================= */
   onFormSubmit(event: FormSubmitEvent): void {
-    console.log('Form submit clicked', event);
+    if (!event.isValid) return;
+
+    this.loading = true;
+    const formValue = event.formValue;
+
+    const fullName = [
+      formValue['firstName'],
+      formValue['secondName'],
+      formValue['firstLastName'],
+      formValue['secondLastName']
+    ].filter(Boolean).join(' ');
+
+    const payload = { ...formValue, fullName };
+
+    if (this.currentUserId) {
+      this.usersService.updateUser(this.currentUserId, payload).subscribe({
+        next: () => {
+          this.toastService.show('Usuario actualizado con éxito', 'success');
+          this.closeModal();
+          this.loadUsers();
+        },
+        error: (error) => {
+          console.error('Error actualizando usuario', error);
+          this.loading = false;
+          this.toastService.show('Error actualizando usuario', 'error');
+        }
+      });
+    } else {
+      this.usersService.createUser(payload).subscribe({
+        next: () => {
+          this.toastService.show('Usuario creado con éxito', 'success');
+          this.closeModal();
+          this.loadUsers();
+        },
+        error: (error) => {
+          console.error('Error creando usuario', error);
+          this.loading = false;
+          this.toastService.show('Error creando usuario', 'error');
+        }
+      });
+    }
   }
 
   /* =======================
    * MODAL
    * ======================= */
   openModal(): void {
-    this.userFormConfig = buildUsersFormConfig(this.users[0], this.roles);
+    this.currentUserId = null;
+    this.userFormConfig = buildUsersFormConfig(undefined, this.roles);
     this.showUserModal = true;
   }
 

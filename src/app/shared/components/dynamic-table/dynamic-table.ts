@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { heroDocumentArrowDown, heroTableCells, heroMagnifyingGlass } from '@ng-icons/heroicons/outline';
 
@@ -15,31 +15,31 @@ import { NgIconsModule, provideIcons } from '@ng-icons/core';
   providers: [provideIcons({ heroDocumentArrowDown, heroTableCells, heroMagnifyingGlass })],
   templateUrl: './dynamic-table.html',
   styleUrl: './dynamic-table.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
-export class DynamicTableComponent {
+export class DynamicTableComponent implements OnChanges {
   @Input() columns: TableColumn[] = [];
   @Input() actions: TableAction[] = [];
   @Input() title: string = 'Tabla de datos';
   @Input() loading: boolean = false;
   @Input() pageSize: number = 10;
+  @Input() data: any[] = [];
 
   @Output() actionTriggered = new EventEmitter<TableEvent>();
 
-  /**  DATA REACTIVO */
-  private _data: any[] = [];
+  constructor(private cdr: ChangeDetectorRef) {}
 
-  @Input()
-  set data(value: any[] | null) {
-    this._data = value ?? [];
-    this.filteredData = [...this._data];
-    this.currentPage = 1;
-    this.updatePagination();
-  }
-
-  get data(): any[] {
-    return this._data;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+      this.filteredData = [...(this.data || [])];
+      this.currentPage = 1;
+      this.updatePagination();
+    }
+    if (changes['pageSize']) {
+      this.updatePagination();
+    }
   }
 
   filteredData: any[] = [];
@@ -56,6 +56,7 @@ export class DynamicTableComponent {
   updatePagination() {
     this.totalPages = Math.max(Math.ceil(this.filteredData.length / this.pageSize), 1);
     this.updateDisplayedData();
+    this.cdr.markForCheck();
   }
 
   updateDisplayedData() {
@@ -102,7 +103,6 @@ export class DynamicTableComponent {
       return 0;
     };
 
-    this.data.sort(sortFn);
     this.filteredData.sort(sortFn);
 
     this.updateDisplayedData();
