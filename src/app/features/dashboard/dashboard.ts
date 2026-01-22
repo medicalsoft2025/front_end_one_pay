@@ -5,7 +5,7 @@ import { StatCardComponent } from '../../shared/components/stat-card/stat-card';
 import { BalanceChartComponent } from '../../shared/components/balance-chart/balance-chart';
 import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
 import { Observable } from 'rxjs';
-import { TenantModel } from '../../core/models/TenantModel';
+import { TenantModel } from '../../core/models/tenantModel';
 import { TenantService } from '../dashboard/tenant.service';
 
 @Component({

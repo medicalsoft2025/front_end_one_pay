@@ -4,7 +4,7 @@ import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environment/environment.local';
 import { PagedResponse } from '../../core/models/apiResponse';
 import { Endpoints } from '../../core/api/Endpoints';
-import { AccountModel } from '../../core/models/AccountModel';
+import { AccountModel } from '../../core/models/accountModel';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {

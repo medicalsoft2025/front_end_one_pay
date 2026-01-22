@@ -28,5 +28,21 @@ export const Endpoints = {
   },
   login: {
     root: '/one-pay/auth/login',
+  },
+  users: {
+    root: '/one-pay/users',
+    byId: (id: string) => `/one-pay/users/${id}`,
+    create: '/one-pay/users',
+    byTenant: (tenantId: string) => `/one-pay/users/tenant/${tenantId}`,
+    update: (id: string) => `/one-pay/users/${id}`,
+    delete: (id: string) => `/one-pay/users/${id}`,
+  },
+  roles: {
+    root: '/one-pay/roles',
+    byId: (id: string) => `/one-pay/roles/${id}`,
+    create: '/one-pay/roles',
+    update: (id: string) => `/one-pay/roles/${id}`,
+    delete: (id: string) => `/one-pay/roles/${id}`,
+    byTenant: (tenantId: string) => `/one-pay/roles/tenant/${tenantId}`,
   }
 };

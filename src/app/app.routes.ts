@@ -5,6 +5,7 @@ import { CustomerComponent } from './features/customer/customer';
 import { PaymentsComponent } from './features/payments/payments';
 import { AccountsComponent } from './features/accounts/accounts';
 import { LoginComponent } from './features/login/login';
+import { UsersComponent } from './features/users/users';
 
 export const routes: Routes = [
   {
@@ -14,8 +15,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: Dashboard,
-    data: { showNavbar: true }
+    component: Dashboard,    
   },
   {
     path: 'config',
@@ -37,5 +37,9 @@ export const routes: Routes = [
         component: AccountsComponent,
       },
     ],
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
   }
 ];

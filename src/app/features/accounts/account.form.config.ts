@@ -1,6 +1,6 @@
 import { DynamicFormConfig, FormFieldOption } from '../../shared/components/dynamic-form/dynamic-form.types';
-import { AccountModel } from '../../core/models/AccountModel';
-import { BankModel } from '../../core/models/BankModel';
+import { AccountModel } from '../../core/models/accountModel';
+import { BankModel } from '../../core/models/bnankModel';
 import { CustomerModel } from '../../core/models/customerModel';
 
 export function buildAccountFormConfig(

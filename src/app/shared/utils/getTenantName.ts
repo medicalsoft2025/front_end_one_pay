@@ -1,18 +1,21 @@
 export function getTenantName(): string {
-  const host = window.location.hostname; // ej: 'dev.localhost' o 'juan.miapp.com'
+  const host = window.location.hostname;
+
+  // dev.localhost, tenant.localhost
+  if (host.endsWith('.localhost')) {
+    return host.split('.')[0];
+  }
+
+  // localhost puro
+  if (host === 'localhost') {
+    return 'default';
+  }
+
+  // Producción: tenant.midominio.com
   const parts = host.split('.');
-
-  // Producción: subdominio real
   if (parts.length > 2) {
-    return parts[0]; // 'juan' en 'juan.miapp.com'
+    return parts[0];
   }
 
-  // Desarrollo local
-  if (host === 'localhost' || host.endsWith('.localhost')) {
-    // Dev puede usar 'dev.localhost' o 'tenant.localhost'
-    return parts[0]; // 'dev' o 'tenant'
-  }
-
-  // Fallback seguro
   return 'default';
 }

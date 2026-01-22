@@ -5,14 +5,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8fafc;
+  background: linear-gradient(-45deg, #e0eafc, #cfdef3, #e0eafc);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   padding: $spacing-4;
+  position: relative;
+  overflow: hidden;
 }
 
 .login-card {
   display: flex;
   width: 100%;
-  max-width: 900px;
+  max-width: 800px;
   background: white;
   border-radius: 24px;
   overflow: hidden;
@@ -20,9 +24,12 @@
     0 4px 6px -1px rgba(0, 0, 0, 0.1), 
     0 2px 4px -1px rgba(0, 0, 0, 0.06),
     0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  min-height: 600px;
+  min-height: 650px;
+  animation: fadeIn 0.6s ease-out;
+  position: relative;
+  z-index: 10;
 
-  @include sm {
+  @media (max-width: 768px) {
     flex-direction: column;
     min-height: auto;
     max-width: 450px;
@@ -36,7 +43,7 @@
   flex-direction: column;
   justify-content: center;
   
-  @include sm {
+  @media (max-width: 768px) {
     padding: $spacing-4;
   }
 }
@@ -49,6 +56,9 @@
     height: 105px;
     margin-bottom: $spacing-4;
     object-fit: contain;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   h2 {
@@ -157,6 +167,95 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.mouse-trail-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20; /* Por encima de todo para que se vea el efecto */
+}
+
+.mouse-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #00f2ff; /* Azul cian brillante */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: fadeOut 0.3s linear forwards;
+  box-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff; /* Efecto de resplandor */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+}
+
 .form-footer {
   display: flex;
   justify-content: flex-end;
@@ -215,8 +314,16 @@
   justify-content: center;
   overflow: hidden;
 
-  @include sm {
+  @media (max-width: 768px) {
     display: none;
+  }
+
+  .carousel-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .bg-image {
@@ -226,6 +333,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+
+    &.active {
+      opacity: 1;
+      z-index: 1;
+    }
   }
 
   .overlay {
@@ -262,6 +377,29 @@
       font-size: 1.1rem;
       opacity: 0.9;
       margin: 0;
+    }
+
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+
+      button {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.4);
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &.active {
+          background-color: white;
+          transform: scale(1.2);
+        }
+      }
     }
   }
 }

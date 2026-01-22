@@ -12,4 +12,5 @@ export class CardMenuComponent {
   @Input() icon?: string;
   @Input() title: string = '';
   @Input() subtitle: string = '';
+  @Input() link?: string;
 }

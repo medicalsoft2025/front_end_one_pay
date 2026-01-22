@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountService } from './account.service';
 import { ACCOUNT_TABLE_CONFIG, ACCOUNT_TABLE_ACTIONS } from './account.table.config';
-import { AccountModel } from '../../core/models/AccountModel';
+import { AccountModel } from '../../core/models/accountModel';
 import { TableEvent } from '../../shared/components/dynamic-table/dynamic-table.types';
 import { BreadcrumbComponent } from "../../shared/components/breadcrumb/breadcrumb";
 import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
@@ -10,7 +10,7 @@ import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynam
 import { DynamicFormConfig, FormSubmitEvent } from '../../shared/components/dynamic-form/dynamic-form.types';
 import { buildAccountFormConfig } from './account.form.config';
 import { ModalComponent } from '../../shared/components/modals/modal-customer/modal';
-import { BankModel } from '../../core/models/BankModel';
+import { BankModel } from '../../core/models/bnankModel';
 import { OnePayBankService } from '../../shared/services/onepaybank.service';
 import { CustomerService } from '../customer/customer.service';
 import { CustomerModel } from '../../core/models/customerModel';

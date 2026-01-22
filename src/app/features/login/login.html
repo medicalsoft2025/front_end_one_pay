@@ -74,12 +74,28 @@
       </form>
     </div>
 
-    <div class="login-image-section">
+    <div class="login-image-section" (mouseenter)="stopCarousel()" (mouseleave)="startCarousel()">
       <div class="overlay"></div>
-      <img src="/assets/medical_index.jpg" alt="Medical" class="bg-image" />
+      
+      <div class="carousel-wrapper">
+        <img 
+          *ngFor="let img of images; let i = index"
+          [src]="img" 
+          alt="Medical Slide" 
+          class="bg-image"
+          [class.active]="i === currentImageIndex"
+        />
+      </div>
+
       <div class="image-content">
         <h3>Sistema Médico Integral</h3>
         <p>Gestión eficiente y segura</p>
+        
+        <div class="carousel-indicators">
+          <button *ngFor="let img of images; let i = index" 
+                  [class.active]="i === currentImageIndex"
+                  (click)="currentImageIndex = i"></button>
+        </div>
       </div>
     </div>
   </div>

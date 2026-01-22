@@ -1,0 +1,16 @@
+<app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+<div class="wrap-users">
+  <section class="filters">
+    <!-- futuros filtros -->
+  </section>
+
+  <app-dynamic-table
+    [title]="'Listado de Usuarios'"
+    [data]="users"
+    [columns]="columns"
+    [actions]="actions"
+    [loading]="loading"
+    (actionTriggered)="onTableAction($event)">
+  </app-dynamic-table>
+</div>

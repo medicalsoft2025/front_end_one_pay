@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environment/environment.local';
 import { getTenantName } from '../../shared/utils/getTenantName';
-import { TenantModel } from '../../core/models/TenantModel';
+import { TenantModel } from '../../core/models/tenantModel';
 import { Endpoints } from '../../core/api/Endpoints';
 
 @Injectable({ providedIn: 'root' })
