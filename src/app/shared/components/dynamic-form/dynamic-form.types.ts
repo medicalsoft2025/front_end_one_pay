@@ -2,7 +2,7 @@
  * Tipos para el componente dinámico de formulario
  */
 
-export type FormFieldType = 'text' | 'email' | 'password' | 'number' | 'date' | 'select' | 'checkbox' | 'textarea' | 'tel' | 'url' | 'hidden';
+export type FormFieldType = 'text' | 'email' | 'password' | 'number' | 'date' | 'select' | 'select-search' | 'checkbox' | 'textarea' | 'tel' | 'url' | 'hidden';
 
 export interface FormFieldOption {
 logo: any;

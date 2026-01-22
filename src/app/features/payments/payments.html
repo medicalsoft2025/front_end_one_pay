@@ -1,18 +1,16 @@
+<app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
 
 <div class="wrap-payments">
-<button>
-  Crear nuevo link de pago
-</button>
-<div class="table-payments">
-<app-dynamic-table
-  [columns]="columns"
-  [data]="(data$ | async) || []"
-  [actions]="actions"
-  title="Pagos"
-  (actionTriggered)="onTableAction($event)"
-></app-dynamic-table>
+  <section class="filters">
+    <!-- futuros filtros -->
+  </section>
+  <section class="payments-section">
+    <button class="button-new-payments">
+      Crear nuevo link de pago
+    </button>
+    <app-dynamic-table [columns]="columns" [data]="(data$ | async) || []" [actions]="actions" title="Pagos"
+      (actionTriggered)="onTableAction($event)"></app-dynamic-table>
+  </section>
 
 </div>
-</div>
-
-

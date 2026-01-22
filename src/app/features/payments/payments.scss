@@ -1,21 +1,23 @@
 @use 'styles' as *;
 
-.table-payments {
+.wrap-payments {
   padding: $spacing-6;
   max-width: 90%;
-  max-height: 100%;
+  box-shadow: $shadow-base;
   margin: 0 auto;
+  background-color: var(--card);
 
   @include sm {
     padding: $spacing-4;
   }
 }
-.wrap-payments{
-  padding: $spacing-6;
-  max-width: 80%;
-  margin: 0 auto;
 
-  @include sm {
-    padding: $spacing-4;
-  }
+.payments-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-new-payments {
+  align-self: flex-end;
+  margin-bottom: 50px;
 }

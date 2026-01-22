@@ -1,0 +1,24 @@
+@use 'styles' as *;
+
+.wrap-roles {
+  padding: $spacing-6;
+  max-width: 90%;
+  box-shadow: $shadow-base;
+  background-color: red;
+  margin: 0 auto;
+  background-color: var(--card);
+
+  @include sm {
+    padding: $spacing-4;
+  }
+}
+
+.roles-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-new-role {
+  align-self: flex-end;
+  margin-bottom: 50px;
+}

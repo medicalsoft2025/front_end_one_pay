@@ -1,41 +1,93 @@
+import { UserModel } from '../../core/models/userModel';
 import { DynamicFormConfig } from '../../shared/components/dynamic-form/dynamic-form.types';
+import { RoleModel } from '../roles/roles.service';
 
-export function buildUsersFormConfig(data?: any): DynamicFormConfig {
-export function buildUsersFormConfig(data?: any, roles: any[] = []): DynamicFormConfig {
+export function buildUsersFormConfig(
+  data?: Partial<UserModel>,
+  roles: RoleModel[] = []
+): DynamicFormConfig {
+
+  let firstName = '';
+  let secondName = '';
+  let firstLastName = '';
+  let secondLastName = '';
+
+  // Si estamos editando, intentamos separar fullName
+  if (data?.fullName) {
+    const parts = data.fullName.trim().split(' ');
+
+    if (parts.length === 1) {
+      firstName = parts[0];
+    } else if (parts.length === 2) {
+      firstName = parts[0];
+      firstLastName = parts[1];
+    } else if (parts.length === 3) {
+      firstName = parts[0];
+      firstLastName = parts[1];
+      secondLastName = parts[2];
+    } else {
+      firstName = parts[0];
+      secondName = parts[1];
+      firstLastName = parts[2];
+      secondLastName = parts.slice(3).join(' ');
+    }
+  }
+
   return {
-    submitButtonLabel: 'Guardar cambios',
     submitButtonLabel: data ? 'Guardar cambios' : 'Crear usuario',
     cancelButtonLabel: 'Cancelar',
     submitButtonDisabled: false,
     fields: [
       {
-        key: 'fullName',
-        label: 'Nombre completo',
         type: 'text',
-        value: data?.fullName || '',
-        validators: { required: true },
+        name: 'firstName',
+        label: 'Primer nombre',
+        value: firstName,
+        validators: ['required'],
       },
       {
-        key: 'email',
-        label: 'Email',
+        type: 'text',
+        name: 'secondName',
+        label: 'Segundo nombre',
+        value: secondName,
+      },
+      {
+        type: 'text',
+        name: 'firstLastName',
+        label: 'Primer apellido',
+        value: firstLastName,
+        validators: ['required'],
+      },
+      {
+        type: 'text',
+        name: 'secondLastName',
+        label: 'Segundo apellido',
+        value: secondLastName,
+      },
+      {
         type: 'email',
+        name: 'email',
+        label: 'Correo electrónico',
         value: data?.email || '',
-        validators: { required: true, email: true },
+        validators: ['required', 'email'],
       },
       {
-        key: 'password',
-        label: 'Contraseña',
         type: 'password',
+        name: 'password',
+        label: 'Contraseña',
         value: '',
-        validators: data ? {} : { required: true },
+        validators: data ? [] : ['required'],
       },
       {
-        key: 'roleId',
-        label: 'Rol',
         type: 'select',
-        value: data?.roleId || '',
-        options: roles,
-        validators: { required: true },
+        name: 'roleId',
+        label: 'Rol',
+        value: data?.role?.id || data?.role?.id || '',
+        options: roles.map(role => ({
+          label: role.name,
+          value: role.id,
+          logo: null,
+        })),
       },
     ],
   };

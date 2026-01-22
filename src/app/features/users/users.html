@@ -2,10 +2,12 @@
 
 <div class="wrap-users">
   <section class="filters">
-    <!-- futuros filtros -->
   </section>
-
-  <app-dynamic-table
+  <section class="users-section">
+        <button type="button" class="button-new-user" (click)="openModal()">
+      Crear nuevo usuario
+    </button>
+      <app-dynamic-table
     [title]="'Listado de Usuarios'"
     [data]="users"
     [columns]="columns"
@@ -13,4 +15,19 @@
     [loading]="loading"
     (actionTriggered)="onTableAction($event)">
   </app-dynamic-table>
+  </section>
 </div>
+
+<app-modal
+  title="Nuevo Usuario"
+  size="xl"
+  [show]="showUserModal"
+  (close)="closeModal()"
+>
+  <!-- CONTENIDO DINÁMICO -->
+  <app-dynamic-form
+    [config]="userFormConfig"
+    (onSubmit)="onFormSubmit($event)" 
+    (onCancel)="closeModal()"
+  ></app-dynamic-form>
+</app-modal>

@@ -5,7 +5,6 @@ import { environment } from '../../../environment/environment.local';
 import { Endpoints } from '../../core/api/Endpoints';
 import { ApiResponse } from '../../core/models/apiResponse';
 import { getTenantId } from '../../shared/utils/getTenantId';
-import { getTenantName } from '../../shared/utils/getTenantName';
 import { UserModel } from '../../core/models/userModel';
 
 
@@ -15,15 +14,19 @@ import { UserModel } from '../../core/models/userModel';
 export class UsersService {
 
   private apiUrl = environment.apiUrl;
-  private tenantId = getTenantId();
 
   constructor(private http: HttpClient) {}
 
-  getUsersByTenant(): Observable<UserModel[]> {
-    const url = `${this.apiUrl}${Endpoints.users.byTenant(this.tenantId)}`;
-    return this.http.get<ApiResponse<UserModel[]>>(url).pipe(
-      map((response) => response.data),
-    );
+ getUsersByTenant(): Observable<UserModel[]> {
+    const tenantId = getTenantId();
+
+    const url = `${this.apiUrl}${Endpoints.users.byTenant(tenantId)}`;
+
+    return this.http
+      .get<ApiResponse<UserModel[]>>(url)
+      .pipe(
+        map(response => response.data)
+      );
   }
   
   createUser(user: Partial<UserModel>): Observable<UserModel> {

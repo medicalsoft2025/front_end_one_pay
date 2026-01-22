@@ -217,10 +217,6 @@ select {
   padding-top: $spacing-4;
   border-top: 1px solid;
   border-color: var(--border);
-
-  @include sm {
-    flex-direction: column;
-  }
 }
 
 .btn {
@@ -239,10 +235,6 @@ select {
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-
-  @include sm {
-    width: 100%;
   }
 }
 

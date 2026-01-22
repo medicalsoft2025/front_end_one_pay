@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class ModalComponent {
   @Input() show = false;
   @Input() title = '';
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
 
   @Output() close = new EventEmitter<void>();
 

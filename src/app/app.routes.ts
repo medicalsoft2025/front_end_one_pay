@@ -6,6 +6,7 @@ import { PaymentsComponent } from './features/payments/payments';
 import { AccountsComponent } from './features/accounts/accounts';
 import { LoginComponent } from './features/login/login';
 import { UsersComponent } from './features/users/users';
+import { RolesComponent } from './features/roles/roles';
 
 export const routes: Routes = [
   {
@@ -41,5 +42,9 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent,
+  },
+   {
+    path: 'roles',
+    component: RolesComponent,
   }
 ];

@@ -5,14 +5,19 @@ import { PaymentService } from './payment.service';
 import { CommonModule } from '@angular/common';
 import { CUSTOMER_TABLE_COLUMNS, CUSTOMER_TABLE_ACTIONS } from './payment.config.table';
 import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
+import { BreadcrumbComponent } from "../../shared/components/breadcrumb/breadcrumb";
 
 @Component({
   selector: 'app-payments',
-  imports: [CommonModule, DynamicTableComponent],
+  imports: [CommonModule, DynamicTableComponent, BreadcrumbComponent],
   templateUrl: './payments.html',
   styleUrls: ['./payments.scss'],
 })
 export class PaymentsComponent {
+    breadcrumbItems = [
+    { label: 'Dashboard', url: '/dashboard' },
+    { label: 'Pagos' },
+  ];
   // Observable que emitirá los pagos
   data$!: Observable<PaymentModel[]>;
 

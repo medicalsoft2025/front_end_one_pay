@@ -1,26 +1,24 @@
 <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
-<button class="btn btn-primary mb-3" (click)="openCreateForm()">
-  Crear Nueva Cuenta
-</button>
+<div class="wrap-accounts">
+  <section class="filters">
+    <!-- futuros filtros -->
+  </section>
+  <section class="accounts-section">
+    <button class="button-new-accounts" (click)="openCreateForm()">
+      Crear Nueva Cuenta
+    </button>
+    <app-dynamic-table [columns]="columns" [data]="accounts" [actions]="actions"
+      (actionTriggered)="onActionTriggered($event)"></app-dynamic-table>
+  </section>
 
-<app-dynamic-table
-  [columns]="columns"
-  [data]="accounts"
-  [actions]="actions"
-  (actionTriggered)="onActionTriggered($event)"
-></app-dynamic-table>
+</div>
 
-<app-modal
-  title="{{ editingAccount ? 'Editar Cuenta' : 'Nueva Cuenta' }}"
-  size="md"
-  [show]="showFormModal"
-  (close)="closeForm()"
->
-  <app-dynamic-form
-    *ngIf="formConfig"
-    [config]="formConfig!"
-    (onSubmit)="onFormSubmit($event)"
-    (onCancel)="closeForm()"
-  ></app-dynamic-form>
+
+
+
+<app-modal title="{{ editingAccount ? 'Editar Cuenta' : 'Nueva Cuenta' }}" size="md" [show]="showFormModal"
+  (close)="closeForm()">
+  <app-dynamic-form *ngIf="formConfig" [config]="formConfig!" (onSubmit)="onFormSubmit($event)"
+    (onCancel)="closeForm()"></app-dynamic-form>
 </app-modal>

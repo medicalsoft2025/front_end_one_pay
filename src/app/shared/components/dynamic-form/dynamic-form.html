@@ -104,15 +104,15 @@
     </div>
 
     <div class="form-actions">
+      <button type="button" class="btn btn-cancel" (click)="handleCancel()">
+        {{ config.cancelButtonLabel || 'Cancelar' }}
+      </button>
       <button
         type="submit"
         class="btn btn-submit"
         [disabled]="config.submitButtonDisabled || false"
       >
         {{ config.submitButtonLabel || 'Enviar' }}
-      </button>
-      <button type="button" class="btn btn-cancel" (click)="handleCancel()">
-        {{ config.cancelButtonLabel || 'Cancelar' }}
       </button>
     </div>
   </form>

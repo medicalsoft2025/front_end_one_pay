@@ -110,6 +110,7 @@ export class DynamicFormComponent implements OnInit {
       checkbox: 'checkbox',
       textarea: 'textarea',
       hidden: 'hidden',
+       'select-search': 'text'
     };
     return typeMap[type];
   }
