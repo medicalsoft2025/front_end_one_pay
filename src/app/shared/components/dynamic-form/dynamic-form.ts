@@ -19,12 +19,14 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() config!: DynamicFormConfig;
   @Output() onSubmit = new EventEmitter<FormSubmitEvent>();
   @Output() onCancel = new EventEmitter<void>();
+  @Output() onFieldChange = new EventEmitter<{ fieldName: string, value: any }>();
+
 
   form!: FormGroup;
   submitted = false;
   passwordVisibility: { [key: string]: boolean } = {};
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -37,32 +39,41 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     }
   }
 
-  buildForm(): void {
-    const groupConfig: { [key: string]: any } = {};
+ buildForm(): void {
+  const groupConfig: { [key: string]: any } = {};
 
-    this.config.fields.forEach((field) => {
-      const validators = [];
+  this.config.fields.forEach((field) => {
+    const validators = [];
 
-      if (field.required) validators.push(Validators.required);
-      if (field.minLength) validators.push(Validators.minLength(field.minLength));
-      if (field.maxLength) validators.push(Validators.maxLength(field.maxLength));
-      if (field.min !== undefined) validators.push(Validators.min(field.min));
-      if (field.max !== undefined) validators.push(Validators.max(field.max));
-      if (field.type === 'email') validators.push(Validators.email);
-      if (field.type === 'url') validators.push(Validators.pattern(/^https?:\/\/.+/));
-      if (field.pattern) validators.push(Validators.pattern(field.pattern));
+    if (field.required) validators.push(Validators.required);
+    if (field.minLength) validators.push(Validators.minLength(field.minLength));
+    if (field.maxLength) validators.push(Validators.maxLength(field.maxLength));
+    if (field.min !== undefined) validators.push(Validators.min(field.min));
+    if (field.max !== undefined) validators.push(Validators.max(field.max));
+    if (field.type === 'email') validators.push(Validators.email);
+    if (field.type === 'url') validators.push(Validators.pattern(/^https?:\/\/.+/));
+    if (field.pattern) validators.push(Validators.pattern(field.pattern));
 
-      groupConfig[field.name] = [
-        {
-          value: field.value ?? (field.type === 'switch' || field.type === 'checkbox' ? false : ''),
-          disabled: field.disabled || field.readonly
-        },
-        validators,
-      ];
+    groupConfig[field.name] = [
+      {
+        value: field.value ?? (field.type === 'switch' || field.type === 'checkbox' ? false : ''),
+        disabled: field.disabled || field.readonly
+      },
+      validators,
+    ];
+  });
+
+  // Crear el FormGroup
+  this.form = this.fb.group(groupConfig);
+
+  // Emitir cambios de campo **una sola vez**
+  this.form.valueChanges.subscribe((values) => {
+    Object.keys(values).forEach((key) => {
+      this.onFieldChange.emit({ fieldName: key, value: values[key] });
     });
+  });
+}
 
-    this.form = this.fb.group(groupConfig);
-  }
 
   getFieldError(fieldName: string): string {
     const control = this.form.get(fieldName);
@@ -125,7 +136,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
       switch: 'checkbox',
       textarea: 'textarea',
       hidden: 'hidden',
-       'select-search': 'text'
+      'select-search': 'text'
     };
     return typeMap[type];
   }

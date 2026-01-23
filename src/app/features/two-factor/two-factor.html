@@ -1,0 +1,20 @@
+<div class="two-factor-container" *ngIf="!loading">
+  <div class="qr-section">
+    <p class="instruction-text">Escanea el QR con Google Authenticator:</p>
+    <div class="qr-wrapper">
+      <img 
+        [src]="'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodedQrCodeUrl"
+        alt="QR Code"
+        class="qr-code"
+      />
+    </div>
+  </div>
+
+  <div class="verify-section">
+    <p class="instruction-text">Ingresa el código de 6 dígitos:</p>
+    <div class="input-group">
+      <input type="text" class="code-input" [(ngModel)]="code" maxlength="6" placeholder="000000" />
+      <button class="btn-verify" (click)="verifyCode()">Verificar</button>
+    </div>
+  </div>
+</div>

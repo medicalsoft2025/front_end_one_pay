@@ -1,4 +1,5 @@
-<div class="table-controls">
+<div class="dynamic-table-container">
+  <div class="table-controls">
   <div class="export-buttons">
     <button
       class="btn btn-export btn-pdf"
@@ -36,7 +37,7 @@
   </div>
 </div>
 
-
+  
   <!-- Tabla -->
   <div class="table-wrapper">
     <div *ngIf="loading" class="loading-overlay">
@@ -141,3 +142,4 @@
       Página {{ currentPage }} de {{ totalPages }}
     </div>
   </div>
+</div>

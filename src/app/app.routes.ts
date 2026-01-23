@@ -7,23 +7,32 @@ import { AccountsComponent } from './features/accounts/accounts';
 import { LoginComponent } from './features/login/login';
 import { UsersComponent } from './features/users/users';
 import { RolesComponent } from './features/roles/roles';
+import { authGuard } from './core/interceptors/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
     component: LoginComponent,
     data: { showNavbar: false }
   },
   {
     path: 'dashboard',
-    component: Dashboard,    
+    component: Dashboard,
+    canActivate: [authGuard]
   },
   {
     path: 'config',
-    component: ConfigComponent
+    component: ConfigComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'gestion',
+    canActivate: [authGuard],
     children: [
       {
         path: 'customers',
@@ -42,9 +51,11 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent,
+    canActivate: [authGuard]
   },
    {
     path: 'roles',
     component: RolesComponent,
+    canActivate: [authGuard]
   }
 ];

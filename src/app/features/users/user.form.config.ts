@@ -90,7 +90,18 @@ export function buildUsersFormConfig(
         value: data?.email || '',
         validators: ['required', 'email'],
       },
-      
+      {
+        type: 'tel',
+        name: 'phoneNumber',
+        label: 'Teléfono',
+        value: data?.phoneNumber || '',
+      },
+      {
+        type: 'switch',
+        name: 'twoFactorEnabled',
+        label: 'Autenticación en 2 factores',
+        value: data?.twoFactorEnabled ?? (data as any)?.twoFactorEnabled ?? false,
+      },     
       {
         type: 'select',
         name: 'roleId',
@@ -101,7 +112,7 @@ export function buildUsersFormConfig(
           value: role.id,
           logo: null,
         })),
-      },
+      },      
     ],
   };
 }

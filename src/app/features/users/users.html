@@ -25,9 +25,10 @@
   (close)="closeModal()"
 >
   <!-- CONTENIDO DINÁMICO -->
-  <app-dynamic-form
-    [config]="userFormConfig"
-    (onSubmit)="onFormSubmit($event)" 
-    (onCancel)="closeModal()"
-  ></app-dynamic-form>
+<app-dynamic-form
+  [config]="userFormConfig"
+  (onSubmit)="onFormSubmit($event)"
+  (onCancel)="closeModal()"
+></app-dynamic-form>
+
 </app-modal>

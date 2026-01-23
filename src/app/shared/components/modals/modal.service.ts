@@ -67,6 +67,31 @@ export class ModalService {
     });
   }
 
+  openComponent<T>(component: any, inputs: Partial<T>, title: string) {
+  // Cerrar modal anterior
+  this.close();
+
+  this.componentRef = createComponent(component, { environmentInjector: this.injector });
+
+  // Pasar inputs
+  Object.assign(this.componentRef.instance, inputs);
+
+  // Adjuntar la vista
+  this.appRef.attachView(this.componentRef.hostView);
+  const domElem = (this.componentRef.hostView as any).rootNodes[0] as HTMLElement;
+  document.body.appendChild(domElem);
+
+  this.componentRef.changeDetectorRef.detectChanges();
+
+  // Destruir cuando se cierre
+  this.componentRef.onDestroy(() => {
+    this.close();
+  });
+}
+
+
+  
+
   close() {
     if (this.componentRef) {
       this.appRef.detachView(this.componentRef.hostView);

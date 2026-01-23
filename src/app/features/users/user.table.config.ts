@@ -10,4 +10,6 @@ export const USER_TABLE_ACTIONS = [
   { id: 'view', label: 'Ver', icon: 'eye' },
   { id: 'edit', label: 'Editar', icon: 'edit' },
   { id: 'delete', label: 'Eliminar', icon: 'trash', confirm: true },
+  { id: 'toggle-2fa', label: 'Vincular con google Auth', icon: 'shield' },
 ];
+  

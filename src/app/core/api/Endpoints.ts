@@ -28,6 +28,9 @@ export const Endpoints = {
   },
   login: {
     root: '/one-pay/auth/login',
+    twofaSetup: '/one-pay/auth/2fa/setup',
+    twofaVerify: '/one-pay/auth/2fa/confirm',
+    me: '/one-pay/auth/me',
   },
   users: {
     root: '/one-pay/users',
