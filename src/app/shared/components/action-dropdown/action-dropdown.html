@@ -11,7 +11,7 @@
     <span class="label">Acciones</span>
   </button>
 
-  <div class="action-dropdown-menu" [class.show]="isOpen">
+  <div class="action-dropdown-menu" [class.show]="isOpen" [ngStyle]="dropdownStyle">
     <div *ngIf="visibleActions.length === 0" class="no-actions">
       <span>Sin acciones disponibles</span>
     </div>

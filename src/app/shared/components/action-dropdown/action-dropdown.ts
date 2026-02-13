@@ -28,15 +28,37 @@ export class ActionDropdownComponent {
   }>();
 
   isOpen = false;
+  dropdownStyle: any = {};
+
+  constructor(private elementRef: ElementRef) {}
 
   /* ---------------- UI ---------------- */
 
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      this.calculatePosition();
+    }
   }
 
+  @HostListener('window:scroll', [])
+  @HostListener('window:resize', [])
   closeDropdown(): void {
     this.isOpen = false;
+  }
+
+  calculatePosition() {
+    const button = this.elementRef.nativeElement.querySelector('.action-dropdown-toggle');
+    if (!button) return;
+
+    const rect = button.getBoundingClientRect();
+
+    this.dropdownStyle = {
+      position: 'fixed',
+      top: `${rect.bottom + 4}px`, 
+      right: `${window.innerWidth - rect.right}px`,
+      left: 'auto',
+    };
   }
 
   /* ---------------- Actions ---------------- */
@@ -77,6 +99,4 @@ export class ActionDropdownComponent {
       this.closeDropdown();
     }
   }
-
-  constructor(private elementRef: ElementRef) {}
 }
