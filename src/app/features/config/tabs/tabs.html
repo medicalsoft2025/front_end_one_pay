@@ -1,10 +1,16 @@
-<ul class="tabs">
-  <li
-    *ngFor="let tab of tabs"
-    [class.active]="activeTab === tab.key"
-    (click)="selectTab(tab.key)"
-  >
-    <ng-icon [name]="tab.icon"></ng-icon>
-    {{ tab.label }}
-  </li>
-</ul>
+<div class="tabs-container">
+  <ul class="tabs-list">
+    <li
+      *ngFor="let tab of tabs"
+      class="tab-item"
+      [class.active]="activeTab === tab.key"
+      (click)="selectTab(tab.key)"
+    >
+      <ng-icon [name]="tab.icon" class="tab-icon"></ng-icon>
+      <span class="tab-label">{{ tab.label }}</span>
+    </li>
+  </ul>
+</div>
+<div class="tab-content">
+  <ng-content></ng-content>
+</div>

@@ -1,5 +1,5 @@
 // environment.ts
-const url = 'http://localhost';
+const url = 'http://dev.localhost';
 const port = '8081';
 const apiPath = 'api/v1';
 

@@ -1,25 +1,80 @@
 @use 'styles' as *;
 
-.tabs {
-  list-style: none;
+:host {
+  display: block;
+}
+
+.tabs-container {
+  border-bottom: 1px solid var(--border);
+}
+
+.tabs-list {
   display: flex;
-  flex-direction: column;
-  gap: $spacing-0;
+  list-style: none;
   padding: 0;
   margin: 0;
+  gap: $spacing-2;
+  overflow-x: auto; 
+  scrollbar-width: none; 
 
-  li {
+  &::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .tab-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
+    padding: 0.75rem 1.25rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: -1px; 
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    position: relative;
 
-    &:hover {
-      background-color: var(--primary);
-      color: white;
+    &:hover:not(.active) {
+      background-color: var(--muted);
+      color: var(--foreground);
     }
+
+    &.active {
+      background-color: var(--card); 
+      border-color: var(--border);
+      border-bottom-color: var(--card);
+      border-top: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .tab-icon {
+      font-size: 1.1em;
+    }
+  }
+}
+
+.tab-content {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-top: none; /* Se une visualmente con la pestaña activa */
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: $spacing-6;
+
+  & > * {
+    animation: tabSlideIn 0.3s ease-out;
+  }
+}
+
+@keyframes tabSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

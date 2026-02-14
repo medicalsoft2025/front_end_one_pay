@@ -1,18 +1,14 @@
-<app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
-
 <div class="config-container">
-  <div class="list-menu-config">
-    <app-tabs
-      [tabs]="tabs"
-      [activeTab]="activeTabKey"
-      (tabChange)="setActiveTab($event)"
-    ></app-tabs>
-  </div>
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
-  <div class="form-config">
-    <!-- Lazy rendering del componente activo -->
-    <ng-container *ngIf="activeComponent">
-      <ng-container *ngComponentOutlet="activeComponent"></ng-container>
-    </ng-container>
-  </div>
+  <!-- El contenido ahora va DENTRO de app-tabs -->
+  <app-tabs 
+    [tabs]="tabs" 
+    [activeTab]="activeTabKey" 
+    (tabChange)="setActiveTab($event)">
+    
+    <!-- Esto se proyectará dentro del div.tab-content de app-tabs -->
+    <ng-container *ngComponentOutlet="activeComponent"></ng-container>
+    
+  </app-tabs>
 </div>

@@ -18,6 +18,17 @@ interface TabConfig {
   imports: [BreadcrumbComponent, Tabs, CommonModule],
   templateUrl: './config.html',
   styleUrls: ['./config.scss'],
+  styles: [`
+    .config-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  `]
 })
 export class ConfigComponent {
   breadcrumbItems = [{ label: 'Dashboard', url: '/dashboard' }, { label: 'Configuración' }];
@@ -33,17 +44,14 @@ export class ConfigComponent {
     },
   ];
 
-  // Pestaña activa
   activeTabKey = this.tabs[0].key;
 
-  // Cambiar pestaña
   setActiveTab(tabKey: string) {
     this.activeTabKey = tabKey;
   }
 
-  // Obtener componente activo
   get activeComponent() {
     const tab = this.tabs.find((t) => t.key === this.activeTabKey);
-    return tab?.component;
+    return tab?.component || null;
   }
 }

@@ -2,11 +2,14 @@
 
 .dashboard-container {
   padding: $spacing-6;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
 
   h1 {
-    margin-bottom: $spacing-6;
+    margin-bottom: 0;
     font-size: $font-size-3xl;
     font-weight: $font-weight-bold;
     color: var(--foreground);
@@ -14,28 +17,40 @@
 
   @include sm {
     padding: $spacing-4;
-  }
-}
-
-.cards-container {
-  display: flex;
-  margin-top: $spacing-6;
-  margin-bottom: $spacing-8;
-  justify-content: center;
-
-  @include sm {
-    flex-direction: row;
     gap: $spacing-4;
   }
 }
 
-.chart-section {
-  margin-bottom: $spacing-8;
-  border: 1px solid;
-  border-color: var(--border);
-  display: flex;
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: $spacing-6;
-  width: 100%;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include sm {
+    gap: $spacing-4;
+  }
+}
+
+// Mixin para estilo de tarjeta consistente
+@mixin dashboard-card {
+  background-color: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: $spacing-4;
+}
+
+.chart-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-6;
+
+  @include lg {
+    grid-template-columns: 2fr 1fr;
+  }
 
   @include sm {
     gap: $spacing-4;
@@ -43,17 +58,14 @@
 }
 
 .chart-container {
-  padding: $spacing-2;
-  width: 65%;
+  @include dashboard-card;
+  overflow: hidden; // Previene desbordamientos del gráfico
 }
+
 .recent-activity-container {
-  width: 35%;
+  @include dashboard-card;
 }
 
 .transactions-sections {
-  margin-bottom: $spacing-8;
-  border: 1px solid;
-  border-color: var(--border);
-  gap: $spacing-6;
-  width: 100%;
+  @include dashboard-card;
 }
