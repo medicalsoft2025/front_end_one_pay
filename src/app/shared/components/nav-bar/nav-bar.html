@@ -29,34 +29,34 @@
   <!-- NAV LINKS (centrados) -->
   <div class="header__nav-links">
     <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">
-      <ng-icon name="heroHome" class="nav-icon"></ng-icon>
+      <ng-icon name="heroHomeSolid" class="nav-icon"></ng-icon>
       <span>Dashboard</span>
     </a>
 
     <!-- Dropdown Gestión -->
     
     <a routerLink="/config" routerLinkActive="active" (click)="closeMenu()">
-      <ng-icon name="heroCog6Tooth" class="nav-icon"></ng-icon>
+      <ng-icon name="heroCog6ToothSolid" class="nav-icon"></ng-icon>
       <span>Configuración</span>
     </a>
     <div class="nav-dropdown">
       <div class="nav-dropdown__trigger" (click)="toggleGestionMenu()">
-        <ng-icon name="heroUsers" class="nav-icon"></ng-icon>
+        <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
         <span>Gestión</span>
-        <ng-icon [name]="isGestionMenuOpen ? 'heroChevronUp' : 'heroChevronDown'" style="width: 16px; height: 16px;"></ng-icon>
+        <ng-icon [name]="isGestionMenuOpen ? 'heroChevronUpSolid' : 'heroChevronDownSolid'" style="width: 16px; height: 16px;"></ng-icon>
       </div>
 
       <div class="nav-dropdown__menu" *ngIf="isGestionMenuOpen">
         <a routerLink="/gestion/customers" routerLinkActive="active" (click)="closeMenu()">
-          <ng-icon name="heroUsers" class="nav-icon"></ng-icon>
+          <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
           <span>Clientes</span>
         </a>
         <a routerLink="/gestion/payments" routerLinkActive="active" (click)="closeMenu()">
-          <ng-icon name="heroCurrencyDollar" class="nav-icon"></ng-icon>
+          <ng-icon name="heroCurrencyDollarSolid" class="nav-icon"></ng-icon>
           <span>Pagos</span>
         </a>
         <a routerLink="/gestion/accounts" routerLinkActive="active" (click)="closeMenu()">
-          <ng-icon name="heroBuildingLibrary" class="nav-icon"></ng-icon>
+          <ng-icon name="heroBuildingLibrarySolid" class="nav-icon"></ng-icon>
           <span>Cuentas</span>
         </a>
       </div>

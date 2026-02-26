@@ -1,13 +1,11 @@
-<div class="config-container">
-  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+<app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+<div class="config-container"> 
 
-  <!-- El contenido ahora va DENTRO de app-tabs -->
   <app-tabs 
     [tabs]="tabs" 
     [activeTab]="activeTabKey" 
     (tabChange)="setActiveTab($event)">
     
-    <!-- Esto se proyectará dentro del div.tab-content de app-tabs -->
     <ng-container *ngComponentOutlet="activeComponent"></ng-container>
     
   </app-tabs>

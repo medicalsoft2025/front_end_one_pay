@@ -10,7 +10,7 @@ import { DynamicFormComponent } from "../../shared/components/dynamic-form/dynam
 import { DynamicFormConfig, FormSubmitEvent } from '../../shared/components/dynamic-form/dynamic-form.types';
 import { buildAccountFormConfig } from './account.form.config';
 import { ModalComponent } from '../../shared/components/modals/modal-customer/modal';
-import { BankModel } from '../../core/models/bnankModel';
+import { BankModel } from '../../core/models/bankModel';
 import { OnePayBankService } from '../../shared/services/onepaybank.service';
 import { CustomerService } from '../customer/customer.service';
 import { CustomerModel } from '../../core/models/customerModel';

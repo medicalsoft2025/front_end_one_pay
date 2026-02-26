@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable, tap, catchError } from 'rxjs';
 import { OnePayEndpoints } from '../../core/api/onepay.endpoint';
 
-import { BankModel } from '../../core/models/bnankModel';
+import { BankModel } from '../../core/models/bankModel';
 import { throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

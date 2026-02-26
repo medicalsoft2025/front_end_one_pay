@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle';
 
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroHome, heroCog6Tooth, heroUsers, heroCurrencyDollar, heroBuildingLibrary, heroChevronDown, heroChevronUp } from '@ng-icons/heroicons/outline';
+import { heroHomeSolid, heroCog6ToothSolid, heroUsersSolid, heroCurrencyDollarSolid, heroBuildingLibrarySolid, heroChevronDownSolid, heroChevronUpSolid } from '@ng-icons/heroicons/solid';
 import { Observable } from 'rxjs';
 import { TenantModel } from '../../../core/models/tenantModel';
 import { TenantService } from '../../../features/dashboard/tenant.service';
@@ -19,7 +19,7 @@ import { TenantService } from '../../../features/dashboard/tenant.service';
     NgIconComponent,
   ],
   providers: [
-    provideIcons({ heroHome, heroCog6Tooth, heroUsers, heroCurrencyDollar, heroBuildingLibrary, heroChevronDown, heroChevronUp }),
+    provideIcons({ heroHomeSolid, heroCog6ToothSolid, heroUsersSolid, heroCurrencyDollarSolid, heroBuildingLibrarySolid, heroChevronDownSolid, heroChevronUpSolid }),
   ],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',

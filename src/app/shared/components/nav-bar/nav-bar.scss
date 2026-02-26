@@ -179,7 +179,7 @@
         height: 25px;
         opacity: 0.7;
         transition: opacity 0.2s ease;
-        color: var(--primary)
+        color: var(--primary);
       }
 
       &:hover {
@@ -433,7 +433,9 @@
 }
 
 .nav-dropdown__menu a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 8px 16px;
   text-decoration: none;
   color: #333;
