@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountService } from './account.service';
 import { ACCOUNT_TABLE_CONFIG, ACCOUNT_TABLE_ACTIONS } from './account.table.config';
@@ -47,7 +47,8 @@ export class AccountsComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private bankService: OnePayBankService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -59,18 +60,21 @@ export class AccountsComponent implements OnInit {
   loadAccounts(): void {
     this.accountService.getAccounts().subscribe((data) => {
       this.accounts = data;
+      this.cdr.detectChanges();
     });
   }
 
   loadCustomers(): void {
     this.customerService.getCustomers().subscribe((customers) => {
       this.customers = customers;
+      this.cdr.detectChanges();
     });
   }
 
   loadBanks(): void {
     this.bankService.getBanks().subscribe((banks) => {
       this.banks = banks;
+      this.cdr.detectChanges();
     });
   }
 
@@ -112,11 +116,13 @@ onFormSubmit(event: FormSubmitEvent): void {
     this.accountService.updateAccount(this.editingAccount.id, payload as any).subscribe(() => {
       this.loadAccounts();
       this.closeForm();
+      this.cdr.detectChanges();
     });
   } else {
     this.accountService.createAccount(payload as any).subscribe(() => {
       this.loadAccounts();
       this.closeForm();
+      this.cdr.detectChanges();
     });
   }
 }

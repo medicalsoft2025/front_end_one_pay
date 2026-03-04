@@ -20,7 +20,7 @@ export class UsersService {
  getUsersByTenant(): Observable<UserModel[]> {
     const tenantId = getTenantId();
 
-    const url = `${this.apiUrl}${Endpoints.users.byTenant(tenantId)}`;
+    const url = `${this.apiUrl}${Endpoints.users.root}`;
 
     return this.http
       .get<ApiResponse<UserModel[]>>(url)

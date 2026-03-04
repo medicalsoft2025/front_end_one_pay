@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../shared/components/modals/modal-customer/modal';
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb';
@@ -56,20 +56,29 @@ export class RolesComponent implements OnInit {
   constructor(
     private roleService: RolesService,
     private toastService: ToastService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   loadRoles(): void {
     this.loading = true;
-    this.roleService.getAllRoles().subscribe((roles) => {
-      this.roles = roles;
-      this.loading = false;
+    this.roleService.getAllRoles().subscribe({
+      next: (roles) => {
+        this.roles = roles;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   loadPermissions(): void {
     this.roleService.getPermissions().subscribe((permissions) => {
       this.permissions = permissions;
+      this.cdr.detectChanges();
     });
   }
 
@@ -105,6 +114,7 @@ export class RolesComponent implements OnInit {
             this.loading = false;
             this.toastService.show('Error al eliminar el rol', 'error');
             console.error(err);
+            this.cdr.detectChanges();
           }
         });
       }
@@ -141,6 +151,7 @@ export class RolesComponent implements OnInit {
           this.loading = false;
           this.toastService.show('Error al actualizar el rol', 'error');
           console.error(err);
+          this.cdr.detectChanges();
         },
       });
     } else {
@@ -154,6 +165,7 @@ export class RolesComponent implements OnInit {
           this.loading = false;
           this.toastService.show('Error al crear el rol', 'error');
           console.error(err);
+          this.cdr.detectChanges();
         },
       });
     }

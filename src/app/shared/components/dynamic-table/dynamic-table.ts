@@ -15,7 +15,6 @@ import { NgIconsModule, provideIcons } from '@ng-icons/core';
   providers: [provideIcons({ heroDocumentArrowDown, heroTableCells, heroMagnifyingGlass })],
   templateUrl: './dynamic-table.html',
   styleUrl: './dynamic-table.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
@@ -56,7 +55,7 @@ export class DynamicTableComponent implements OnChanges {
   updatePagination() {
     this.totalPages = Math.max(Math.ceil(this.filteredData.length / this.pageSize), 1);
     this.updateDisplayedData();
-    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   updateDisplayedData() {

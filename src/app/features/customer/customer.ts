@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb';
@@ -52,7 +52,8 @@ export class CustomerComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /* =======================
@@ -68,6 +69,7 @@ export class CustomerComponent implements OnInit {
   loadCustomers(): void {
     this.customerService.getCustomers().subscribe((customers) => {
       this.data = customers;
+      this.cdr.detectChanges();
     });
   }
 
@@ -117,10 +119,12 @@ export class CustomerComponent implements OnInit {
         this.toastService.show('¡Cliente creado con éxito!', 'success');
         this.closeModal();
         this.loadCustomers();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.toastService.show('Error creando cliente', 'error');
+        this.cdr.detectChanges();
       },
     });
   }

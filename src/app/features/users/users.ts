@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef, ComponentRef, EnvironmentInjector, createComponent, inject } from '@angular/core';
+import { Component, OnInit, ApplicationRef, ComponentRef, EnvironmentInjector, createComponent, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,9 +17,7 @@ import { TableEvent } from '../../shared/components/dynamic-table/dynamic-table.
 import { FormSubmitEvent } from '../../shared/components/dynamic-form/dynamic-form.types';
 import { RoleModel } from '../../core/models/roleModel';
 import { RolesService } from '../roles/roles.service';
-import { TwoFactorService } from '../../core/security/two-factor.service';
 import { ModalService } from '../../shared/components/modals/modal.service';
-import { TwoFactorComponent } from '../two-factor/two-factor';
 import { TwoFactorModalComponent } from '../two-factor/two-factor-modal';
 
 @Component({
@@ -65,6 +63,7 @@ export class UsersComponent implements OnInit {
     private toastService: ToastService,
     private roleService: RolesService,
     private modalService: ModalService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -81,10 +80,12 @@ export class UsersComponent implements OnInit {
       next: (data) => {
         this.users = data;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.loading = false;
         this.toastService.show('Error cargando usuarios', 'error');
+        this.cdr.detectChanges();
       },
     });
   }
@@ -95,10 +96,12 @@ export class UsersComponent implements OnInit {
       next: (roles) => {
         this.roles = roles;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.loading = false;
         this.toastService.show('Error cargando roles', 'error');
+        this.cdr.detectChanges();
       }
     });
   }
@@ -125,6 +128,7 @@ export class UsersComponent implements OnInit {
           error: () => {
             this.loading = false;
             this.toastService.show('Error eliminando usuario', 'error');
+            this.cdr.detectChanges();
           }
         });
         break;
@@ -192,6 +196,7 @@ export class UsersComponent implements OnInit {
       error: () => {
         this.loading = false;
         this.toastService.show('Error actualizando usuario', 'error');
+        this.cdr.detectChanges();
       }
     });
   }
@@ -206,6 +211,7 @@ export class UsersComponent implements OnInit {
       error: () => {
         this.loading = false;
         this.toastService.show('Error creando usuario', 'error');
+        this.cdr.detectChanges();
       }
     });
   }

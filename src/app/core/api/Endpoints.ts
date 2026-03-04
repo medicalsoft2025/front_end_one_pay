@@ -36,7 +36,6 @@ export const Endpoints = {
     root: '/one-pay/users',
     byId: (id: string) => `/one-pay/users/${id}`,
     create: '/one-pay/users',
-    byTenant: (tenantId: string) => `/one-pay/users/tenant/${tenantId}`,
     update: (id: string) => `/one-pay/users/${id}`,
     delete: (id: string) => `/one-pay/users/${id}`,
   },
