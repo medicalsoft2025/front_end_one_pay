@@ -236,6 +236,42 @@
     margin: 0 0.5rem;
   }
 
+  // NOTIFICATION BUTTON
+  &__notification-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--radius-lg);
+    color: var(--muted-foreground);
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background-color: var(--accent);
+      color: var(--primary);
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background-color: #ef4444; // Color rojo para alerta
+      border-radius: 50%;
+      border: 1px solid var(--background);
+    }
+  }
+
   // USER SECTION
   &__user {
     display: flex;

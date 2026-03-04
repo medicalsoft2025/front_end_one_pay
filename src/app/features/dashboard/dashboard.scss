@@ -1,9 +1,16 @@
 @use 'styles' as *;
 
-.dashboard-container {
+.page-container {
   padding: $spacing-6;
-  max-width: 100%;
+  max-width: 1600px; // Un ancho máximo más restringido para centrar más el contenido
   margin: 0 auto;
+
+  @include sm {
+    padding: $spacing-4;
+  }
+}
+
+.dashboard-container {
   display: flex;
   flex-direction: column;
   gap: $spacing-6;
@@ -16,7 +23,6 @@
   }
 
   @include sm {
-    padding: $spacing-4;
     gap: $spacing-4;
   }
 }
@@ -24,14 +30,12 @@
 .cards-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $spacing-6;
+  gap: $spacing-4; // Reduce el espaciado entre tarjetas
 
   @include md {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @include sm {
-    gap: $spacing-4;
+    // Centra las tarjetas y evita que se estiren demasiado en pantallas grandes
+    grid-template-columns: repeat(3, max-content);
+    justify-content: center;
   }
 }
 
