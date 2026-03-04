@@ -19,8 +19,8 @@ export class RolesService {
 
   constructor(private http: HttpClient) {}
 
-  getRolesByTenant(): Observable<RoleModel[]> {
-    const url = `${this.apiUrl}${Endpoints.roles.byTenant(this.tenantId)}`;
+  getAllRoles(): Observable<RoleModel[]> {
+    const url = `${this.apiUrl}${Endpoints.roles.root}`;
     return this.http.get<ApiResponse<RoleModel[]>>(url).pipe(
       map((response) => response.data),
     );

@@ -91,7 +91,7 @@ export class UsersComponent implements OnInit {
 
   loadRoles(): void {
     this.loading = true;
-    this.roleService.getRolesByTenant().subscribe({
+    this.roleService.getAllRoles().subscribe({
       next: (roles) => {
         this.roles = roles;
         this.loading = false;

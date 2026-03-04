@@ -27,8 +27,21 @@ export const routes: Routes = [
   },
   {
     path: 'config',
-    component: ConfigComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: ConfigComponent
+      },
+      {
+        path: 'users',
+        component: UsersComponent
+      },
+      {
+        path: 'roles',
+        component: RolesComponent
+      }
+    ]
   },
   {
     path: 'gestion',
@@ -47,15 +60,5 @@ export const routes: Routes = [
         component: AccountsComponent,
       },
     ],
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    canActivate: [authGuard]
-  },
-   {
-    path: 'roles',
-    component: RolesComponent,
-    canActivate: [authGuard]
   }
 ];

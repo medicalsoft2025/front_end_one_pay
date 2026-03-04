@@ -46,7 +46,6 @@ export const Endpoints = {
     create: '/one-pay/roles',
     update: (id: string) => `/one-pay/roles/${id}`,
     delete: (id: string) => `/one-pay/roles/${id}`,
-    byTenant: (tenantId: string) => `/one-pay/roles/tenant/${tenantId}`,
     permissions: '/one-pay/roles/permissions',
   }
 };

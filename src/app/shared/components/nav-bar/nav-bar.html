@@ -35,10 +35,24 @@
 
     <!-- Dropdown Gestión -->
     
-    <a routerLink="/config" routerLinkActive="active" (click)="closeMenu()">
-      <ng-icon name="heroCog6ToothSolid" class="nav-icon"></ng-icon>
-      <span>Configuración</span>
-    </a>
+    <div class="nav-dropdown">
+      <div class="nav-dropdown__trigger" (click)="toggleConfigMenu()">
+        <ng-icon name="heroCog6ToothSolid" class="nav-icon"></ng-icon>
+        <span>Configuración</span>
+        <ng-icon [name]="isConfigMenuOpen ? 'heroChevronUpSolid' : 'heroChevronDownSolid'" style="width: 16px; height: 16px;"></ng-icon>
+      </div>
+      <div class="nav-dropdown__menu" *ngIf="isConfigMenuOpen">
+        <a routerLink="/config/users" routerLinkActive="active" (click)="closeMenu()">
+          <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
+          <span>Usuarios</span>
+        </a>
+        <a routerLink="/config/roles" routerLinkActive="active" (click)="closeMenu()">
+          <ng-icon name="heroShieldCheckSolid" class="nav-icon"></ng-icon>
+          <span>Roles</span>
+        </a>
+      </div>
+    </div>
+
     <div class="nav-dropdown">
       <div class="nav-dropdown__trigger" (click)="toggleGestionMenu()">
         <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
@@ -76,14 +90,24 @@
 
     <app-theme-toggle></app-theme-toggle>
 
-    <div class="header__user" (click)="closeMenu()">
-      <div class="header__user-avatar">
-        <span>MP</span>
+    <div class="nav-dropdown" #userMenuDropdown>
+      <div class="header__user" (click)="toggleUserMenu()">
+        <div class="header__user-avatar">
+          <span>MP</span>
+        </div>
       </div>
-     <div class="header__user-info">
-  <span class="header__user-name">{{ userName }}</span>
-  <span class="header__user-role">{{ userRole }}</span>
-</div>
+
+      <div class="header__user-menu" [class.active]="isUserMenuOpen">
+        <div class="user-details">
+          <span class="header__user-name">{{ userName }}</span>
+          <span class="header__user-role">{{ userRole }}</span>
+        </div>
+        <div class="divider"></div>
+        <div class="logout-btn" (click)="logout()">
+           <ng-icon name="heroArrowRightOnRectangleSolid" class="nav-icon"></ng-icon>
+           <span>Cerrar Sesión</span>
+        </div>
+      </div>
     </div>
   </div>
 

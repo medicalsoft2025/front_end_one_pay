@@ -3,7 +3,7 @@
 .header {
   background-color: var(--background);
   box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
-  padding: 0.75rem 0;
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: var(--z-index-sticky, 1020);
@@ -75,8 +75,8 @@
   }
 
   &__logo {
-    width: 95px;
-    height: 53px;
+    width: 70px;
+    height: 40px;
     //background: linear-gradient(135deg, var(--primary), var(--sidebar-primary, var(--primary)));
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
@@ -91,8 +91,8 @@
     }
 
     &-icon {
-      width: 95px;
-      height: 53px;
+      width: 70px;
+      height: 40px;
       color: var(--primary-foreground);
       stroke-width: 2;
     }
@@ -276,16 +276,16 @@
   &__user {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--radius-lg);
-    background-color: var(--accent);
+    gap: 0;
+    padding: 0;
+    border-radius: 50%;
+    background-color: transparent;
     transition: all 0.2s ease;
     cursor: pointer;
 
     &:hover {
-      background-color: var(--sidebar-accent);
-      transform: translateY(-1px);
+      background-color: transparent;
+      transform: scale(1.05);
     }
   }
 
@@ -304,7 +304,7 @@
   }
 
   &__user-info {
-    display: flex;
+    display: none;
     flex-direction: column;
   }
 
@@ -319,6 +319,61 @@
     font-size: 0.75rem;
     color: var(--muted-foreground);
     font-weight: 400;
+  }
+
+  &__user-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: 220px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 1rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    // Animación de fade y slide
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.5rem;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: var(--border);
+      margin: 0.25rem 0;
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ef4444;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: var(--radius-md);
+      &:hover {
+        background-color: #fef2f2;
+      }
+    }
   }
 
   // RESPONSIVE DESIGN
