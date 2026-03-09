@@ -502,21 +502,29 @@
 
 .nav-dropdown__menu {
   position: absolute;
-  top: 100%;
   top: calc(100% + 0.5rem);
   left: 0;
-  background: #fff;
-  min-width: 180px;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  padding: 8px 0;
-  background-color:#fff;;
+  background-color: #fff;
   min-width: 200px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   padding: 0.5rem;
   z-index: 100;
   border: 1px solid var(--border);
+
+  // Animación suave
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
 
   a.active::before {
     display: none;

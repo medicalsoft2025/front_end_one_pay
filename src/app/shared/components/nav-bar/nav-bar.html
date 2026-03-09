@@ -35,13 +35,13 @@
 
     <!-- Dropdown Gestión -->
     
-    <div class="nav-dropdown">
+    <div class="nav-dropdown" #configMenuDropdown>
       <div class="nav-dropdown__trigger" (click)="toggleConfigMenu()">
         <ng-icon name="heroCog6ToothSolid" class="nav-icon"></ng-icon>
         <span>Configuración</span>
         <ng-icon [name]="isConfigMenuOpen ? 'heroChevronUpSolid' : 'heroChevronDownSolid'" style="width: 16px; height: 16px;"></ng-icon>
       </div>
-      <div class="nav-dropdown__menu" *ngIf="isConfigMenuOpen">
+      <div class="nav-dropdown__menu" [class.active]="isConfigMenuOpen">
         <a routerLink="/config/users" routerLinkActive="active" (click)="closeMenu()">
           <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
           <span>Usuarios</span>
@@ -53,14 +53,14 @@
       </div>
     </div>
 
-    <div class="nav-dropdown">
+    <div class="nav-dropdown" #gestionMenuDropdown>
       <div class="nav-dropdown__trigger" (click)="toggleGestionMenu()">
         <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
         <span>Gestión</span>
         <ng-icon [name]="isGestionMenuOpen ? 'heroChevronUpSolid' : 'heroChevronDownSolid'" style="width: 16px; height: 16px;"></ng-icon>
       </div>
 
-      <div class="nav-dropdown__menu" *ngIf="isGestionMenuOpen">
+      <div class="nav-dropdown__menu" [class.active]="isGestionMenuOpen">
         <a routerLink="/gestion/customers" routerLinkActive="active" (click)="closeMenu()">
           <ng-icon name="heroUsersSolid" class="nav-icon"></ng-icon>
           <span>Clientes</span>

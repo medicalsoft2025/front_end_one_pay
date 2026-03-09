@@ -57,6 +57,8 @@ export class NavBar {
   userRole: string = '';
 
   @ViewChild('userMenuDropdown') userMenuDropdown!: ElementRef;
+  @ViewChild('gestionMenuDropdown') gestionMenuDropdown!: ElementRef;
+  @ViewChild('configMenuDropdown') configMenuDropdown!: ElementRef;
 
   constructor(
     private tenantService: TenantService,
@@ -88,27 +90,56 @@ export class NavBar {
   }
 
   toggleGestionMenu(): void {
+    if (!this.isGestionMenuOpen) {
+      this.isConfigMenuOpen = false;
+      this.isUserMenuOpen = false;
+    }
     this.isGestionMenuOpen = !this.isGestionMenuOpen;
   }
 
   toggleConfigMenu(): void {
+    if (!this.isConfigMenuOpen) {
+      this.isGestionMenuOpen = false;
+      this.isUserMenuOpen = false;
+    }
     this.isConfigMenuOpen = !this.isConfigMenuOpen;
   }
 
   tenant$!: Observable<TenantModel>;
 
   toggleUserMenu(): void {
+    if (!this.isUserMenuOpen) {
+      this.isGestionMenuOpen = false;
+      this.isConfigMenuOpen = false;
+    }
     this.isUserMenuOpen = !this.isUserMenuOpen;
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
+    const target = event.target as Node;
     if (
       this.isUserMenuOpen &&
       this.userMenuDropdown &&
-      !this.userMenuDropdown.nativeElement.contains(event.target as Node)
+      !this.userMenuDropdown.nativeElement.contains(target)
     ) {
       this.isUserMenuOpen = false;
+    }
+
+    if (
+      this.isGestionMenuOpen &&
+      this.gestionMenuDropdown &&
+      !this.gestionMenuDropdown.nativeElement.contains(target)
+    ) {
+      this.isGestionMenuOpen = false;
+    }
+
+    if (
+      this.isConfigMenuOpen &&
+      this.configMenuDropdown &&
+      !this.configMenuDropdown.nativeElement.contains(target)
+    ) {
+      this.isConfigMenuOpen = false;
     }
   }
 

@@ -9,11 +9,29 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableAction } from '../dynamic-table/dynamic-table.types';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroCog6Tooth, heroStar, heroPencil, heroTrash, heroEye, heroCheck, heroXMark, heroEllipsisVertical, heroShieldCheck } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-action-dropdown',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgIconComponent],
+  providers: [provideIcons({
+    heroCog6Tooth,
+    heroStar,
+    heroPencil,
+    heroTrash,
+    heroEye,
+    heroCheck,
+    heroXMark,
+    heroEllipsisVertical,
+    heroShieldCheck,
+    // Alias para compatibilidad con configuraciones antiguas
+    eye: heroEye,
+    edit: heroPencil,
+    trash: heroTrash,
+    shield: heroShieldCheck
+  })],
   templateUrl: './action-dropdown.html',
   styleUrl: './action-dropdown.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

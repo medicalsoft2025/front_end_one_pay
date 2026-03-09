@@ -126,10 +126,11 @@
   background: var(--background);
   border-radius: $radius;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: visible;
   display: flex;
-  max-height: 80vh;
   flex-direction: column;
+  height: calc(100vh - 290px); // Ajustado para asegurar que la paginación se vea
+  min-height: 400px;
+  overflow: hidden;
 }
 
 
@@ -206,6 +207,22 @@
   overflow-x: auto;
   overflow-y: auto;
   flex: 1;
+  -webkit-overflow-scrolling: touch; // Scroll más suave en iOS
+
+  /* Sombras de desplazamiento para indicar contenido */
+  background:
+    /* Sombra superior (cubierta) */
+    linear-gradient(var(--background) 30%, rgba(255, 255, 255, 0)),
+    /* Sombra inferior (cubierta) */
+    linear-gradient(rgba(255, 255, 255, 0), var(--background) 70%) 0 100%,
+    /* Sombra superior */
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
+    /* Sombra inferior */
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-color: var(--background);
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
 }
 
 
@@ -376,6 +393,7 @@
   border-bottom-left-radius: $radius;
   border-bottom-right-radius: $radius;
   min-height: 60px;
+  flex-shrink: 0; // Evita que la paginación se encoja
 
   @include sm {
     flex-wrap: nowrap;
@@ -405,25 +423,26 @@
 }
 
 .btn-pagination {
-  min-width: 2.5rem;
-  height: 2.5rem;
+  min-width: 36px;
+  height: 36px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--background);
   color: var(--foreground);
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: var(--hover-color, rgba(0, 0, 0, 0.05));
-    color: var(--foreground);
-    transform: none;
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-1px);
   }
 
   &:disabled {
@@ -432,12 +451,13 @@
   }
 
   &.btn-page {
-    min-width: 2.5rem;
+    min-width: 36px;
 
     &.active {
       background: var(--primary);
       color: white;
       font-weight: 700;
+      border-color: var(--primary);
     }
   }
 }

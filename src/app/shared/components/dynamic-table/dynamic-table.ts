@@ -25,63 +25,77 @@ export class DynamicTableComponent implements OnChanges {
   @Input() loading: boolean = false;
   @Input() pageSize: number = 10;
   @Input() data: any[] = [];
+  @Input() totalItems: number = 0; // Total de registros en el servidor
+  @Input() totalPages: number = 1;
+  @Input() pageIndex: number = 1; // Página actual (controlada desde fuera)
 
   @Output() actionTriggered = new EventEmitter<TableEvent>();
-
-  constructor(private cdr: ChangeDetectorRef) {}
+  @Output() pageChange = new EventEmitter<number>(); // Evento cambio de página
+  @Output() search = new EventEmitter<string>();     // Evento de búsqueda
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.filteredData = [...(this.data || [])];
-      this.currentPage = 1;
-      this.updatePagination();
+      this.updateDisplayedData();
     }
-    if (changes['pageSize']) {
+
+    if (changes['pageIndex']) {
+      this.currentPage = this.pageIndex;
+    }
+
+    if (changes['pageSize'] || changes['totalItems'] || changes['totalPages']) {
       this.updatePagination();
     }
   }
 
   filteredData: any[] = [];
   displayedData: any[] = [];
-  currentPage: number = 1;
-  totalPages: number = 1;
+  currentPage: number = this.pageIndex;
   sortBy: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  /* =======================
-     PAGINACIÓN
-  ======================= */
-
   updatePagination() {
-    this.totalPages = Math.max(Math.ceil(this.filteredData.length / this.pageSize), 1);
-    this.updateDisplayedData();
-    this.cdr.detectChanges();
+    if (this.totalItems === 0 && this.data.length > 0) {
+      // Paginación del lado del cliente
+      this.totalPages = Math.max(Math.ceil(this.filteredData.length / this.pageSize), 1);
+      this.updateDisplayedData();
+    } else {
+      // La paginación es controlada por el servidor, ya tenemos totalPages
+    }
   }
 
   updateDisplayedData() {
-    const startIdx = (this.currentPage - 1) * this.pageSize;
-    const endIdx = startIdx + this.pageSize;
-    this.displayedData = this.filteredData.slice(startIdx, endIdx);
+    if (this.totalItems > 0) {
+      this.displayedData = this.filteredData;
+    } else {
+      const startIdx = (this.currentPage - 1) * this.pageSize;
+      const endIdx = startIdx + this.pageSize;
+      this.displayedData = this.filteredData.slice(startIdx, endIdx);
+    }
   }
 
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.updateDisplayedData();
+      if (this.totalItems > 0) {
+        this.pageChange.emit(page);
+      } else {
+        this.updateDisplayedData();
+      }
     }
   }
 
   previousPage() {
-    this.goToPage(this.currentPage - 1);
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
   }
 
   nextPage() {
-    this.goToPage(this.currentPage + 1);
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
   }
-
-  /* =======================
-     SORT
-  ======================= */
 
   onSort(column: TableColumn) {
     if (!column.sortable) return;
@@ -93,27 +107,26 @@ export class DynamicTableComponent implements OnChanges {
       this.sortDirection = 'asc';
     }
 
-    const sortFn = (a: any, b: any) => {
+    this.filteredData.sort((a: any, b: any) => {
       const aVal = a[column.key];
       const bVal = b[column.key];
 
       if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
       if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
       return 0;
-    };
-
-    this.filteredData.sort(sortFn);
+    });
 
     this.updateDisplayedData();
   }
 
-  /* =======================
-     BUSQUEDA
-  ======================= */
-
   onSearch(event: Event) {
     const target = event.target as HTMLInputElement;
     const searchTerm = target.value.toLowerCase().trim();
+
+    if (this.totalItems > 0) {
+      this.search.emit(searchTerm);
+      return;
+    }
 
     if (!searchTerm) {
       this.filteredData = [...this.data];
@@ -129,10 +142,6 @@ export class DynamicTableComponent implements OnChanges {
     this.currentPage = 1;
     this.updatePagination();
   }
-
-  /* =======================
-     CELDAS
-  ======================= */
 
   getCellValue(row: any, column: TableColumn): string {
     const value = row[column.key];
@@ -153,10 +162,6 @@ export class DynamicTableComponent implements OnChanges {
     }
   }
 
-  /* =======================
-     ACCIONES
-  ======================= */
-
   onActionClick(action: TableAction, row: any) {
     if (action.confirm) {
       if (confirm(`¿Estás seguro de que deseas ${action.label.toLowerCase()}?`)) {
@@ -166,10 +171,6 @@ export class DynamicTableComponent implements OnChanges {
       this.actionTriggered.emit({ action: action.id, data: row });
     }
   }
-
-  /* =======================
-     EXPORTS
-  ======================= */
 
   exportToPDF() {
     const doc = new jsPDF();
