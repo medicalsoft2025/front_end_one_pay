@@ -3,50 +3,69 @@ import { CommonModule } from '@angular/common';
 import { TableColumn, TableAction, TableEvent } from '../../shared/components/dynamic-table/dynamic-table.types';
 import { StatCardComponent } from '../../shared/components/stat-card/stat-card';
 import { BalanceChartComponent } from '../../shared/components/balance-chart/balance-chart';
-import { DynamicTableComponent } from '../../shared/components/dynamic-table/dynamic-table';
-import { Observable } from 'rxjs';
+import { Observable, map, shareReplay } from 'rxjs';
 import { TenantModel } from '../../core/models/tenantModel';
 import { TenantService } from '../dashboard/tenant.service';
-
+import { TransactionService } from '../audit/transactions/transactions.service';
+import { TransactionModel } from '../../core/models/transaction.model';
+import { heroArrowTrendingUp, heroArrowTrendingDown } from '@ng-icons/heroicons/outline';
+import { NgIconsModule, provideIcons } from '@ng-icons/core';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, StatCardComponent, BalanceChartComponent, DynamicTableComponent],
+  imports: [CommonModule, StatCardComponent, BalanceChartComponent, NgIconsModule],
+  providers: [provideIcons({ heroArrowTrendingUp, heroArrowTrendingDown })],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
 
+  // Columnas para la tabla basadas en el modelo de transacciones
   columns: TableColumn[] = [
-    { key: 'id', label: 'ID', sortable: true, type: 'number' },
-    { key: 'nombre', label: 'Nombre', sortable: true, type: 'string' },
-    { key: 'fecha', label: 'Fecha', sortable: true, type: 'date' },
-    { key: 'monto', label: 'Monto', sortable: true, type: 'currency' },
+    { key: 'type', label: 'Tipo', sortable: true },
+    { key: 'amount', label: 'Monto', sortable: true, type: 'currency' },
+    { key: 'createdAt', label: 'Fecha', sortable: true, type: 'date' },
+    { key: 'balanceAfter', label: 'Saldo Posterior', type: 'currency' },
   ];
 
-  data = [
-    { id: 1, nombre: 'Pago de factura', fecha: '2025-01-10', monto: 35000 },
-    { id: 2, nombre: 'Compra supermercado', fecha: '2025-01-12', monto: 150000 },
-    { id: 3, nombre: 'Transferencia', fecha: '2025-01-14', monto: 87000 },
-  ];
-
-  actions = [
+  actions: TableAction[] = [
     { id: 'view', label: 'Ver', icon: 'eye' },
-    { id: 'edit', label: 'Editar', icon: 'edit' },
-    { id: 'delete', label: 'Eliminar', icon: 'trash', confirm: true },
   ];
 
   onTableAction(evt: any) {
     console.log('ACTION:', evt);
   }
   tenant$!: Observable<TenantModel>;
+  recentTransactions$!: Observable<TransactionModel[]>;
+  transactions$!: Observable<TransactionModel[]>;
 
-  constructor(private tenantService: TenantService) {}
+  constructor(
+    private tenantService: TenantService,
+    private transactionService: TransactionService
+  ) {}
 
   ngOnInit(): void {
     this.tenant$ = this.tenantService.getTenantInfo();
+
+    this.transactions$ = this.transactionService.getTransactions().pipe(
+      map(transactions => transactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())),
+      shareReplay(1) // 3. Cacheamos el resultado para suscriptores subsecuentes.
+    );
+
+    this.recentTransactions$ = this.transactions$.pipe(
+      map(transactions => transactions.slice(0, 5))
+    );
   }
   
-
+  getTransactionTypeInSpanish(type: string): string {
+    switch (type?.toLowerCase()) {
+      case 'deposit':
+        return 'Depósito';
+      case 'payment':
+        return 'Pago';
+      default:
+        return type || 'Transacción';
+    }
+  }
 
 }

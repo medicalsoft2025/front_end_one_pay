@@ -68,8 +68,107 @@
 
 .recent-activity-container {
   @include dashboard-card;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  // Asegura que el hover de los items no se salga de la tarjeta
+  overflow: hidden;
+
+  .card-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    color: var(--foreground);
+  }
+
+  .activity-item-empty {
+    color: var(--muted-foreground);
+    font-style: italic;
+    text-align: center;
+    padding: $spacing-4 0;
+  }
 }
 
 .transactions-sections {
   @include dashboard-card;
+}
+
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-2;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease-in-out;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: var(--hover-color, rgba(0, 0, 0, 0.025));
+    }
+
+    .activity-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+
+      &.income {
+        background-color: rgba(var(--success-rgb), 0.1);
+        color: var(--success);
+      }
+
+      &.expense {
+        background-color: rgba(var(--destructive-rgb), 0.1);
+        color: var(--destructive);
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .activity-details {
+      flex-grow: 1;
+      .activity-description {
+        font-weight: $font-weight-medium;
+        color: var(--foreground);
+        margin: 0;
+      }
+      .activity-date {
+        font-size: $font-size-sm;
+        color: var(--muted-foreground);
+        margin: 0;
+      }
+    }
+
+    .activity-amount {
+      font-weight: $font-weight-semibold;
+      font-size: $font-size-base;
+      margin-left: auto;
+      min-width: 80px;
+      text-align: right;
+
+      &.income {
+        color: var(--success);
+      }
+      &.expense {
+        color: var(--destructive);
+      }
+    }
+  }
 }

@@ -35,19 +35,43 @@
           <app-balance-chart></app-balance-chart>
         </div>
         <div class="recent-activity-container">
-          <p>Actividad reciente</p>
+          <h3 class="card-title">Actividad reciente</h3>
+          @if (recentTransactions$ | async; as transactions) {
+            @if (transactions.length > 0) {
+              <ul class="activity-list">
+                @for (tx of transactions; track tx) {
+                  <li class="activity-item">
+                    <div class="activity-icon" [ngClass]="tx.type === 'deposit' ? 'income' : 'expense'">
+                      <ng-icon [name]="tx.type === 'deposit' ? 'heroArrowTrendingUp' : 'heroArrowTrendingDown'"></ng-icon>
+                    </div>
+                    <div class="activity-details">
+                      <p class="activity-description">{{ getTransactionTypeInSpanish(tx.type) }}</p>
+                      <p class="activity-date">{{ tx.createdAt | date:'mediumDate' }}</p>
+                    </div>
+                    <div class="activity-amount" [ngClass]="tx.type === 'deposit' ? 'income' : 'expense'">
+                      {{ (tx.type === 'deposit' ? '+ ' : '- ') + (tx.amount | number:'1.0-0') + ' COP' }}
+                    </div>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="activity-item-empty">No hay actividad reciente</p>
+            }
+          } @else {
+            <p class="activity-item-empty">Cargando...</p>
+          }
         </div>
       </section>
 
-      <section class="transactions-sections">
+      <!-- <section class="transactions-sections">
         <app-dynamic-table
       [columns]="columns"
-      [data]="data"
+      [data]="transactions$ | async"
       [actions]="actions"
       title="Últimas transacciones"
       (actionTriggered)="onTableAction($event)"
     ></app-dynamic-table>
 
-      </section>
+      </section> -->
   </div>
 </div>

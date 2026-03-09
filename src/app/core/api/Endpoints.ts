@@ -46,5 +46,9 @@ export const Endpoints = {
     update: (id: string) => `/one-pay/roles/${id}`,
     delete: (id: string) => `/one-pay/roles/${id}`,
     permissions: '/one-pay/roles/permissions',
+  },
+  transactions: {
+    root: '/one-pay/wallet/transactions',
+    byId: (id: string) => `/one-pay/transactions/wallet/${id}`,
   }
 };
