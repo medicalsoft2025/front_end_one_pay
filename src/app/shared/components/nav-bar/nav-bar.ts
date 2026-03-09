@@ -15,6 +15,7 @@ import {
   heroBellSolid,
   heroArrowRightOnRectangleSolid,
   heroShieldCheckSolid,
+  heroPlusCircleSolid,
 } from '@ng-icons/heroicons/solid';
 import { Observable } from 'rxjs';
 import { TenantModel } from '../../../core/models/tenantModel';
@@ -41,6 +42,7 @@ import { TenantService } from '../../../features/dashboard/tenant.service';
       heroBellSolid,
       heroArrowRightOnRectangleSolid,
       heroShieldCheckSolid,
+      heroPlusCircleSolid
     }),
   ],
   templateUrl: './nav-bar.html',
@@ -52,6 +54,8 @@ export class NavBar {
   isGestionMenuOpen = false;
   isConfigMenuOpen = false;
   isUserMenuOpen = false;
+  isDashBoardOpen = false;
+
 
   userName: string = '';
   userRole: string = '';
@@ -59,6 +63,8 @@ export class NavBar {
   @ViewChild('userMenuDropdown') userMenuDropdown!: ElementRef;
   @ViewChild('gestionMenuDropdown') gestionMenuDropdown!: ElementRef;
   @ViewChild('configMenuDropdown') configMenuDropdown!: ElementRef;
+  @ViewChild('dashboardMenuDropdown') dashboardMenuDropdown!: ElementRef;
+
 
   constructor(
     private tenantService: TenantService,
@@ -138,6 +144,13 @@ export class NavBar {
       this.isConfigMenuOpen &&
       this.configMenuDropdown &&
       !this.configMenuDropdown.nativeElement.contains(target)
+    ) {
+      this.isConfigMenuOpen = false;
+    }
+    if (
+      this.isDashBoardOpen &&
+      this.dashboardMenuDropdown &&
+      !this.dashboardMenuDropdown.nativeElement.contains(target)
     ) {
       this.isConfigMenuOpen = false;
     }

@@ -28,10 +28,17 @@
 
   <!-- NAV LINKS (centrados) -->
   <div class="header__nav-links">
+        <!-- Ir a MedicalSoft -->
+  <a routerLink="/medicalsoft" (click)="closeMenu()">
+    <ng-icon name="heroPlusCircleSolid" class="nav-icon"></ng-icon>
+    <span>MedicalSoft</span>
+  </a>
     <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">
       <ng-icon name="heroHomeSolid" class="nav-icon"></ng-icon>
       <span>Dashboard</span>
     </a>
+
+
 
     <!-- Dropdown Gestión -->
     

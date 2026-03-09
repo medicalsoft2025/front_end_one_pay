@@ -8,12 +8,19 @@ import { LoginComponent } from './features/login/login';
 import { UsersComponent } from './features/users/users';
 import { RolesComponent } from './features/roles/roles';
 import { authGuard } from './core/interceptors/auth.guard';
+import { redirectGuard } from './core/interceptors/redirect.guard';
+import { RedirectComponent } from './core/common/redirect-component/redirect-component';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'medicalsoft',
+    component: RedirectComponent,
+    canActivate: [redirectGuard]
   },
   {
     path: 'login',
@@ -23,7 +30,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: Dashboard,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
     path: 'config',
